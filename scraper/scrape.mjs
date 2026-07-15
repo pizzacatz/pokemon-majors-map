@@ -321,26 +321,81 @@ async function scrapeRK9() {
   return found
 }
 
+const OFFICIAL_PAGES = [
+  'https://championships.pokemon.com/en-us/events/',
+  'https://championships.pokemon.com/en-us/events/regionals',
+]
+
+async function launchBrowser() {
+  const { chromium } = await import('playwright-core')
+  const opts = { headless: true, args: ['--no-sandbox'] }
+  if (process.env.CHROME_PATH) {
+    return chromium.launch({ ...opts, executablePath: process.env.CHROME_PATH })
+  }
+  // GitHub-hosted runners ship Google Chrome; no browser download needed.
+  return chromium.launch({ ...opts, channel: 'chrome' })
+}
+
+function mineBlobs(blobs, found) {
+  for (const blob of blobs) {
+    for (const raw of mineEventObjects(blob)) {
+      const ev = normalize(raw)
+      if (ev) found.push(ev)
+    }
+  }
+}
+
+/**
+ * The official site is the first place events are announced (owner decision
+ * 2026-07-16: primary source) but it is JS-rendered, so a plain fetch sees an
+ * empty shell. Drive a real browser and capture the JSON the page itself
+ * loads — that follows whatever endpoint the frontend uses today.
+ */
 async function scrapeOfficial() {
-  const pages = [
-    'https://championships.pokemon.com/en-us/events/',
-    'https://championships.pokemon.com/en-us/events/regionals',
-  ]
   const found = []
-  for (const url of pages) {
+  // Cheap static pass first, in case they ever server-render.
+  for (const url of OFFICIAL_PAGES) {
     try {
       const html = await fetchText(url)
-      for (const blob of extractJsonBlobs(html)) {
-        for (const raw of mineEventObjects(blob)) {
-          const ev = normalize(raw)
-          if (ev) found.push(ev)
+      mineBlobs(extractJsonBlobs(html), found)
+    } catch (err) {
+      log(`official static: ${url} failed (${err.message})`)
+    }
+  }
+  if (found.length > 0) {
+    log(`official static: ${found.length} events`)
+    return found
+  }
+
+  try {
+    const browser = await launchBrowser()
+    try {
+      const page = await browser.newPage()
+      const payloads = []
+      page.on('response', (res) => {
+        const ct = res.headers()['content-type'] ?? ''
+        if (!ct.includes('json')) return
+        res.json().then((body) => payloads.push({ url: res.url(), body })).catch(() => {})
+      })
+      for (const url of OFFICIAL_PAGES) {
+        await page.goto(url, { waitUntil: 'networkidle', timeout: 90_000 }).catch((err) => {
+          log(`official rendered: ${url} navigation issue (${err.message})`)
+        })
+        mineBlobs(extractJsonBlobs(await page.content()), found)
+      }
+      mineBlobs(payloads.map((p) => p.body), found)
+      log(`official rendered: ${found.length} events from ${payloads.length} json responses`)
+      if (found.length === 0) {
+        // Surface what the page actually fetched so the next fix is informed.
+        for (const p of payloads.slice(0, 8)) {
+          log(`  payload ${p.url} :: ${JSON.stringify(p.body).slice(0, 220)}`)
         }
       }
-      if (found.length === 0) logEmptySource(`official ${url}`, html)
-      log(`official: ${url} → ${found.length} cumulative`)
-    } catch (err) {
-      log(`official: ${url} failed (${err.message})`)
+    } finally {
+      await browser.close()
     }
+  } catch (err) {
+    log(`official rendered failed (${err.message})`)
   }
   return found
 }
@@ -521,6 +576,8 @@ async function main() {
   const current = loadJson(EVENTS_PATH, { meta: {}, events: [] })
   const overrides = loadJson(OVERRIDES_PATH, [])
 
+  // Official site first: it is where events are announced earliest and its
+  // fields win the merge; rk9 fills registration links, pokedata fills gaps.
   const official = await scrapeOfficial()
   const pokedata = await scrapePokedata()
   const rk9 = await scrapeRK9()

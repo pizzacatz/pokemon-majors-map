@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Official championships.pokemon.com scraping via headless Chrome in CI: the
+  site is JS-rendered, so the scraper now drives a real browser and mines the
+  JSON payloads the page itself fetches. The official site runs first and its
+  fields win the merge (it is where events are announced earliest); RK9 fills
+  registration links.
+
 ## [0.1.3] - 2026-07-15
 
 ### Changed

@@ -24,6 +24,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
+
+      # playwright-core drives the runner's preinstalled Chrome to read the
+      # JS-rendered official championships site.
+      - run: npm ci
 
       - name: Run scraper
         id: scrape
