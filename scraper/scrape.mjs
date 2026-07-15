@@ -208,7 +208,104 @@ function absoluteUrl(url) {
   return null
 }
 
+function stripTags(html) {
+  return html.replace(/<[^>]*>/g, ' ').replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim()
+}
+
+function logEmptySource(name, html) {
+  log(`${name}: mined 0 events; page starts: ${stripTags(html).slice(0, 300)}`)
+}
+
 /* ---------------- sources ---------------- */
+
+const MONTHS = {
+  january: 1, february: 2, march: 3, april: 4, may: 5, june: 6, july: 7,
+  august: 8, september: 9, october: 10, november: 11, december: 12,
+  jan: 1, feb: 2, mar: 3, apr: 4, jun: 6, jul: 7, aug: 8, sep: 9, sept: 9,
+  oct: 10, nov: 11, dec: 12,
+}
+
+/**
+ * Parse "January 17-18, 2026", "Jan 31 – Feb 1, 2026", "March 7, 2026".
+ * Returns {startDate, endDate} or null.
+ */
+function parseDateRange(text) {
+  const m = /([A-Za-z]{3,9})\.?\s+(\d{1,2})(?:\s*[-–—]\s*(?:([A-Za-z]{3,9})\.?\s+)?(\d{1,2}))?,?\s+(\d{4})/.exec(text)
+  if (!m) return null
+  const [, m1, d1, m2, d2, year] = m
+  const mon1 = MONTHS[m1.toLowerCase()]
+  if (!mon1) return null
+  const p = (n) => String(n).padStart(2, '0')
+  const startDate = `${year}-${p(mon1)}-${p(d1)}`
+  if (!d2) return { startDate, endDate: startDate }
+  const mon2 = m2 ? MONTHS[m2.toLowerCase()] : mon1
+  if (!mon2) return { startDate, endDate: startDate }
+  return { startDate, endDate: `${year}-${p(mon2)}-${p(d2)}` }
+}
+
+const US_STATES = new Set(['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY','DC'])
+
+/** "Merida, Mexico" / "Portland, OR" / "Melbourne, Australia" → {city, country} */
+function parseLocation(text) {
+  const m = /([A-Za-zÀ-ÿ'. -]{2,40}),\s*([A-Za-zÀ-ÿ'. -]{2,30})\s*$/.exec(text.trim())
+  if (!m) return null
+  const city = m[1].trim()
+  const tail = m[2].trim()
+  if (US_STATES.has(tail.toUpperCase())) return { city, country: 'US' }
+  const country = normalizeCountry(tail)
+  return country ? { city, country } : null
+}
+
+/**
+ * RK9 lists events in server-rendered table rows with /event/<slug> links —
+ * also our only source of registration URLs.
+ */
+async function scrapeRK9() {
+  const found = []
+  let html = ''
+  try {
+    html = await fetchText('https://rk9.gg/events/pokemon')
+    const rows = html.split(/<tr[\s>]/i).slice(1)
+    for (const row of rows) {
+      const link = /href="(\/event\/[^"]+)"/.exec(row)
+      const cells = [...row.matchAll(/<td[^>]*>([\s\S]*?)<\/td>/gi)].map((c) => stripTags(c[1]))
+      const rowText = cells.length ? cells.join(' | ') : stripTags(row)
+      const dates = parseDateRange(rowText)
+      // Name: longest cell mentioning a major keyword, else the link text.
+      const name =
+        cells.find((c) => /regional|international|special|world/i.test(c)) ??
+        (link ? stripTags(row.slice(row.indexOf(link[1]))).split('|')[0] : '')
+      const type = name ? inferType(name) : null
+      if (!type) continue
+      const loc = cells.map(parseLocation).find(Boolean) ?? parseLocation(rowText.split('|').pop() ?? '')
+      if (!loc) continue
+      found.push({
+        id: slugify(`${type}-${dates?.startDate?.slice(0, 4) ?? 'tbd'}-${loc.city}-${name.slice(0, 40)}`),
+        name: name.trim(),
+        type,
+        formats: ['tcg', 'vgc', 'go'],
+        startDate: dates?.startDate ?? null,
+        endDate: dates?.endDate ?? null,
+        venue: null,
+        city: loc.city,
+        country: loc.country,
+        region: REGION_BY_COUNTRY[loc.country] ?? 'NA',
+        lat: null,
+        lng: null,
+        links: {
+          official: null,
+          registration: link ? `https://rk9.gg${link[1]}` : null,
+        },
+        registrationOpens: null,
+      })
+    }
+    if (found.length === 0 && html) logEmptySource('rk9', html)
+    log(`rk9: ${found.length} events`)
+  } catch (err) {
+    log(`rk9 failed (${err.message})`)
+  }
+  return found
+}
 
 async function scrapeOfficial() {
   const pages = [
@@ -225,6 +322,7 @@ async function scrapeOfficial() {
           if (ev) found.push(ev)
         }
       }
+      if (found.length === 0) logEmptySource(`official ${url}`, html)
       log(`official: ${url} → ${found.length} cumulative`)
     } catch (err) {
       log(`official: ${url} failed (${err.message})`)
@@ -243,6 +341,7 @@ async function scrapePokedata() {
         if (ev) found.push(ev)
       }
     }
+    if (found.length === 0) logEmptySource('pokedata', html)
     log(`pokedata: ${found.length} events`)
   } catch (err) {
     log(`pokedata failed (${err.message})`)
@@ -286,17 +385,55 @@ async function geocodeMissing(events) {
 
 /* ---------------- merge + validate + write ---------------- */
 
-/** Official wins on conflicts; pokedata fills gaps; overrides win over all (PRD §5.3). */
-function merge(official, pokedata, existing, overrides) {
+/** Layer `add` over `base` without letting sparse fields blank known-good data. */
+function mergeOne(base, add) {
+  return {
+    ...base,
+    ...prune(add),
+    links: { ...prune(base?.links ?? {}), ...prune(add?.links ?? {}) },
+  }
+}
+
+/** Official wins on conflicts; pokedata/rk9 fill gaps; overrides win over all (PRD §5.3). */
+function merge({ official, pokedata, rk9, existing, overrides }) {
   const byId = new Map()
   for (const ev of existing) byId.set(ev.id, ev) // keep last-good as baseline
-  for (const ev of pokedata) byId.set(ev.id, { ...byId.get(ev.id), ...prune(ev) })
-  for (const ev of official) byId.set(ev.id, { ...byId.get(ev.id), ...prune(ev) })
+  for (const layer of [pokedata, rk9, official]) {
+    for (const ev of layer) byId.set(ev.id, mergeOne(byId.get(ev.id), ev))
+  }
   for (const ov of overrides) {
     if (ov.remove) byId.delete(ov.id)
-    else byId.set(ov.id, { ...byId.get(ov.id), ...prune(ov) })
+    else byId.set(ov.id, mergeOne(byId.get(ov.id), ov))
   }
-  return [...byId.values()]
+  return dedupe([...byId.values()])
+}
+
+function richness(ev) {
+  return (
+    (ev.links?.registration ? 2 : 0) +
+    (ev.links?.official ? 1 : 0) +
+    (ev.venue ? 1 : 0) +
+    (ev.startDate ? 1 : 0)
+  )
+}
+
+/** Sources slug names differently; collapse same-type/date/city entries. */
+function dedupe(events) {
+  const byKey = new Map()
+  for (const ev of events) {
+    const key = `${ev.type}|${ev.startDate ?? 'tbd'}|${ev.city.toLowerCase()}`
+    const prev = byKey.get(key)
+    if (!prev) {
+      byKey.set(key, ev)
+    } else {
+      const [lo, hi] = richness(ev) >= richness(prev) ? [prev, ev] : [ev, prev]
+      byKey.set(key, mergeOne(lo, hi))
+    }
+  }
+  // A dates-TBD placeholder is superseded once the same type+city has real dates.
+  const out = [...byKey.values()]
+  const dated = new Set(out.filter((e) => e.startDate).map((e) => `${e.type}|${e.city.toLowerCase()}`))
+  return out.filter((e) => e.startDate || !dated.has(`${e.type}|${e.city.toLowerCase()}`))
 }
 
 /** Drop null/undefined so a sparse source never blanks a known-good field. */
@@ -326,14 +463,16 @@ async function main() {
   const current = loadJson(EVENTS_PATH, { meta: {}, events: [] })
   const overrides = loadJson(OVERRIDES_PATH, [])
 
-  const [official, pokedata] = [await scrapeOfficial(), await scrapePokedata()]
-  log(`scraped: official=${official.length} pokedata=${pokedata.length}`)
+  const official = await scrapeOfficial()
+  const pokedata = await scrapePokedata()
+  const rk9 = await scrapeRK9()
+  log(`scraped: official=${official.length} pokedata=${pokedata.length} rk9=${rk9.length}`)
 
-  if (official.length === 0 && pokedata.length === 0) {
-    fail('both sources returned nothing — source formats may have changed')
+  if (official.length === 0 && pokedata.length === 0 && rk9.length === 0) {
+    fail('all sources returned nothing — source formats may have changed')
   }
 
-  let events = merge(official, pokedata, current.events, overrides)
+  let events = merge({ official, pokedata, rk9, existing: current.events, overrides })
   events = await geocodeMissing(events)
   events.sort((a, b) => (a.startDate ?? '9999').localeCompare(b.startDate ?? '9999'))
 

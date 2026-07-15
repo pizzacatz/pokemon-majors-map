@@ -5,6 +5,11 @@ on:
     # Daily, off the top of the hour to be polite to the sources.
     - cron: '17 9 * * *'
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/scrape.yml'
+      - 'scraper/**'
 
 permissions:
   contents: write
