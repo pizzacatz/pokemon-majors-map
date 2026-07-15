@@ -207,8 +207,12 @@ function normalize(raw) {
     }
   }
 
-  const lat = Number(pick(raw, ['lat', 'latitude']))
-  const lng = Number(pick(raw, ['lng', 'lon', 'longitude']))
+  // Number(null) is 0 — a missing coordinate must stay null, or (0,0) pins
+  // land in the ocean and the geocoder thinks the event is already placed.
+  const latRaw = pick(raw, ['lat', 'latitude'])
+  const lngRaw = pick(raw, ['lng', 'lon', 'longitude'])
+  const lat = latRaw == null ? NaN : Number(latRaw)
+  const lng = lngRaw == null ? NaN : Number(lngRaw)
 
   const formats = []
   const rawFormats = JSON.stringify(raw).toLowerCase()
@@ -508,11 +512,16 @@ function loadJson(path, fallback) {
  * Fill lat/lng — and, for ambiguous locations (geoQuery), the true country —
  * from Nominatim, cached and rate-limited per usage policy. Mutates events.
  */
+/** (0,0) is open ocean, never a venue — treat it as "not geocoded". */
+function hasCoords(ev) {
+  return ev.lat != null && ev.lng != null && !(ev.lat === 0 && ev.lng === 0)
+}
+
 async function geocodeList(events, cache, dirty) {
   for (const ev of events) {
     const query = ev.geoQuery ?? [ev.venue, ev.city, ev.country].filter(Boolean).join(', ')
     delete ev.geoQuery
-    if (ev.lat != null && ev.lng != null && ev.country) continue
+    if (hasCoords(ev) && ev.country) continue
     const stale =
       !(query in cache) ||
       cache[query] === null ||
@@ -544,7 +553,7 @@ async function geocodeList(events, cache, dirty) {
     }
     const hit = cache[query]
     if (hit) {
-      if (ev.lat == null || ev.lng == null) {
+      if (!hasCoords(ev)) {
         ev.lat = hit.lat
         ev.lng = hit.lng
       }
@@ -672,7 +681,7 @@ function validate(events, previousCount) {
     for (const field of ['id', 'name', 'type', 'city', 'country', 'region']) {
       if (!ev[field]) fail(`event missing ${field}: ${JSON.stringify(ev).slice(0, 200)}`)
     }
-    if (typeof ev.lat !== 'number' || typeof ev.lng !== 'number') {
+    if (typeof ev.lat !== 'number' || typeof ev.lng !== 'number' || (ev.lat === 0 && ev.lng === 0)) {
       fail(`event ${ev.id} not geocoded`)
     }
     if (!['regional', 'special', 'international', 'worlds'].includes(ev.type)) {
@@ -703,7 +712,7 @@ async function main() {
   for (const list of [official, pokedata, rk9]) await geocodeList(list, cache, dirty)
   if (dirty.v) writeFileSync(GEOCACHE_PATH, JSON.stringify(cache, null, 2) + '\n')
 
-  const unresolved = (ev) => typeof ev.lat !== 'number' || typeof ev.lng !== 'number' || !ev.country || !ev.region
+  const unresolved = (ev) => !hasCoords(ev) || !ev.country || !ev.region
   for (const list of [official, pokedata, rk9]) {
     for (const ev of list.filter(unresolved)) log(`dropping unresolved event: ${ev.id}`)
   }
