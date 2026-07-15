@@ -161,10 +161,12 @@ const REGION_FIELD = {
 
 function normalize(raw) {
   const name = cleanName(String(pick(raw, NAME_KEYS) ?? ''))
+  // Name first: the official API files Special Events under type_s
+  // "regional", so the explicit field is only a fallback.
   const typeField = pick(raw, ['type', 'eventtype'])
   const type =
-    (typeof typeField === 'string' ? TYPE_FIELD[typeField.toLowerCase()] : null) ??
-    (name ? inferType(name) : null)
+    (name ? inferType(name) : null) ??
+    (typeof typeField === 'string' ? TYPE_FIELD[typeField.toLowerCase()] : null)
   if (!type) return null // majors only (PRD §3)
 
   let city = pick(raw, ['city']) ?? null
@@ -185,14 +187,22 @@ function normalize(raw) {
   let startDate = toISODateOnly(pick(raw, DATE_KEYS))
   let endDate = toISODateOnly(pick(raw, ['enddate', 'dateend', 'end'])) ?? startDate
   if (!startDate) {
-    // Official API style: displayDateRange_s "Aug. 28-30" + year_s "2026".
+    // Official API style: displayDateRange_s "Aug. 28-30" + year_s "2027".
+    // year_s is the SEASON year — a season runs Sep (Y-1) through Aug Y — so
+    // Sep–Dec events belong to the previous calendar year. (Verified against
+    // LAIC/EUIC/NAIC 2027 and Worlds 2026 announced dates.)
     const rangeStr = pick(raw, DATE_RANGE_KEYS)
     const year = pick(raw, ['year'])
     if (typeof rangeStr === 'string') {
-      const r = parseDateRange(/\d{4}/.test(rangeStr) || !year ? rangeStr : `${rangeStr}, ${year}`)
+      const hasOwnYear = /\d{4}/.test(rangeStr)
+      const r = parseDateRange(hasOwnYear || !year ? rangeStr : `${rangeStr}, ${year}`)
       if (r) {
-        startDate = r.startDate
-        endDate = r.endDate
+        const seasonToCalendar = (iso) =>
+          !hasOwnYear && Number(iso.slice(5, 7)) >= 9
+            ? `${Number(iso.slice(0, 4)) - 1}${iso.slice(4)}`
+            : iso
+        startDate = seasonToCalendar(r.startDate)
+        endDate = seasonToCalendar(r.endDate)
       }
     }
   }
@@ -594,12 +604,28 @@ function dedupe(events) {
   // A dates-TBD placeholder is superseded once the same type+city has real
   // UPCOMING dates — a past event in that city is a previous season's, not
   // this placeholder's, so it must not swallow it.
-  const out = [...byKey.values()]
+  let out = [...byKey.values()]
   const today = new Date().toISOString().slice(0, 10)
   const dated = new Set(
     out.filter((e) => e.startDate && e.startDate >= today).map((e) => `${e.type}|${e.city.toLowerCase()}`),
   )
-  return out.filter((e) => e.startDate || !dated.has(`${e.type}|${e.city.toLowerCase()}`))
+  out = out.filter((e) => e.startDate || !dated.has(`${e.type}|${e.city.toLowerCase()}`))
+
+  // Fresh-wins: when this run's sources disagree with the stored baseline
+  // about the same type+city (moved dates, or a past bug fossilized in the
+  // baseline), the freshly-scraped dates win and the stale entry is dropped.
+  // Two FRESH same-type+city events (e.g. consecutive-season ICs) both stay.
+  const freshDates = new Map()
+  for (const e of out) {
+    if (!e.fresh || !e.startDate) continue
+    const k = `${e.type}|${e.city.toLowerCase()}`
+    freshDates.set(k, (freshDates.get(k) ?? new Set()).add(e.startDate))
+  }
+  return out.filter((e) => {
+    if (e.fresh || !e.startDate) return true
+    const dates = freshDates.get(`${e.type}|${e.city.toLowerCase()}`)
+    return !dates || dates.has(e.startDate)
+  })
 }
 
 /** Drop null/undefined so a sparse source never blanks a known-good field. */
@@ -679,6 +705,12 @@ async function main() {
   for (const list of [official, pokedata, rk9]) {
     for (const ev of list.filter(unresolved)) log(`dropping unresolved event: ${ev.id}`)
   }
+
+  // Mark this run's events so dedupe can tell fresh data from the baseline.
+  for (const list of [official, pokedata, rk9]) {
+    for (const ev of list) ev.fresh = true
+  }
+  for (const ov of overrides) ov.fresh = true
 
   let events = merge({
     official: official.filter((ev) => !unresolved(ev)),
