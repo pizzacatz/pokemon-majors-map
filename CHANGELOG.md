@@ -7,13 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-07-15
+
 ### Added
 
-- Official championships.pokemon.com scraping via headless Chrome in CI: the
-  site is JS-rendered, so the scraper now drives a real browser and mines the
-  JSON payloads the page itself fetches. The official site runs first and its
-  fields win the merge (it is where events are announced earliest); RK9 fills
-  registration links.
+- **Season timeline**: horizontal scrollable strip on the Map tab — today at
+  the far left, scale to the farthest announced event (currently NAIC,
+  June 18–20, 2027). Type-colored ticks with staggered event-name bubbles and
+  dates; each bubble's 📍 button flies the map to the event's location and
+  opens its card. Collapsible, with month marks along the axis.
+- Official championships.pokemon.com data source, now the primary one: the
+  site's own events API is fetched directly (all 31 announced upcoming
+  events with official links), with headless-Chrome capture of the page's
+  network traffic as a self-healing fallback. Season-year dates (Sep–Dec
+  belong to the prior calendar year), Special Event typing, and explicit
+  region vocabulary are handled.
+
+### Fixed
+
+- Fresh-wins healing: stale baseline entries that disagree with freshly
+  scraped data on (type, date) for the same city are dropped, so parsing
+  fixes propagate instead of fossilizing.
+- Geocode cache no longer permanently caches transient failures, and
+  pre-country-format entries are refetched.
 
 ## [0.1.3] - 2026-07-15
 
@@ -83,7 +99,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - App version + data snapshot date displayed in the site footer.
 - PRD (docs/PRD.md), README, this changelog.
 
-[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.1.3...HEAD
+[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.1.3...v0.2.0
 [0.1.3]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.1.0...v0.1.1

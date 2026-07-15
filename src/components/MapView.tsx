@@ -6,6 +6,13 @@ import { isPast } from '../lib/dates'
 
 const US_CENTER: [number, number] = [39.5, -98.35]
 
+export interface FlyTarget {
+  lat: number
+  lng: number
+  /** monotonically increasing so repeat flights to the same place re-trigger */
+  seq: number
+}
+
 interface Props {
   events: PokeEvent[]
   home: Home | null
@@ -14,6 +21,7 @@ interface Props {
   onPickHome: (lat: number, lng: number) => void
   onSelect: (id: string) => void
   dataDate: string | null
+  flyTarget: FlyTarget | null
 }
 
 function eventIcon(ev: PokeEvent, checked: boolean) {
@@ -42,6 +50,16 @@ function CenterOnHome({ home }: { home: Home | null }) {
   return null
 }
 
+/** Animate to a timeline-requested event location (PRD §4.12). */
+function FlyTo({ target }: { target: FlyTarget | null }) {
+  const map = useMap()
+  useEffect(() => {
+    if (target) map.flyTo([target.lat, target.lng], 7, { duration: 1.6 })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [target?.seq, map])
+  return null
+}
+
 function HomePicker({ active, onPick }: { active: boolean; onPick: (lat: number, lng: number) => void }) {
   useMapEvents({
     click(e) {
@@ -51,7 +69,7 @@ function HomePicker({ active, onPick }: { active: boolean; onPick: (lat: number,
   return null
 }
 
-export default function MapView({ events, home, isChecked, settingHome, onPickHome, onSelect, dataDate }: Props) {
+export default function MapView({ events, home, isChecked, settingHome, onPickHome, onSelect, dataDate, flyTarget }: Props) {
   const center: [number, number] = home ? [home.lat, home.lng] : US_CENTER
   const attribution = useMemo(() => {
     const data = dataDate ? ` · data ${dataDate}` : ''
@@ -68,6 +86,7 @@ export default function MapView({ events, home, isChecked, settingHome, onPickHo
     >
       <TileLayer url="https://tile.openstreetmap.org/{z}/{x}/{y}.png" attribution={attribution} />
       <CenterOnHome home={home} />
+      <FlyTo target={flyTarget} />
       <HomePicker active={settingHome} onPick={onPickHome} />
       {events.map((ev) => (
         <Marker

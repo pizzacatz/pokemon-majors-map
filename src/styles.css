@@ -557,6 +557,165 @@ body {
   padding: 40px 16px;
 }
 
+/* ---------- season timeline (PRD §4.12) ---------- */
+.timeline {
+  flex-shrink: 0;
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.tl-toggle {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  color: var(--text-2);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 6px 12px 4px;
+  cursor: pointer;
+}
+
+.tl-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tl-canvas {
+  position: relative;
+  height: 132px;
+  margin: 0 12px;
+}
+
+/* axis line */
+.tl-canvas::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 26px;
+  border-bottom: 2px solid var(--border);
+}
+
+.tl-today {
+  position: absolute;
+  left: 0;
+  bottom: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--red);
+  border-left: 2px solid var(--red);
+  padding-left: 4px;
+  height: 118px;
+  display: flex;
+  align-items: flex-end;
+  z-index: 1;
+}
+
+.tl-month {
+  position: absolute;
+  bottom: 8px;
+  font-size: 0.68rem;
+  color: var(--text-2);
+  border-left: 1px solid var(--border);
+  padding-left: 3px;
+  height: 16px;
+  white-space: nowrap;
+}
+
+.tl-item {
+  position: absolute;
+  bottom: 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  z-index: 2;
+}
+
+.tl-tick {
+  width: 4px;
+  border-radius: 2px 2px 0 0;
+  order: 2;
+}
+
+.tl-lvl-0 .tl-tick {
+  height: 18px;
+}
+
+.tl-lvl-1 .tl-tick {
+  height: 46px;
+}
+
+.tl-lvl-2 .tl-tick {
+  height: 74px;
+}
+
+.tl-tick.type-regional {
+  background: var(--blue);
+}
+
+.tl-tick.type-special {
+  background: var(--yellow);
+}
+
+.tl-tick.type-international {
+  background: var(--purple);
+}
+
+.tl-tick.type-worlds {
+  background: var(--red);
+}
+
+.tl-off .tl-tick {
+  background: var(--gray);
+}
+
+.tl-off .tl-bubble {
+  opacity: 0.55;
+}
+
+.tl-bubble {
+  order: 1;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  padding: 2px 4px 2px 8px;
+  margin-bottom: 2px;
+  white-space: nowrap;
+}
+
+.tl-name {
+  font-size: 0.7rem;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tl-fly {
+  background: none;
+  border: none;
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 2px;
+  line-height: 1;
+}
+
+.tl-date {
+  order: 3;
+  position: absolute;
+  bottom: -22px;
+  font-size: 0.62rem;
+  color: var(--text-2);
+}
+
 /* ---------- footer / tab bar ---------- */
 .footer {
   margin-top: auto;

@@ -136,6 +136,17 @@ monetization later is a one-line change.
   for `events.json`), making the app installable and usable offline with last-known data.
 - **No install prompt, modal, or nag.** Installation is left to the browser's native UI.
 
+### 4.12 Season timeline (added 2026-07-15)
+
+- Horizontal, scrollable timeline strip on the Map tab: **today anchored at
+  the far left**, scale runs to the farthest announced event date.
+- Each event is a tick colored by event type, with the event name in a bubble
+  above it (staggered across three heights to limit overlap) and its date
+  below the axis. Unchecked events gray out, consistent with the map.
+- Every bubble has a 📍 **fly** button: the map animates (`flyTo`) to the
+  event's venue and opens its event card.
+- Collapsible; month boundaries are marked along the axis.
+
 ### 4.11 Versioning on the site
 
 - Semantic versioning, tracked in `CHANGELOG.md` (Keep a Changelog format).

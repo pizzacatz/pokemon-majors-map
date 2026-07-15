@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { EventsFile, Home, PokeEvent } from './types'
-import MapView from './components/MapView'
+import MapView, { type FlyTarget } from './components/MapView'
+import TimelineView from './components/TimelineView'
 import EventCard from './components/EventCard'
 import FiltersBar from './components/Filters'
 import Dashboard from './components/Dashboard'
@@ -31,8 +32,15 @@ export default function App() {
   const [excluded, setExcluded] = useState<Set<string>>(loadExcluded)
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [dashOpen, setDashOpen] = useState(false)
+  const [flyTarget, setFlyTarget] = useState<FlyTarget | null>(null)
   // A shared ?plan= link is view-only until adopted — it must not overwrite local state.
   const [sharedPlan, setSharedPlan] = useState<string[] | null>(readPlanFromUrl)
+
+  function flyToEvent(ev: PokeEvent) {
+    setTab('map')
+    setSelectedId(ev.id)
+    setFlyTarget((prev) => ({ lat: ev.lat, lng: ev.lng, seq: (prev?.seq ?? 0) + 1 }))
+  }
 
   useEffect(() => {
     fetch(`${import.meta.env.BASE_URL}data/events.json`)
@@ -196,6 +204,7 @@ export default function App() {
                 if (tab === 'map') setSettingHome(false)
               }}
               dataDate={dataDate}
+              flyTarget={flyTarget}
             />
             <button className="dash-toggle btn" onClick={() => setDashOpen((v) => !v)}>
               {dashOpen ? '▾ Hide season list' : '▴ Season list'}
@@ -225,6 +234,9 @@ export default function App() {
               </div>
             )}
           </div>
+        )}
+        {tab === 'map' && (
+          <TimelineView events={filtered} isChecked={isChecked} onFly={flyToEvent} />
         )}
         {tab === 'schedule' && (
           <ScheduleView events={filtered} home={home} isChecked={isChecked} onToggle={toggle} />
