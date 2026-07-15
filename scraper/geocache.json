@@ -158,5 +158,35 @@
     "lat": 25.6802019,
     "lng": -100.315258,
     "country": "MX"
+  },
+  "San Francisco, CA": {
+    "lat": 37.7879363,
+    "lng": -122.4075201,
+    "country": "US"
+  },
+  "Baltimore, MD": {
+    "lat": 39.2908816,
+    "lng": -76.610759,
+    "country": "US"
+  },
+  "Louisville, KY": {
+    "lat": 38.2542376,
+    "lng": -85.759407,
+    "country": "US"
+  },
+  "Las Vegas, NV": {
+    "lat": 36.1674263,
+    "lng": -115.1484131,
+    "country": "US"
+  },
+  "Milwaukee, WI": {
+    "lat": 43.0386475,
+    "lng": -87.9090751,
+    "country": "US"
+  },
+  "San Diego, CA": {
+    "lat": 32.7174202,
+    "lng": -117.162772,
+    "country": "US"
   }
 }
