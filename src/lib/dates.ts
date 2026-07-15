@@ -27,12 +27,14 @@ export function toISODate(d: Date): string {
   return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`
 }
 
+// != null (not !== null) — a field absent from scraped JSON is undefined, and
+// letting it through here means .split on undefined and a blank site.
 export function isPast(ev: PokeEvent): boolean {
-  return ev.endDate !== null && daysUntil(ev.endDate) < 0
+  return ev.endDate != null && daysUntil(ev.endDate) < 0
 }
 
 export function hasDates(ev: PokeEvent): ev is PokeEvent & { startDate: string; endDate: string } {
-  return ev.startDate !== null && ev.endDate !== null
+  return ev.startDate != null && ev.endDate != null
 }
 
 /** "Aug 28–30, 2026" or "Nov 20 – Dec 2, 2026" */

@@ -17,6 +17,7 @@ import {
   saveHome,
 } from './lib/storage'
 import { clearPlanFromUrl, readPlanFromUrl } from './lib/share'
+import { normalizeEvent } from './lib/normalize'
 
 type Tab = 'map' | 'schedule' | 'itinerary'
 
@@ -36,7 +37,12 @@ export default function App() {
   useEffect(() => {
     fetch(`${import.meta.env.BASE_URL}data/events.json`)
       .then((res) => (res.ok ? res.json() : Promise.reject(new Error(String(res.status)))))
-      .then((json: EventsFile) => setData(json))
+      .then((json: EventsFile) =>
+        setData({
+          ...json,
+          events: json.events.map(normalizeEvent).filter((ev): ev is PokeEvent => ev !== null),
+        }),
+      )
       .catch(() => setLoadError(true))
   }, [])
 

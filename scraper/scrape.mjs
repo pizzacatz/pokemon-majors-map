@@ -471,6 +471,34 @@ function prune(obj) {
   return Object.fromEntries(Object.entries(obj).filter(([, v]) => v != null))
 }
 
+/**
+ * Emit every schema key with an explicit null default. Merge layers prune
+ * nulls, so without this an override's null startDate becomes an ABSENT key —
+ * which reads as undefined in the app and once black-screened the site.
+ */
+function canonicalize(ev) {
+  const startDate = ev.startDate ?? null
+  return {
+    id: ev.id,
+    name: ev.name,
+    type: ev.type,
+    formats: Array.isArray(ev.formats) && ev.formats.length ? ev.formats : ['tcg', 'vgc', 'go'],
+    startDate,
+    endDate: ev.endDate ?? startDate,
+    venue: ev.venue ?? null,
+    city: ev.city,
+    country: ev.country,
+    region: ev.region,
+    lat: ev.lat,
+    lng: ev.lng,
+    links: {
+      official: ev.links?.official ?? null,
+      registration: ev.links?.registration ?? null,
+    },
+    registrationOpens: ev.registrationOpens ?? null,
+  }
+}
+
 function validate(events, previousCount) {
   if (events.length === 0) fail('zero events after merge')
   if (previousCount > 0 && events.length < previousCount * 0.5) {
@@ -521,6 +549,7 @@ async function main() {
     existing: current.events,
     overrides,
   })
+  events = events.map(canonicalize)
   events.sort((a, b) => (a.startDate ?? '9999').localeCompare(b.startDate ?? '9999'))
 
   validate(events, current.events.length)

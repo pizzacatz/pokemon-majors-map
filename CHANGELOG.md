@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-07-15
+
+### Fixed
+
+- **Site crashed to a blank screen** when an event arrived with absent (not
+  null) date keys — the scraper's null-pruning merge dropped the LA 2027
+  placeholder's explicit null dates, and `undefined` slipped past the app's
+  `!== null` date guards into date parsing. Events are now normalized to the
+  full schema on load, date guards use `!= null`, and the scraper writes
+  canonical records with every key explicitly present.
+
 ## [0.1.1] - 2026-07-15
 
 ### Fixed
@@ -55,6 +66,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - App version + data snapshot date displayed in the site footer.
 - PRD (docs/PRD.md), README, this changelog.
 
-[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.1.2...HEAD
+[0.1.2]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/pizzacatz/pokemon-majors-map/releases/tag/v0.1.0
