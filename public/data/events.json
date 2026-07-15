@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-07-15T22:09:58.010Z",
+    "generatedAt": "2026-07-15T22:15:30.351Z",
     "source": "scraper",
     "schemaVersion": 1
   },
@@ -374,29 +374,6 @@
       "registrationOpens": null
     },
     {
-      "id": "regional-2027-auckland-2027-auckland-pokemon-special-event",
-      "name": "2027 Auckland Pokémon Special Event",
-      "type": "regional",
-      "formats": [
-        "tcg",
-        "vgc",
-        "go"
-      ],
-      "startDate": "2027-01-30",
-      "endDate": "2027-01-31",
-      "venue": null,
-      "city": "Auckland",
-      "country": "NZ",
-      "region": "OCE",
-      "lat": 0,
-      "lng": 0,
-      "links": {
-        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/auckland",
-        "registration": null
-      },
-      "registrationOpens": null
-    },
-    {
       "id": "special-2027-auckland-2027-auckland-pokemon-special-event",
       "name": "2027 Auckland Pokémon Special Event",
       "type": "special",
@@ -512,29 +489,6 @@
       "registrationOpens": null
     },
     {
-      "id": "regional-2027-lisbon-2027-lisbon-pokemon-special-event",
-      "name": "2027 Lisbon Pokémon Special Event",
-      "type": "regional",
-      "formats": [
-        "tcg",
-        "vgc",
-        "go"
-      ],
-      "startDate": "2027-04-10",
-      "endDate": "2027-04-11",
-      "venue": null,
-      "city": "Lisbon",
-      "country": "PT",
-      "region": "EU",
-      "lat": 0,
-      "lng": 0,
-      "links": {
-        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/lisbon",
-        "registration": null
-      },
-      "registrationOpens": null
-    },
-    {
       "id": "special-2027-lisbon-2027-lisbon-pokemon-special-event",
       "name": "2027 Lisbon Pokémon Special Event",
       "type": "special",
@@ -576,29 +530,6 @@
       "lng": 0,
       "links": {
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/milwaukee",
-        "registration": null
-      },
-      "registrationOpens": null
-    },
-    {
-      "id": "regional-2027-lima-2027-lima-pokemon-special-event",
-      "name": "2027 Lima Pokémon Special Event",
-      "type": "regional",
-      "formats": [
-        "tcg",
-        "vgc",
-        "go"
-      ],
-      "startDate": "2027-04-24",
-      "endDate": "2027-04-25",
-      "venue": null,
-      "city": "Lima",
-      "country": "PE",
-      "region": "LATAM",
-      "lat": 0,
-      "lng": 0,
-      "links": {
-        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/lima",
         "registration": null
       },
       "registrationOpens": null
@@ -719,29 +650,6 @@
       "registrationOpens": null
     },
     {
-      "id": "regional-2027-bologna-2027-bologna-pokemon-special-event",
-      "name": "2027 Bologna Pokémon Special Event",
-      "type": "regional",
-      "formats": [
-        "tcg",
-        "vgc",
-        "go"
-      ],
-      "startDate": "2027-06-05",
-      "endDate": "2027-06-06",
-      "venue": null,
-      "city": "Bologna",
-      "country": "IT",
-      "region": "EU",
-      "lat": 0,
-      "lng": 0,
-      "links": {
-        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/bologna",
-        "registration": null
-      },
-      "registrationOpens": null
-    },
-    {
       "id": "special-2027-bologna-2027-bologna-pokemon-special-event",
       "name": "2027 Bologna Pokémon Special Event",
       "type": "special",
@@ -783,29 +691,6 @@
       "lng": -87.6165,
       "links": {
         "official": "https://championships.pokemon.com/en-us/events/",
-        "registration": null
-      },
-      "registrationOpens": null
-    },
-    {
-      "id": "regional-2027-buenos-aires-2027-buenos-aires-pokemon-special-event",
-      "name": "2027 Buenos Aires Pokémon Special Event",
-      "type": "regional",
-      "formats": [
-        "tcg",
-        "vgc",
-        "go"
-      ],
-      "startDate": "2027-11-14",
-      "endDate": "2027-11-15",
-      "venue": null,
-      "city": "Buenos Aires",
-      "country": "AR",
-      "region": "LATAM",
-      "lat": 0,
-      "lng": 0,
-      "links": {
-        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/buenos-aires",
         "registration": null
       },
       "registrationOpens": null
