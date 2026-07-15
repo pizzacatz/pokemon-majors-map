@@ -38,5 +38,125 @@
     "lat": 50.1106444,
     "lng": 8.6820917,
     "country": "DE"
+  },
+  "New Orleans, US": {
+    "lat": 29.9561422,
+    "lng": -90.0733934,
+    "country": "US"
+  },
+  "Torino TO, IT": {
+    "lat": 45.0524242,
+    "lng": 7.6402,
+    "country": "IT"
+  },
+  "Indianapolis, US": {
+    "lat": 39.7683331,
+    "lng": -86.1583502,
+    "country": "US"
+  },
+  "South Wharf, AU": {
+    "lat": -37.8253279,
+    "lng": 144.9493432,
+    "country": "AU"
+  },
+  "Utrecht, NL": {
+    "lat": 52.0907006,
+    "lng": 5.1215634,
+    "country": "NL"
+  },
+  "Los Angeles, US": {
+    "lat": 34.0536909,
+    "lng": -118.242766,
+    "country": "US"
+  },
+  "Praha, CZ": {
+    "lat": 50.0874654,
+    "lng": 14.4212535,
+    "country": "CZ"
+  },
+  "Santiago de Querétaro, MX": {
+    "lat": 20.5922997,
+    "lng": -100.3917424,
+    "country": "MX"
+  },
+  "Orlando, US": {
+    "lat": 28.5421218,
+    "lng": -81.379045,
+    "country": "US"
+  },
+  "Sevilla, ES": {
+    "lat": 37.3886303,
+    "lng": -5.9953403,
+    "country": "ES"
+  },
+  "Houston, US": {
+    "lat": 29.7589382,
+    "lng": -95.3676974,
+    "country": "US"
+  },
+  "Seattle, US": {
+    "lat": 47.6038321,
+    "lng": -122.330062,
+    "country": "US"
+  },
+  "London, UK": {
+    "lat": 51.5074456,
+    "lng": -0.1277653,
+    "country": "GB"
+  },
+  "Huechuraba, CL": {
+    "lat": -33.3744615,
+    "lng": -70.6362988,
+    "country": "CL"
+  },
+  "Sydney, AU": {
+    "lat": -33.8698439,
+    "lng": 151.2082848,
+    "country": "AU"
+  },
+  "Mérida, MX": {
+    "lat": 20.9670759,
+    "lng": -89.6237402,
+    "country": "MX"
+  },
+  "Birmingham, UK": {
+    "lat": 52.4948994,
+    "lng": -1.8518439,
+    "country": "GB"
+  },
+  "São Paulo, BR": {
+    "lat": -23.5506507,
+    "lng": -46.6333824,
+    "country": "BR"
+  },
+  "Las Vegas, US": {
+    "lat": 36.1674263,
+    "lng": -115.1484131,
+    "country": "US"
+  },
+  "South Brisbane, AU": {
+    "lat": -27.479264,
+    "lng": 153.0200774,
+    "country": "AU"
+  },
+  "Lille, FR": {
+    "lat": 50.6365654,
+    "lng": 3.0635282,
+    "country": "FR"
+  },
+  "Milwaukee, US": {
+    "lat": 43.0386475,
+    "lng": -87.9090751,
+    "country": "US"
+  },
+  "Pittsburgh, US": {
+    "lat": 40.4406968,
+    "lng": -80.0025666,
+    "country": "US"
+  },
+  "Monterrey, MX": {
+    "lat": 25.6802019,
+    "lng": -100.315258,
+    "country": "MX"
   }
 }
