@@ -122,5 +122,45 @@
   "Frankfurt am Main, US": {
     "lat": 50.1920661,
     "lng": 8.6572598
+  },
+  "San Francisco, US": {
+    "lat": 37.7879363,
+    "lng": -122.4075201,
+    "country": "US"
+  },
+  "Campinas, BR": {
+    "lat": -22.9056391,
+    "lng": -47.059564,
+    "country": "BR"
+  },
+  "Pinhais, BR": {
+    "lat": -25.4443488,
+    "lng": -49.1900307,
+    "country": "BR"
+  },
+  "Toronto, CA": {
+    "lat": 43.6534817,
+    "lng": -79.3839347,
+    "country": "CA"
+  },
+  "Stuttgart, DE": {
+    "lat": 48.7784485,
+    "lng": 9.1800132,
+    "country": "DE"
+  },
+  "Gdańsk, PL": {
+    "lat": 54.3482907,
+    "lng": 18.6540233,
+    "country": "PL"
+  },
+  "Belo Horizonte, BR": {
+    "lat": -19.9227318,
+    "lng": -43.9450948,
+    "country": "BR"
+  },
+  "Frankfurt am Main, DE": {
+    "lat": 50.1106444,
+    "lng": 8.6820917,
+    "country": "DE"
   }
 }

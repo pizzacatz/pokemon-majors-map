@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-07-15T17:30:58.015Z",
+    "generatedAt": "2026-07-15T17:37:11.827Z",
     "source": "scraper",
     "schemaVersion": 1
   },
@@ -37,13 +37,13 @@
       "startDate": "2025-09-13",
       "endDate": "2025-09-14",
       "city": "Frankfurt am Main",
-      "country": "US",
-      "region": "NA",
+      "country": "DE",
+      "region": "EU",
       "links": {
         "registration": "https://rk9.gg/event/pokemon-frankfurt-2026"
       },
-      "lat": 50.1920661,
-      "lng": 8.6572598
+      "lat": 50.1106444,
+      "lng": 8.6820917
     },
     {
       "id": "regional-2025-pittsburgh-2026-pittsburgh-pokemon-regional-champio",
@@ -86,7 +86,7 @@
       "lng": -87.9090751
     },
     {
-      "id": "regional-2025-belo-horizonte-mg-2026-belo-horizonte-pokemon-regional-cha",
+      "id": "regional-2025-belo-horizonte-2026-belo-horizonte-pokemon-regional-cha",
       "name": "2026 Belo Horizonte Pokémon Regional Championships",
       "type": "regional",
       "formats": [
@@ -96,14 +96,14 @@
       ],
       "startDate": "2025-10-11",
       "endDate": "2025-10-12",
-      "city": "Belo Horizonte - MG",
+      "city": "Belo Horizonte",
       "country": "BR",
       "region": "LATAM",
+      "lat": -19.9227318,
+      "lng": -43.9450948,
       "links": {
         "registration": "https://rk9.gg/event/pokemon-belo-horizonte-2026"
-      },
-      "lat": -19.8738739,
-      "lng": -43.9873551
+      }
     },
     {
       "id": "regional-2025-lille-2026-lille-pokemon-regional-championship",
@@ -126,26 +126,6 @@
       "lng": 3.0635282
     },
     {
-      "id": "regional-2025-sk-2026-gdansk-pokemon-regional-championshi",
-      "name": "2026 Gdańsk Pokémon Regional Championships",
-      "type": "regional",
-      "formats": [
-        "tcg",
-        "vgc",
-        "go"
-      ],
-      "startDate": "2025-11-01",
-      "endDate": "2025-11-02",
-      "city": "sk",
-      "country": "PL",
-      "region": "EU",
-      "links": {
-        "registration": "https://rk9.gg/event/pokemon-gdansk-2026"
-      },
-      "lat": 50.7504894,
-      "lng": 20.7829122
-    },
-    {
       "id": "regional-2025-south-brisbane-2026-brisbane-pokemon-regional-champions",
       "name": "2026 Brisbane Pokémon Regional Championships",
       "type": "regional",
@@ -164,6 +144,26 @@
       },
       "lat": -27.479264,
       "lng": 153.0200774
+    },
+    {
+      "id": "regional-2025-gdansk-2026-gdansk-pokemon-regional-championshi",
+      "name": "2026 Gdańsk Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2025-11-01",
+      "endDate": "2025-11-02",
+      "city": "Gdańsk",
+      "country": "PL",
+      "region": "EU",
+      "lat": 54.3482907,
+      "lng": 18.6540233,
+      "links": {
+        "registration": "https://rk9.gg/event/pokemon-gdansk-2026"
+      }
     },
     {
       "id": "regional-2025-las-vegas-2026-las-vegas-pokemon-regional-champion",
@@ -217,13 +217,13 @@
       "startDate": "2025-11-29",
       "endDate": "2025-11-30",
       "city": "Stuttgart",
-      "country": "US",
-      "region": "NA",
+      "country": "DE",
+      "region": "EU",
       "links": {
         "registration": "https://rk9.gg/event/pokemon-stuttgart-2026"
       },
-      "lat": 34.5003748,
-      "lng": -91.5526281
+      "lat": 48.7784485,
+      "lng": 9.1800132
     },
     {
       "id": "regional-2026-toronto-2026-toronto-pokemon-regional-championsh",
@@ -237,13 +237,13 @@
       "startDate": "2026-01-16",
       "endDate": "2026-01-18",
       "city": "Toronto",
-      "country": "US",
+      "country": "CA",
       "region": "NA",
       "links": {
         "registration": "https://rk9.gg/event/pokemon-toronto-2026"
       },
-      "lat": 41.9048584,
-      "lng": -90.8640346
+      "lat": 43.6534817,
+      "lng": -79.3839347
     },
     {
       "id": "regional-2026-merida-2026-merida-pokemon-regional-championshi",
@@ -277,8 +277,8 @@
       "startDate": "2026-01-24",
       "endDate": "2026-01-25",
       "city": "Birmingham",
-      "country": "UK",
-      "region": "NA",
+      "country": "GB",
+      "region": "EU",
       "links": {
         "registration": "https://rk9.gg/event/pokemon-birmingham-2026"
       },
@@ -337,8 +337,8 @@
       "startDate": "2026-02-13",
       "endDate": "2026-02-15",
       "city": "London",
-      "country": "UK",
-      "region": "NA",
+      "country": "GB",
+      "region": "EU",
       "links": {
         "registration": "https://rk9.gg/event/pokemon-euic-2026"
       },
@@ -366,7 +366,7 @@
       "lng": -122.330062
     },
     {
-      "id": "regional-2026-pinhais-pr-2026-curitiba-pokemon-regional-champions",
+      "id": "regional-2026-pinhais-2026-curitiba-pokemon-regional-champions",
       "name": "2026 Curitiba Pokémon Regional Championships",
       "type": "regional",
       "formats": [
@@ -376,14 +376,14 @@
       ],
       "startDate": "2026-03-14",
       "endDate": "2026-03-15",
-      "city": "Pinhais - PR",
+      "city": "Pinhais",
       "country": "BR",
       "region": "LATAM",
+      "lat": -25.4443488,
+      "lng": -49.1900307,
       "links": {
         "registration": "https://rk9.gg/event/pokemon-curitiba-2026"
-      },
-      "lat": -25.4313965,
-      "lng": -49.1685364
+      }
     },
     {
       "id": "regional-2026-houston-2026-houston-pokemon-regional-championsh",
@@ -506,26 +506,6 @@
       "lng": -118.242766
     },
     {
-      "id": "regional-2026-campinas-sp-2026-campinas-pokemon-regional-champions",
-      "name": "2026 Campinas Pokémon Regional Championships",
-      "type": "regional",
-      "formats": [
-        "tcg",
-        "vgc",
-        "go"
-      ],
-      "startDate": "2026-05-16",
-      "endDate": "2026-05-17",
-      "city": "Campinas - SP",
-      "country": "BR",
-      "region": "LATAM",
-      "links": {
-        "registration": "https://rk9.gg/event/pokemon-campinas-2026"
-      },
-      "lat": -22.9349285,
-      "lng": -47.0659322
-    },
-    {
       "id": "regional-2026-utrecht-2026-utrecht-pokemon-regional-championsh",
       "name": "2026 Utrecht Pokémon Regional Championships",
       "type": "regional",
@@ -544,6 +524,26 @@
       },
       "lat": 52.0907006,
       "lng": 5.1215634
+    },
+    {
+      "id": "regional-2026-campinas-2026-campinas-pokemon-regional-champions",
+      "name": "2026 Campinas Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2026-05-16",
+      "endDate": "2026-05-17",
+      "city": "Campinas",
+      "country": "BR",
+      "region": "LATAM",
+      "lat": -22.9056391,
+      "lng": -47.059564,
+      "links": {
+        "registration": "https://rk9.gg/event/pokemon-campinas-2026"
+      }
     },
     {
       "id": "regional-2026-south-wharf-2026-melbourne-pokemon-regional-champion",
@@ -626,8 +626,8 @@
       "lng": -90.0733934
     },
     {
-      "id": "worlds-2026-san-francisco-2026-pokemon-world-championships-registr",
-      "name": "2026 Pokémon World Championships Registration is open to qualified, invited competitors who received an invitation to the 2026 Pokémon World Championships . If you have questions regarding your qualification status, you must file a ticket at Pokémon Customer Support .",
+      "id": "worlds-2026-san-francisco-2026-pokemon-world-championships",
+      "name": "2026 Pokémon World Championships",
       "type": "worlds",
       "formats": [
         "tcg",
@@ -636,17 +636,14 @@
       ],
       "startDate": "2026-08-28",
       "endDate": "2026-08-30",
-      "venue": "Moscone Center",
       "city": "San Francisco",
       "country": "US",
       "region": "NA",
-      "lat": 37.7842,
-      "lng": -122.4016,
+      "lat": 37.7879363,
+      "lng": -122.4075201,
       "links": {
-        "official": "https://championships.pokemon.com/en-us/events/",
         "registration": "https://rk9.gg/event/pokemon-worlds-2026"
-      },
-      "registrationOpens": null
+      }
     },
     {
       "id": "laic-2027-sao-paulo",
@@ -716,6 +713,24 @@
         "registration": null
       },
       "registrationOpens": null
+    },
+    {
+      "id": "regional-2027-los-angeles",
+      "name": "Los Angeles Pokémon Regional Championships 2027",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "city": "Los Angeles",
+      "country": "US",
+      "region": "NA",
+      "lat": 34.0522,
+      "lng": -118.2437,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/"
+      }
     }
   ]
 }
