@@ -611,20 +611,22 @@ function dedupe(events) {
   )
   out = out.filter((e) => e.startDate || !dated.has(`${e.type}|${e.city.toLowerCase()}`))
 
-  // Fresh-wins: when this run's sources disagree with the stored baseline
-  // about the same type+city (moved dates, or a past bug fossilized in the
-  // baseline), the freshly-scraped dates win and the stale entry is dropped.
-  // Two FRESH same-type+city events (e.g. consecutive-season ICs) both stay.
-  const freshDates = new Map()
+  // Fresh-wins: within a city that has freshly-scraped events, a stale
+  // baseline entry survives only if its (type, startDate) matches a fresh
+  // one — otherwise it's a ghost of moved dates or a fixed parsing bug
+  // (wrong year, Special mistyped as regional). Cities with no fresh data
+  // keep their baseline untouched, preserving outage fail-safety. Multiple
+  // FRESH events in one city (e.g. consecutive-season ICs) all stay.
+  const freshByCity = new Map()
   for (const e of out) {
     if (!e.fresh || !e.startDate) continue
-    const k = `${e.type}|${e.city.toLowerCase()}`
-    freshDates.set(k, (freshDates.get(k) ?? new Set()).add(e.startDate))
+    const city = e.city.toLowerCase()
+    freshByCity.set(city, (freshByCity.get(city) ?? new Set()).add(`${e.type}|${e.startDate}`))
   }
   return out.filter((e) => {
     if (e.fresh || !e.startDate) return true
-    const dates = freshDates.get(`${e.type}|${e.city.toLowerCase()}`)
-    return !dates || dates.has(e.startDate)
+    const tuples = freshByCity.get(e.city.toLowerCase())
+    return !tuples || tuples.has(`${e.type}|${e.startDate}`)
   })
 }
 
