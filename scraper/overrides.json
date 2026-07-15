@@ -1,1 +1,23 @@
-[]
+[
+  { "id": "regional-2025-belo-horizonte-mg-2026-belo-horizonte-pokemon-regional-cha", "remove": true },
+  { "id": "regional-2025-sk-2026-gdansk-pokemon-regional-championshi", "remove": true },
+  { "id": "regional-2026-pinhais-pr-2026-curitiba-pokemon-regional-champions", "remove": true },
+  { "id": "regional-2026-campinas-sp-2026-campinas-pokemon-regional-champions", "remove": true },
+  { "id": "worlds-2026-san-francisco-2026-pokemon-world-championships-registr", "remove": true },
+  {
+    "id": "regional-2027-los-angeles",
+    "name": "Los Angeles Pokémon Regional Championships 2027",
+    "type": "regional",
+    "formats": ["tcg", "vgc", "go"],
+    "startDate": null,
+    "endDate": null,
+    "venue": null,
+    "city": "Los Angeles",
+    "country": "US",
+    "region": "NA",
+    "lat": 34.0522,
+    "lng": -118.2437,
+    "links": { "official": "https://championships.pokemon.com/en-us/events/", "registration": null },
+    "registrationOpens": null
+  }
+]

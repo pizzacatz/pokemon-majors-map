@@ -198,6 +198,7 @@ const COUNTRY_NAMES = {
 function normalizeCountry(value) {
   if (typeof value !== 'string' || !value) return null
   const v = value.trim()
+  if (/^uk$/i.test(v)) return 'GB' // common but not the ISO code
   if (/^[A-Za-z]{2}$/.test(v)) return v.toUpperCase()
   return COUNTRY_NAMES[v.toLowerCase()] ?? null
 }
@@ -243,17 +244,28 @@ function parseDateRange(text) {
   return { startDate, endDate: `${year}-${p(mon2)}-${p(d2)}` }
 }
 
-const US_STATES = new Set(['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY','DC'])
-
-/** "Merida, Mexico" / "Portland, OR" / "Melbourne, Australia" → {city, country} */
+/**
+ * "Merida, Mexico" / "Portland, OR" / "Frankfurt am Main, DE" → {city, country, raw}.
+ * Two-letter tails are ambiguous — DE is both Delaware and Germany, CA both
+ * California and Canada — so country stays null and the geocoder resolves it
+ * from the raw string (with addressdetails) instead of us guessing.
+ */
 function parseLocation(text) {
-  const m = /([A-Za-zÀ-ÿ'. -]{2,40}),\s*([A-Za-zÀ-ÿ'. -]{2,30})\s*$/.exec(text.trim())
+  const m = /([\p{L}\p{M}'. -]{2,40}),\s*([\p{L}\p{M}'. -]{2,30})\s*$/u.exec(text.trim())
   if (!m) return null
-  const city = m[1].trim()
+  const city = m[1].trim().replace(/\s*-\s*[A-Z]{2}$/, '') // "Campinas - SP" → "Campinas"
   const tail = m[2].trim()
-  if (US_STATES.has(tail.toUpperCase())) return { city, country: 'US' }
+  const raw = `${city}, ${tail}`
+  if (/^[A-Za-z]{2}$/.test(tail) && tail.toUpperCase() !== 'UK') {
+    return { city, country: null, raw }
+  }
   const country = normalizeCountry(tail)
-  return country ? { city, country } : null
+  return country ? { city, country, raw } : null
+}
+
+/** Strip trailing UI text RK9 renders after the event name. */
+function cleanName(name) {
+  return name.replace(/\s+(Registration|Register|Learn more|View|Details|Sold out).*$/i, '').trim()
 }
 
 /**
@@ -271,17 +283,18 @@ async function scrapeRK9() {
       const cells = [...row.matchAll(/<td[^>]*>([\s\S]*?)<\/td>/gi)].map((c) => stripTags(c[1]))
       const rowText = cells.length ? cells.join(' | ') : stripTags(row)
       const dates = parseDateRange(rowText)
-      // Name: longest cell mentioning a major keyword, else the link text.
-      const name =
+      // Name: the cell mentioning a major keyword, else the link text.
+      const name = cleanName(
         cells.find((c) => /regional|international|special|world/i.test(c)) ??
-        (link ? stripTags(row.slice(row.indexOf(link[1]))).split('|')[0] : '')
+          (link ? stripTags(row.slice(row.indexOf(link[1]))).split('|')[0] : ''),
+      )
       const type = name ? inferType(name) : null
       if (!type) continue
       const loc = cells.map(parseLocation).find(Boolean) ?? parseLocation(rowText.split('|').pop() ?? '')
       if (!loc) continue
       found.push({
         id: slugify(`${type}-${dates?.startDate?.slice(0, 4) ?? 'tbd'}-${loc.city}-${name.slice(0, 40)}`),
-        name: name.trim(),
+        name,
         type,
         formats: ['tcg', 'vgc', 'go'],
         startDate: dates?.startDate ?? null,
@@ -289,7 +302,8 @@ async function scrapeRK9() {
         venue: null,
         city: loc.city,
         country: loc.country,
-        region: REGION_BY_COUNTRY[loc.country] ?? 'NA',
+        region: loc.country ? (REGION_BY_COUNTRY[loc.country] ?? 'NA') : null,
+        geoQuery: loc.raw,
         lat: null,
         lng: null,
         links: {
@@ -355,19 +369,28 @@ function loadJson(path, fallback) {
   return existsSync(path) ? JSON.parse(readFileSync(path, 'utf8')) : fallback
 }
 
-async function geocodeMissing(events) {
-  const cache = loadJson(GEOCACHE_PATH, {})
-  let dirty = false
+/**
+ * Fill lat/lng — and, for ambiguous locations (geoQuery), the true country —
+ * from Nominatim, cached and rate-limited per usage policy. Mutates events.
+ */
+async function geocodeList(events, cache, dirty) {
   for (const ev of events) {
-    if (ev.lat != null && ev.lng != null) continue
-    const query = [ev.venue, ev.city, ev.country].filter(Boolean).join(', ')
+    const query = ev.geoQuery ?? [ev.venue, ev.city, ev.country].filter(Boolean).join(', ')
+    delete ev.geoQuery
+    if (ev.lat != null && ev.lng != null && ev.country) continue
     if (!(query in cache)) {
       try {
-        const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&q=${encodeURIComponent(query)}`
+        const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&addressdetails=1&q=${encodeURIComponent(query)}`
         const res = await fetch(url, { headers: { 'User-Agent': USER_AGENT } })
         const hits = res.ok ? await res.json() : []
-        cache[query] = hits[0] ? { lat: Number(hits[0].lat), lng: Number(hits[0].lon) } : null
-        dirty = true
+        cache[query] = hits[0]
+          ? {
+              lat: Number(hits[0].lat),
+              lng: Number(hits[0].lon),
+              country: (hits[0].address?.country_code ?? '').toUpperCase() || null,
+            }
+          : null
+        dirty.v = true
         await new Promise((r) => setTimeout(r, 1100)) // Nominatim usage policy
       } catch {
         cache[query] = null
@@ -375,12 +398,14 @@ async function geocodeMissing(events) {
     }
     const hit = cache[query]
     if (hit) {
-      ev.lat = hit.lat
-      ev.lng = hit.lng
+      if (ev.lat == null || ev.lng == null) {
+        ev.lat = hit.lat
+        ev.lng = hit.lng
+      }
+      if (!ev.country && hit.country) ev.country = hit.country
+      if (!ev.region && ev.country) ev.region = REGION_BY_COUNTRY[ev.country] ?? 'NA'
     }
   }
-  if (dirty) writeFileSync(GEOCACHE_PATH, JSON.stringify(cache, null, 2) + '\n')
-  return events.filter((ev) => ev.lat != null && ev.lng != null)
 }
 
 /* ---------------- merge + validate + write ---------------- */
@@ -430,9 +455,14 @@ function dedupe(events) {
       byKey.set(key, mergeOne(lo, hi))
     }
   }
-  // A dates-TBD placeholder is superseded once the same type+city has real dates.
+  // A dates-TBD placeholder is superseded once the same type+city has real
+  // UPCOMING dates — a past event in that city is a previous season's, not
+  // this placeholder's, so it must not swallow it.
   const out = [...byKey.values()]
-  const dated = new Set(out.filter((e) => e.startDate).map((e) => `${e.type}|${e.city.toLowerCase()}`))
+  const today = new Date().toISOString().slice(0, 10)
+  const dated = new Set(
+    out.filter((e) => e.startDate && e.startDate >= today).map((e) => `${e.type}|${e.city.toLowerCase()}`),
+  )
   return out.filter((e) => e.startDate || !dated.has(`${e.type}|${e.city.toLowerCase()}`))
 }
 
@@ -472,8 +502,25 @@ async function main() {
     fail('all sources returned nothing — source formats may have changed')
   }
 
-  let events = merge({ official, pokedata, rk9, existing: current.events, overrides })
-  events = await geocodeMissing(events)
+  // Geocode BEFORE merging so corrected coordinates/countries overwrite any
+  // stale values in the existing baseline instead of being pruned as nulls.
+  const cache = loadJson(GEOCACHE_PATH, {})
+  const dirty = { v: false }
+  for (const list of [official, pokedata, rk9]) await geocodeList(list, cache, dirty)
+  if (dirty.v) writeFileSync(GEOCACHE_PATH, JSON.stringify(cache, null, 2) + '\n')
+
+  const unresolved = (ev) => typeof ev.lat !== 'number' || typeof ev.lng !== 'number' || !ev.country || !ev.region
+  for (const list of [official, pokedata, rk9]) {
+    for (const ev of list.filter(unresolved)) log(`dropping unresolved event: ${ev.id}`)
+  }
+
+  let events = merge({
+    official: official.filter((ev) => !unresolved(ev)),
+    pokedata: pokedata.filter((ev) => !unresolved(ev)),
+    rk9: rk9.filter((ev) => !unresolved(ev)),
+    existing: current.events,
+    overrides,
+  })
   events.sort((a, b) => (a.startDate ?? '9999').localeCompare(b.startDate ?? '9999'))
 
   validate(events, current.events.length)
