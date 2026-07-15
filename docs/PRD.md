@@ -88,7 +88,9 @@ in the repository, refreshed by a scheduled GitHub Actions scraper. All personal
 
 - A date-sorted list of upcoming majors — the phone-friendly alternative to panning a
   world map. Same cards, same data, grouped by month.
-- Past events drop into a collapsed "Past" section.
+- Past events are pruned from the data by the daily scraper (owner decision
+  2026-07-15): the site carries future events only. The UI retains a collapsed
+  "Past" section purely as graceful degradation for stale offline caches.
 
 ### 4.6 Itinerary tab
 

@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.3] - 2026-07-15
+
+### Changed
+
+- Past events are pruned from the published data: the site now carries only
+  events from today forward (plus dates-TBD announcements). The scraper's
+  50%-drop fail-safe compares future events to future events so intentional
+  pruning never trips it.
+
 ## [0.1.2] - 2026-07-15
 
 ### Fixed
@@ -66,7 +75,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - App version + data snapshot date displayed in the site footer.
 - PRD (docs/PRD.md), README, this changelog.
 
-[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.1.2...HEAD
+[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.1.3...HEAD
+[0.1.3]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/pizzacatz/pokemon-majors-map/releases/tag/v0.1.0

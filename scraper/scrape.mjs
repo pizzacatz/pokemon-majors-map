@@ -550,9 +550,17 @@ async function main() {
     overrides,
   })
   events = events.map(canonicalize)
+
+  // Future events only (owner decision 2026-07-15): drop anything already
+  // over. Dates-TBD announcements stay; an event still running today stays.
+  const today = new Date().toISOString().slice(0, 10)
+  const isUpcoming = (ev) => ev.endDate === null || ev.endDate >= today
+  events = events.filter(isUpcoming)
   events.sort((a, b) => (a.startDate ?? '9999').localeCompare(b.startDate ?? '9999'))
 
-  validate(events, current.events.length)
+  // Compare like with like: the sanity check must not count baseline events
+  // that this run intentionally pruned as past.
+  validate(events, current.events.filter(isUpcoming).length)
 
   const next = {
     meta: {
