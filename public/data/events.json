@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-07-15T22:02:27.294Z",
+    "generatedAt": "2026-07-15T22:09:58.010Z",
     "source": "scraper",
     "schemaVersion": 1
   },
@@ -29,7 +29,214 @@
       "registrationOpens": null
     },
     {
-      "id": "laic-2027-sao-paulo",
+      "id": "regional-2026-baltimore-2027-baltimore-pokemon-regional-champion",
+      "name": "2027 Baltimore Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2026-09-18",
+      "endDate": "2026-09-20",
+      "venue": null,
+      "city": "Baltimore",
+      "country": "US",
+      "region": "NA",
+      "lat": 0,
+      "lng": 0,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/baltimore",
+        "registration": null
+      },
+      "registrationOpens": null
+    },
+    {
+      "id": "regional-2026-frankfurt-2027-frankfurt-pokemon-regional-champion",
+      "name": "2027 Frankfurt Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2026-09-26",
+      "endDate": "2026-09-27",
+      "venue": null,
+      "city": "Frankfurt",
+      "country": "DE",
+      "region": "EU",
+      "lat": 0,
+      "lng": 0,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/frankfurt",
+        "registration": null
+      },
+      "registrationOpens": null
+    },
+    {
+      "id": "regional-2026-brisbane-2027-brisbane-pokemon-regional-champions",
+      "name": "2027 Brisbane Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2026-09-26",
+      "endDate": "2026-09-27",
+      "venue": null,
+      "city": "Brisbane",
+      "country": "AU",
+      "region": "OCE",
+      "lat": 0,
+      "lng": 0,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/brisbane",
+        "registration": null
+      },
+      "registrationOpens": null
+    },
+    {
+      "id": "regional-2026-recife-2027-recife-pokemon-regional-championshi",
+      "name": "2027 Recife Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2026-10-03",
+      "endDate": "2026-10-04",
+      "venue": null,
+      "city": "Recife",
+      "country": "BR",
+      "region": "LATAM",
+      "lat": 0,
+      "lng": 0,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/recife",
+        "registration": null
+      },
+      "registrationOpens": null
+    },
+    {
+      "id": "regional-2026-louisville-2027-louisville-pokemon-regional-champio",
+      "name": "2027 Louisville Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2026-10-09",
+      "endDate": "2026-10-11",
+      "venue": null,
+      "city": "Louisville",
+      "country": "US",
+      "region": "NA",
+      "lat": 0,
+      "lng": 0,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/louisville",
+        "registration": null
+      },
+      "registrationOpens": null
+    },
+    {
+      "id": "regional-2026-nice-2027-nice-pokemon-regional-championships",
+      "name": "2027 Nice Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2026-10-17",
+      "endDate": "2026-10-18",
+      "venue": null,
+      "city": "Nice",
+      "country": "FR",
+      "region": "EU",
+      "lat": 0,
+      "lng": 0,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/nice",
+        "registration": null
+      },
+      "registrationOpens": null
+    },
+    {
+      "id": "regional-2026-puebla-2027-puebla-pokemon-regional-championshi",
+      "name": "2027 Puebla Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2026-10-24",
+      "endDate": "2026-10-25",
+      "venue": null,
+      "city": "Puebla",
+      "country": "MX",
+      "region": "LATAM",
+      "lat": 0,
+      "lng": 0,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/puebla",
+        "registration": null
+      },
+      "registrationOpens": null
+    },
+    {
+      "id": "regional-2026-gdansk-2027-gdansk-pokemon-regional-championshi",
+      "name": "2027 Gdańsk Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2026-10-31",
+      "endDate": "2026-11-01",
+      "venue": null,
+      "city": "Gdańsk",
+      "country": "PL",
+      "region": "EU",
+      "lat": 0,
+      "lng": 0,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/gdansk",
+        "registration": null
+      },
+      "registrationOpens": null
+    },
+    {
+      "id": "special-2026-buenos-aires-2027-buenos-aires-pokemon-special-event",
+      "name": "2027 Buenos Aires Pokémon Special Event",
+      "type": "special",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2026-11-14",
+      "endDate": "2026-11-15",
+      "venue": null,
+      "city": "Buenos Aires",
+      "country": "AR",
+      "region": "LATAM",
+      "lat": 0,
+      "lng": 0,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/buenos-aires",
+        "registration": null
+      },
+      "registrationOpens": null
+    },
+    {
+      "id": "international-2026-sao-paulo-2027-pokemon-latin-america-international",
       "name": "2027 Pokémon Latin America International Championships",
       "type": "international",
       "formats": [
@@ -43,10 +250,56 @@
       "city": "São Paulo",
       "country": "BR",
       "region": "LATAM",
-      "lat": -23.5505,
-      "lng": -46.6333,
+      "lat": 0,
+      "lng": 0,
       "links": {
-        "official": "https://championships.pokemon.com/en-us/events/",
+        "official": "https://championships.pokemon.com/en-us/events/internationals/2027/sao-paulo",
+        "registration": null
+      },
+      "registrationOpens": null
+    },
+    {
+      "id": "regional-2026-stuttgart-2027-stuttgart-pokemon-regional-champion",
+      "name": "2027 Stuttgart Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2026-11-28",
+      "endDate": "2026-11-29",
+      "venue": null,
+      "city": "Stuttgart",
+      "country": "DE",
+      "region": "EU",
+      "lat": 0,
+      "lng": 0,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/stuttgart",
+        "registration": null
+      },
+      "registrationOpens": null
+    },
+    {
+      "id": "regional-2026-las-vegas-2027-las-vegas-pokemon-regional-champion",
+      "name": "2027 Las Vegas Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2026-12-04",
+      "endDate": "2026-12-06",
+      "venue": null,
+      "city": "Las Vegas",
+      "country": "US",
+      "region": "NA",
+      "lat": 0,
+      "lng": 0,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/las-vegas",
         "registration": null
       },
       "registrationOpens": null
@@ -124,6 +377,29 @@
       "id": "regional-2027-auckland-2027-auckland-pokemon-special-event",
       "name": "2027 Auckland Pokémon Special Event",
       "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2027-01-30",
+      "endDate": "2027-01-31",
+      "venue": null,
+      "city": "Auckland",
+      "country": "NZ",
+      "region": "OCE",
+      "lat": 0,
+      "lng": 0,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/auckland",
+        "registration": null
+      },
+      "registrationOpens": null
+    },
+    {
+      "id": "special-2027-auckland-2027-auckland-pokemon-special-event",
+      "name": "2027 Auckland Pokémon Special Event",
+      "type": "special",
       "formats": [
         "tcg",
         "vgc",
@@ -259,6 +535,29 @@
       "registrationOpens": null
     },
     {
+      "id": "special-2027-lisbon-2027-lisbon-pokemon-special-event",
+      "name": "2027 Lisbon Pokémon Special Event",
+      "type": "special",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2027-04-10",
+      "endDate": "2027-04-11",
+      "venue": null,
+      "city": "Lisbon",
+      "country": "PT",
+      "region": "EU",
+      "lat": 0,
+      "lng": 0,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/lisbon",
+        "registration": null
+      },
+      "registrationOpens": null
+    },
+    {
       "id": "regional-2027-milwaukee-2027-milwaukee-pokemon-regional-champion",
       "name": "2027 Milwaukee Pokémon Regional Championships",
       "type": "regional",
@@ -285,6 +584,29 @@
       "id": "regional-2027-lima-2027-lima-pokemon-special-event",
       "name": "2027 Lima Pokémon Special Event",
       "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2027-04-24",
+      "endDate": "2027-04-25",
+      "venue": null,
+      "city": "Lima",
+      "country": "PE",
+      "region": "LATAM",
+      "lat": 0,
+      "lng": 0,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/lima",
+        "registration": null
+      },
+      "registrationOpens": null
+    },
+    {
+      "id": "special-2027-lima-2027-lima-pokemon-special-event",
+      "name": "2027 Lima Pokémon Special Event",
+      "type": "special",
       "formats": [
         "tcg",
         "vgc",
@@ -420,6 +742,29 @@
       "registrationOpens": null
     },
     {
+      "id": "special-2027-bologna-2027-bologna-pokemon-special-event",
+      "name": "2027 Bologna Pokémon Special Event",
+      "type": "special",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2027-06-05",
+      "endDate": "2027-06-06",
+      "venue": null,
+      "city": "Bologna",
+      "country": "IT",
+      "region": "EU",
+      "lat": 0,
+      "lng": 0,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/bologna",
+        "registration": null
+      },
+      "registrationOpens": null
+    },
+    {
       "id": "naic-2027-chicago",
       "name": "2027 Pokémon North America International Championships",
       "type": "international",
@@ -443,190 +788,6 @@
       "registrationOpens": null
     },
     {
-      "id": "regional-2027-baltimore-2027-baltimore-pokemon-regional-champion",
-      "name": "2027 Baltimore Pokémon Regional Championships",
-      "type": "regional",
-      "formats": [
-        "tcg",
-        "vgc",
-        "go"
-      ],
-      "startDate": "2027-09-18",
-      "endDate": "2027-09-20",
-      "venue": null,
-      "city": "Baltimore",
-      "country": "US",
-      "region": "NA",
-      "lat": 0,
-      "lng": 0,
-      "links": {
-        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/baltimore",
-        "registration": null
-      },
-      "registrationOpens": null
-    },
-    {
-      "id": "regional-2027-brisbane-2027-brisbane-pokemon-regional-champions",
-      "name": "2027 Brisbane Pokémon Regional Championships",
-      "type": "regional",
-      "formats": [
-        "tcg",
-        "vgc",
-        "go"
-      ],
-      "startDate": "2027-09-26",
-      "endDate": "2027-09-27",
-      "venue": null,
-      "city": "Brisbane",
-      "country": "AU",
-      "region": "OCE",
-      "lat": 0,
-      "lng": 0,
-      "links": {
-        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/brisbane",
-        "registration": null
-      },
-      "registrationOpens": null
-    },
-    {
-      "id": "regional-2027-frankfurt-2027-frankfurt-pokemon-regional-champion",
-      "name": "2027 Frankfurt Pokémon Regional Championships",
-      "type": "regional",
-      "formats": [
-        "tcg",
-        "vgc",
-        "go"
-      ],
-      "startDate": "2027-09-26",
-      "endDate": "2027-09-27",
-      "venue": null,
-      "city": "Frankfurt",
-      "country": "DE",
-      "region": "EU",
-      "lat": 0,
-      "lng": 0,
-      "links": {
-        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/frankfurt",
-        "registration": null
-      },
-      "registrationOpens": null
-    },
-    {
-      "id": "regional-2027-recife-2027-recife-pokemon-regional-championshi",
-      "name": "2027 Recife Pokémon Regional Championships",
-      "type": "regional",
-      "formats": [
-        "tcg",
-        "vgc",
-        "go"
-      ],
-      "startDate": "2027-10-03",
-      "endDate": "2027-10-04",
-      "venue": null,
-      "city": "Recife",
-      "country": "BR",
-      "region": "LATAM",
-      "lat": 0,
-      "lng": 0,
-      "links": {
-        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/recife",
-        "registration": null
-      },
-      "registrationOpens": null
-    },
-    {
-      "id": "regional-2027-louisville-2027-louisville-pokemon-regional-champio",
-      "name": "2027 Louisville Pokémon Regional Championships",
-      "type": "regional",
-      "formats": [
-        "tcg",
-        "vgc",
-        "go"
-      ],
-      "startDate": "2027-10-09",
-      "endDate": "2027-10-11",
-      "venue": null,
-      "city": "Louisville",
-      "country": "US",
-      "region": "NA",
-      "lat": 0,
-      "lng": 0,
-      "links": {
-        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/louisville",
-        "registration": null
-      },
-      "registrationOpens": null
-    },
-    {
-      "id": "regional-2027-nice-2027-nice-pokemon-regional-championships",
-      "name": "2027 Nice Pokémon Regional Championships",
-      "type": "regional",
-      "formats": [
-        "tcg",
-        "vgc",
-        "go"
-      ],
-      "startDate": "2027-10-17",
-      "endDate": "2027-10-18",
-      "venue": null,
-      "city": "Nice",
-      "country": "FR",
-      "region": "EU",
-      "lat": 0,
-      "lng": 0,
-      "links": {
-        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/nice",
-        "registration": null
-      },
-      "registrationOpens": null
-    },
-    {
-      "id": "regional-2027-puebla-2027-puebla-pokemon-regional-championshi",
-      "name": "2027 Puebla Pokémon Regional Championships",
-      "type": "regional",
-      "formats": [
-        "tcg",
-        "vgc",
-        "go"
-      ],
-      "startDate": "2027-10-24",
-      "endDate": "2027-10-25",
-      "venue": null,
-      "city": "Puebla",
-      "country": "MX",
-      "region": "LATAM",
-      "lat": 0,
-      "lng": 0,
-      "links": {
-        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/puebla",
-        "registration": null
-      },
-      "registrationOpens": null
-    },
-    {
-      "id": "regional-2027-gdansk-2027-gdansk-pokemon-regional-championshi",
-      "name": "2027 Gdańsk Pokémon Regional Championships",
-      "type": "regional",
-      "formats": [
-        "tcg",
-        "vgc",
-        "go"
-      ],
-      "startDate": "2027-10-31",
-      "endDate": "2027-11-01",
-      "venue": null,
-      "city": "Gdańsk",
-      "country": "PL",
-      "region": "EU",
-      "lat": 0,
-      "lng": 0,
-      "links": {
-        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/gdansk",
-        "registration": null
-      },
-      "registrationOpens": null
-    },
-    {
       "id": "regional-2027-buenos-aires-2027-buenos-aires-pokemon-special-event",
       "name": "2027 Buenos Aires Pokémon Special Event",
       "type": "regional",
@@ -645,75 +806,6 @@
       "lng": 0,
       "links": {
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/buenos-aires",
-        "registration": null
-      },
-      "registrationOpens": null
-    },
-    {
-      "id": "international-2027-sao-paulo-2027-pokemon-latin-america-international",
-      "name": "2027 Pokémon Latin America International Championships",
-      "type": "international",
-      "formats": [
-        "tcg",
-        "vgc",
-        "go"
-      ],
-      "startDate": "2027-11-20",
-      "endDate": "2027-11-22",
-      "venue": null,
-      "city": "São Paulo",
-      "country": "BR",
-      "region": "LATAM",
-      "lat": 0,
-      "lng": 0,
-      "links": {
-        "official": "https://championships.pokemon.com/en-us/events/internationals/2027/sao-paulo",
-        "registration": null
-      },
-      "registrationOpens": null
-    },
-    {
-      "id": "regional-2027-stuttgart-2027-stuttgart-pokemon-regional-champion",
-      "name": "2027 Stuttgart Pokémon Regional Championships",
-      "type": "regional",
-      "formats": [
-        "tcg",
-        "vgc",
-        "go"
-      ],
-      "startDate": "2027-11-28",
-      "endDate": "2027-11-29",
-      "venue": null,
-      "city": "Stuttgart",
-      "country": "DE",
-      "region": "EU",
-      "lat": 0,
-      "lng": 0,
-      "links": {
-        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/stuttgart",
-        "registration": null
-      },
-      "registrationOpens": null
-    },
-    {
-      "id": "regional-2027-las-vegas-2027-las-vegas-pokemon-regional-champion",
-      "name": "2027 Las Vegas Pokémon Regional Championships",
-      "type": "regional",
-      "formats": [
-        "tcg",
-        "vgc",
-        "go"
-      ],
-      "startDate": "2027-12-04",
-      "endDate": "2027-12-06",
-      "venue": null,
-      "city": "Las Vegas",
-      "country": "US",
-      "region": "NA",
-      "lat": 0,
-      "lng": 0,
-      "links": {
-        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/las-vegas",
         "registration": null
       },
       "registrationOpens": null
