@@ -93,7 +93,10 @@ function canonKey(k) {
 }
 
 const NAME_KEYS = ['name', 'title', 'eventname']
+// ISO-ish machine dates vs display strings ("Aug. 28-30" + year_s) — both
+// count as date signals for mining, but normalize parses them differently.
 const DATE_KEYS = ['startdate', 'datestart', 'start', 'eventdate', 'date']
+const DATE_RANGE_KEYS = ['displaydaterange', 'daterange', 'dates', 'displaydate']
 const PLACE_KEYS = ['city', 'location', 'venue', 'address', 'eventlocation']
 
 /** Walk arbitrary JSON and collect objects that look like championship events. */
@@ -105,7 +108,7 @@ function mineEventObjects(node, out = [], depth = 0) {
   }
   const keys = Object.keys(node).map(canonKey)
   const hasName = keys.some((k) => NAME_KEYS.includes(k))
-  const hasDate = keys.some((k) => DATE_KEYS.includes(k))
+  const hasDate = keys.some((k) => DATE_KEYS.includes(k) || DATE_RANGE_KEYS.includes(k))
   const hasPlace = keys.some((k) => PLACE_KEYS.includes(k))
   if (hasName && hasDate && hasPlace) out.push(node)
   for (const v of Object.values(node)) mineEventObjects(v, out, depth + 1)
@@ -146,9 +149,22 @@ function toISODateOnly(value) {
 }
 
 /** Normalize a mined raw object into our schema; null if it can't qualify. */
+// Official API's explicit type_s / region_s vocabularies.
+const TYPE_FIELD = {
+  world: 'worlds', worlds: 'worlds', regional: 'regional',
+  international: 'international', special: 'special',
+}
+const REGION_FIELD = {
+  northamerica: 'NA', europe: 'EU', latinamerica: 'LATAM', latam: 'LATAM',
+  oceania: 'OCE', asia: 'APAC', asiapacific: 'APAC',
+}
+
 function normalize(raw) {
   const name = cleanName(String(pick(raw, NAME_KEYS) ?? ''))
-  const type = name ? inferType(name) : null
+  const typeField = pick(raw, ['type', 'eventtype'])
+  const type =
+    (typeof typeField === 'string' ? TYPE_FIELD[typeField.toLowerCase()] : null) ??
+    (name ? inferType(name) : null)
   if (!type) return null // majors only (PRD §3)
 
   let city = pick(raw, ['city']) ?? null
@@ -166,8 +182,20 @@ function normalize(raw) {
   }
   if (!city) return null
 
-  const startDate = toISODateOnly(pick(raw, DATE_KEYS))
-  const endDate = toISODateOnly(pick(raw, ['enddate', 'dateend', 'end'])) ?? startDate
+  let startDate = toISODateOnly(pick(raw, DATE_KEYS))
+  let endDate = toISODateOnly(pick(raw, ['enddate', 'dateend', 'end'])) ?? startDate
+  if (!startDate) {
+    // Official API style: displayDateRange_s "Aug. 28-30" + year_s "2026".
+    const rangeStr = pick(raw, DATE_RANGE_KEYS)
+    const year = pick(raw, ['year'])
+    if (typeof rangeStr === 'string') {
+      const r = parseDateRange(/\d{4}/.test(rangeStr) || !year ? rangeStr : `${rangeStr}, ${year}`)
+      if (r) {
+        startDate = r.startDate
+        endDate = r.endDate
+      }
+    }
+  }
 
   const lat = Number(pick(raw, ['lat', 'latitude']))
   const lng = Number(pick(raw, ['lng', 'lon', 'longitude']))
@@ -177,6 +205,8 @@ function normalize(raw) {
   if (rawFormats.includes('tcg') || rawFormats.includes('trading card')) formats.push('tcg')
   if (rawFormats.includes('vgc') || rawFormats.includes('video game')) formats.push('vgc')
   if (rawFormats.includes('"go"') || rawFormats.includes('pokemon go') || rawFormats.includes('pokémon go')) formats.push('go')
+
+  const regionField = pick(raw, ['region'])
 
   const links = { official: null, registration: null }
   const url = pick(raw, ['url', 'link', 'href', 'website'])
@@ -198,7 +228,9 @@ function normalize(raw) {
     venue: pick(raw, ['venue', 'venuename']) ?? null,
     city: String(city),
     country,
-    region: country ? (REGION_BY_COUNTRY[country] ?? 'NA') : null,
+    region:
+      (typeof regionField === 'string' ? REGION_FIELD[regionField.toLowerCase()] : null) ??
+      (country ? (REGION_BY_COUNTRY[country] ?? 'NA') : null),
     geoQuery: geoQuery ?? undefined,
     lat: Number.isFinite(lat) ? lat : null,
     lng: Number.isFinite(lng) ? lng : null,
