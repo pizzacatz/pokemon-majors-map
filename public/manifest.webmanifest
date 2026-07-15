@@ -1,0 +1,19 @@
+{
+  "name": "Pokémon Majors Map",
+  "short_name": "PokéMajors",
+  "description": "Every Play! Pokémon major on one map. Pin your home, count down, plan your season.",
+  "start_url": "/pokemon-majors-map/",
+  "scope": "/pokemon-majors-map/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#e3350d",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "meta": {
+    "generatedAt": "2026-07-15T00:00:00Z",
+    "source": "seed",
+    "schemaVersion": 1
+  },
+  "events": [
+    {
+      "id": "worlds-2026-san-francisco",
+      "name": "2026 Pokémon World Championships",
+      "type": "worlds",
+      "formats": ["tcg", "vgc", "go"],
+      "startDate": "2026-08-28",
+      "endDate": "2026-08-30",
+      "venue": "Moscone Center",
+      "city": "San Francisco",
+      "country": "US",
+      "region": "NA",
+      "lat": 37.7842,
+      "lng": -122.4016,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/",
+        "registration": null
+      },
+      "registrationOpens": null
+    },
+    {
+      "id": "laic-2027-sao-paulo",
+      "name": "2027 Pokémon Latin America International Championships",
+      "type": "international",
+      "formats": ["tcg", "vgc", "go"],
+      "startDate": "2026-11-20",
+      "endDate": "2026-11-22",
+      "venue": null,
+      "city": "São Paulo",
+      "country": "BR",
+      "region": "LATAM",
+      "lat": -23.5505,
+      "lng": -46.6333,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/",
+        "registration": null
+      },
+      "registrationOpens": null
+    },
+    {
+      "id": "euic-2027-london",
+      "name": "2027 Pokémon Europe International Championships",
+      "type": "international",
+      "formats": ["tcg", "vgc", "go"],
+      "startDate": "2027-02-19",
+      "endDate": "2027-02-21",
+      "venue": null,
+      "city": "London",
+      "country": "GB",
+      "region": "EU",
+      "lat": 51.5074,
+      "lng": -0.1278,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/",
+        "registration": null
+      },
+      "registrationOpens": null
+    },
+    {
+      "id": "naic-2027-chicago",
+      "name": "2027 Pokémon North America International Championships",
+      "type": "international",
+      "formats": ["tcg", "vgc", "go"],
+      "startDate": "2027-06-18",
+      "endDate": "2027-06-20",
+      "venue": "McCormick Place",
+      "city": "Chicago",
+      "country": "US",
+      "region": "NA",
+      "lat": 41.8512,
+      "lng": -87.6165,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/",
+        "registration": null
+      },
+      "registrationOpens": null
+    },
+    {
+      "id": "regional-2027-los-angeles",
+      "name": "Los Angeles Pokémon Regional Championships 2027",
+      "type": "regional",
+      "formats": ["tcg", "vgc", "go"],
+      "startDate": null,
+      "endDate": null,
+      "venue": null,
+      "city": "Los Angeles",
+      "country": "US",
+      "region": "NA",
+      "lat": 34.0522,
+      "lng": -118.2437,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/",
+        "registration": null
+      },
+      "registrationOpens": null
+    }
+  ]
+}
