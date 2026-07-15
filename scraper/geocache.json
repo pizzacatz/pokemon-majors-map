@@ -188,5 +188,110 @@
     "lat": 32.7174202,
     "lng": -117.162772,
     "country": "US"
+  },
+  "Brisbane, Australia": {
+    "lat": -27.4689623,
+    "lng": 153.0235009,
+    "country": "AU"
+  },
+  "Frankfurt, Germany": {
+    "lat": 50.1106444,
+    "lng": 8.6820917,
+    "country": "DE"
+  },
+  "Recife, Brazil": {
+    "lat": -8.0584933,
+    "lng": -34.8848193,
+    "country": "BR"
+  },
+  "Nice, France": {
+    "lat": 43.7009358,
+    "lng": 7.2683912,
+    "country": "FR"
+  },
+  "Puebla, Mexico": {
+    "lat": 18.833333,
+    "lng": -98,
+    "country": "MX"
+  },
+  "Gdańsk, Poland": {
+    "lat": 54.3482907,
+    "lng": 18.6540233,
+    "country": "PL"
+  },
+  "Buenos Aires, Argentina": {
+    "lat": -34.6095579,
+    "lng": -58.3887904,
+    "country": "AR"
+  },
+  "São Paulo, Brazil": {
+    "lat": -23.5506507,
+    "lng": -46.6333824,
+    "country": "BR"
+  },
+  "Stuttgart, Germany": {
+    "lat": 48.7784485,
+    "lng": 9.1800132,
+    "country": "DE"
+  },
+  "Sydney, Australia": {
+    "lat": -33.8698439,
+    "lng": 151.2082848,
+    "country": "AU"
+  },
+  "Mérida, Mexico": {
+    "lat": 20.9670759,
+    "lng": -89.6237402,
+    "country": "MX"
+  },
+  "Auckland, New Zealand": {
+    "lat": -36.852095,
+    "lng": 174.7631803,
+    "country": "NZ"
+  },
+  "Santiago, Chile": {
+    "lat": -33.4376995,
+    "lng": -70.6510671,
+    "country": "CL"
+  },
+  "Rio de Janeiro, Brazil": {
+    "lat": -22.9110137,
+    "lng": -43.2093727,
+    "country": "BR"
+  },
+  "Monterrey, Mexico": {
+    "lat": 25.6802019,
+    "lng": -100.315258,
+    "country": "MX"
+  },
+  "Lisbon, Portugal": {
+    "lat": 38.7077507,
+    "lng": -9.1365919,
+    "country": "PT"
+  },
+  "Lima, Peru": {
+    "lat": -12.0459808,
+    "lng": -77.0305912,
+    "country": "PE"
+  },
+  "Porto Alegre, Brazil": {
+    "lat": -30.0324999,
+    "lng": -51.2303767,
+    "country": "BR"
+  },
+  "Utrecht, Netherlands": {
+    "lat": 52.0907006,
+    "lng": 5.1215634,
+    "country": "NL"
+  },
+  "Melbourne, Australia": {
+    "lat": -37.8142454,
+    "lng": 144.9631732,
+    "country": "AU"
+  },
+  "Bologna, Italy": {
+    "lat": 44.4938203,
+    "lng": 11.3426327,
+    "country": "IT"
   }
 }
