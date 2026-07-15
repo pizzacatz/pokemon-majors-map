@@ -84,6 +84,18 @@ function extractJsonBlobs(html) {
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}/
 
+/**
+ * Canonical key form: lowercase, Crafter-CMS type suffixes stripped — the
+ * official site's API returns keys like eventName_s / startDate_dt / uRL_s.
+ */
+function canonKey(k) {
+  return k.toLowerCase().replace(/_(s|i|l|f|d|b|dt|o|txt|html|smv|imv|dtmv)$/, '').replace(/_/g, '')
+}
+
+const NAME_KEYS = ['name', 'title', 'eventname']
+const DATE_KEYS = ['startdate', 'datestart', 'start', 'eventdate', 'date']
+const PLACE_KEYS = ['city', 'location', 'venue', 'address', 'eventlocation']
+
 /** Walk arbitrary JSON and collect objects that look like championship events. */
 function mineEventObjects(node, out = [], depth = 0) {
   if (depth > 12 || node === null || typeof node !== 'object') return out
@@ -91,10 +103,10 @@ function mineEventObjects(node, out = [], depth = 0) {
     for (const item of node) mineEventObjects(item, out, depth + 1)
     return out
   }
-  const keys = Object.keys(node).map((k) => k.toLowerCase())
-  const hasName = keys.some((k) => ['name', 'title', 'eventname'].includes(k))
-  const hasDate = keys.some((k) => ['startdate', 'start_date', 'datestart', 'start'].includes(k))
-  const hasPlace = keys.some((k) => ['city', 'location', 'venue', 'address'].includes(k))
+  const keys = Object.keys(node).map(canonKey)
+  const hasName = keys.some((k) => NAME_KEYS.includes(k))
+  const hasDate = keys.some((k) => DATE_KEYS.includes(k))
+  const hasPlace = keys.some((k) => PLACE_KEYS.includes(k))
   if (hasName && hasDate && hasPlace) out.push(node)
   for (const v of Object.values(node)) mineEventObjects(v, out, depth + 1)
   return out
@@ -102,7 +114,7 @@ function mineEventObjects(node, out = [], depth = 0) {
 
 function pick(obj, names) {
   for (const [k, v] of Object.entries(obj)) {
-    if (names.includes(k.toLowerCase()) && v != null && v !== '') return v
+    if (names.includes(canonKey(k)) && v != null && v !== '') return v
   }
   return null
 }
@@ -135,16 +147,27 @@ function toISODateOnly(value) {
 
 /** Normalize a mined raw object into our schema; null if it can't qualify. */
 function normalize(raw) {
-  const name = String(pick(raw, ['name', 'title', 'eventname']) ?? '')
+  const name = cleanName(String(pick(raw, NAME_KEYS) ?? ''))
   const type = name ? inferType(name) : null
   if (!type) return null // majors only (PRD §3)
 
-  const city = pick(raw, ['city']) ?? null
-  const country = normalizeCountry(pick(raw, ['country', 'countrycode', 'country_code']))
-  if (!city || !country) return null
+  let city = pick(raw, ['city']) ?? null
+  let country = normalizeCountry(pick(raw, ['country', 'countrycode', 'countryname']))
+  let geoQuery = null
+  if (!city || !country) {
+    // Sources often ship one "City, XX" string instead of separate fields.
+    const locStr = pick(raw, ['location', 'address', 'eventlocation', 'venueaddress'])
+    const loc = typeof locStr === 'string' ? parseLocation(locStr) : null
+    if (loc) {
+      city = city ?? loc.city
+      country = country ?? loc.country // may stay null — geocoder resolves it
+      geoQuery = loc.raw
+    }
+  }
+  if (!city) return null
 
-  const startDate = toISODateOnly(pick(raw, ['startdate', 'start_date', 'datestart', 'start']))
-  const endDate = toISODateOnly(pick(raw, ['enddate', 'end_date', 'dateend', 'end'])) ?? startDate
+  const startDate = toISODateOnly(pick(raw, DATE_KEYS))
+  const endDate = toISODateOnly(pick(raw, ['enddate', 'dateend', 'end'])) ?? startDate
 
   const lat = Number(pick(raw, ['lat', 'latitude']))
   const lng = Number(pick(raw, ['lng', 'lon', 'longitude']))
@@ -175,7 +198,8 @@ function normalize(raw) {
     venue: pick(raw, ['venue', 'venuename']) ?? null,
     city: String(city),
     country,
-    region: REGION_BY_COUNTRY[country] ?? 'NA',
+    region: country ? (REGION_BY_COUNTRY[country] ?? 'NA') : null,
+    geoQuery: geoQuery ?? undefined,
     lat: Number.isFinite(lat) ? lat : null,
     lng: Number.isFinite(lng) ? lng : null,
     links,
@@ -351,21 +375,35 @@ function mineBlobs(blobs, found) {
  * empty shell. Drive a real browser and capture the JSON the page itself
  * loads — that follows whatever endpoint the frontend uses today.
  */
+// Endpoint the official site's own frontend fetches (discovered from the
+// rendered page's network traffic, 2026-07-15). status=upcoming matches our
+// future-events-only policy.
+const OFFICIAL_API = 'https://championships.pokemon.com/api/events.json?locale=en-us&status=upcoming'
+
 async function scrapeOfficial() {
   const found = []
-  // Cheap static pass first, in case they ever server-render.
-  for (const url of OFFICIAL_PAGES) {
-    try {
-      const html = await fetchText(url)
-      mineBlobs(extractJsonBlobs(html), found)
-    } catch (err) {
-      log(`official static: ${url} failed (${err.message})`)
+  // Known API first: cheapest and most complete.
+  try {
+    const res = await fetch(OFFICIAL_API, {
+      headers: { 'User-Agent': USER_AGENT, Accept: 'application/json' },
+    })
+    if (res.ok) {
+      const body = await res.json()
+      mineBlobs([body], found)
+      const items = Array.isArray(body?.items) ? body.items : []
+      log(`official api: ${items.length} items → ${found.length} events`)
+      if (items.length > 0 && found.length === 0) {
+        log(`official api: first item for diagnosis :: ${JSON.stringify(items[0]).slice(0, 900)}`)
+      }
+    } else {
+      log(`official api: HTTP ${res.status}`)
     }
+  } catch (err) {
+    log(`official api failed (${err.message})`)
   }
-  if (found.length > 0) {
-    log(`official static: ${found.length} events`)
-    return found
-  }
+  if (found.length > 0) return found
+
+  // Endpoint may have moved — fall back to what the real page does today.
 
   try {
     const browser = await launchBrowser()
@@ -433,22 +471,33 @@ async function geocodeList(events, cache, dirty) {
     const query = ev.geoQuery ?? [ev.venue, ev.city, ev.country].filter(Boolean).join(', ')
     delete ev.geoQuery
     if (ev.lat != null && ev.lng != null && ev.country) continue
-    if (!(query in cache)) {
+    const stale =
+      !(query in cache) ||
+      cache[query] === null ||
+      (!ev.country && cache[query] && cache[query].country == null)
+    if (stale) {
+      // Refetch no-result entries and pre-country-format entries: caching a
+      // transient failure (or an answer that can't resolve the country the
+      // event still needs) once blanked events forever.
       try {
         const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&addressdetails=1&q=${encodeURIComponent(query)}`
         const res = await fetch(url, { headers: { 'User-Agent': USER_AGENT } })
-        const hits = res.ok ? await res.json() : []
-        cache[query] = hits[0]
-          ? {
-              lat: Number(hits[0].lat),
-              lng: Number(hits[0].lon),
-              country: (hits[0].address?.country_code ?? '').toUpperCase() || null,
-            }
-          : null
-        dirty.v = true
+        if (res.ok) {
+          const hits = await res.json()
+          cache[query] = hits[0]
+            ? {
+                lat: Number(hits[0].lat),
+                lng: Number(hits[0].lon),
+                country: (hits[0].address?.country_code ?? '').toUpperCase() || null,
+              }
+            : null // genuine no-result — kept, but retried next run
+          dirty.v = true
+        } else {
+          log(`geocode: HTTP ${res.status} for "${query}" — not caching`)
+        }
         await new Promise((r) => setTimeout(r, 1100)) // Nominatim usage policy
-      } catch {
-        cache[query] = null
+      } catch (err) {
+        log(`geocode: "${query}" failed (${err.message}) — not caching`)
       }
     }
     const hit = cache[query]
