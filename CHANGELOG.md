@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.1] - 2026-07-16
+
+### Changed
+
+- Timeline gap compression: the strip is ~40% shorter (1928px vs ~3150px).
+  Days keep full resolution up to a week between events; longer empty
+  stretches compress to a trickle, so width is spent on events instead of
+  blank calendar. Month labels moved to their own axis row (below the event
+  dates) and thin out where compression squeezes them together.
+
 ## [0.5.0] - 2026-07-16
 
 UX Phase 3 (docs/UX-AUDIT.md P2 polish).
@@ -293,7 +303,8 @@ UX Phase 1 (see docs/UX-AUDIT.md P0 items).
 - App version + data snapshot date displayed in the site footer.
 - PRD (docs/PRD.md), README, this changelog.
 
-[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.5.1...HEAD
+[0.5.1]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.3.3...v0.4.0
 [0.3.3]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.3.2...v0.3.3

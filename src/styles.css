@@ -818,13 +818,13 @@ body {
   margin: 0 12px;
 }
 
-/* axis line */
+/* axis line — the 42px band below it stacks dates, then month labels */
 .tl-canvas::after {
   content: '';
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 26px;
+  bottom: 42px;
   border-bottom: 2px solid var(--border);
 }
 
@@ -845,18 +845,20 @@ body {
 
 .tl-month {
   position: absolute;
-  bottom: 8px;
+  bottom: 4px;
   font-size: 0.68rem;
   color: var(--text-2);
   border-left: 1px solid var(--border);
   padding-left: 3px;
-  height: 16px;
+  height: 34px; /* boundary line reaches up past the date row to the axis */
+  display: flex;
+  align-items: flex-end;
   white-space: nowrap;
 }
 
 .tl-item {
   position: absolute;
-  bottom: 26px;
+  bottom: 42px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;

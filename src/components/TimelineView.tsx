@@ -8,6 +8,34 @@ const RIGHT_PAD_DAYS = 10
 const LANES = 4
 const BASE_TICK = 14
 const LANE_GAP = 6
+// Gap compression: full resolution up to a week between events, then empty
+// stretches shrink to a trickle — a 40-day dead gap costs ~88px, not 360px.
+const GAP_CAP_DAYS = 7
+const SLOW_PX_PER_DAY = 0.75
+const MIN_MONTH_GAP_PX = 44
+
+/**
+ * Piecewise-linear day→x scale anchored on event days. Within GAP_CAP_DAYS of
+ * the previous anchor, days get PX_PER_DAY; beyond it they get SLOW_PX_PER_DAY,
+ * so the strip spends its width on events instead of empty calendar.
+ */
+function buildScale(eventDays: number[]): (day: number) => number {
+  const anchors = [...new Set([0, ...eventDays])].sort((a, b) => a - b)
+  const seg = (gap: number) =>
+    gap <= GAP_CAP_DAYS
+      ? gap * PX_PER_DAY
+      : GAP_CAP_DAYS * PX_PER_DAY + (gap - GAP_CAP_DAYS) * SLOW_PX_PER_DAY
+  const xs = [0]
+  for (let i = 1; i < anchors.length; i++) {
+    xs.push(xs[i - 1] + seg(anchors[i] - anchors[i - 1]))
+  }
+  return (day: number) => {
+    if (day <= 0) return 0
+    let i = anchors.length - 1
+    while (anchors[i] > day) i--
+    return xs[i] + seg(day - anchors[i])
+  }
+}
 
 /**
  * Bubbles hug their wrapped text (width: min-content), so a bubble is as
@@ -47,7 +75,7 @@ interface Props {
 }
 
 /** Month boundary marks from today through the last event. */
-function monthMarks(lastDay: number): { x: number; label: string }[] {
+function monthMarks(lastDay: number): { day: number; label: string }[] {
   const marks = []
   const cursor = new Date()
   cursor.setDate(1)
@@ -58,7 +86,7 @@ function monthMarks(lastDay: number): { x: number; label: string }[] {
     )
     if (day > lastDay + RIGHT_PAD_DAYS) break
     marks.push({
-      x: day * PX_PER_DAY,
+      day,
       label: cursor.toLocaleDateString('en-US', {
         month: 'short',
         ...(cursor.getMonth() === 0 ? { year: 'numeric' } : {}),
@@ -100,13 +128,24 @@ export default function TimelineView({ events, isChecked, onFly }: Props) {
     [events],
   )
 
+  const toX = useMemo(
+    () =>
+      buildScale(
+        dated.flatMap((ev) => [
+          Math.max(daysUntil(ev.startDate), 0),
+          Math.max(daysUntil(ev.endDate), 0),
+        ]),
+      ),
+    [dated],
+  )
+
   // When opened, bring the first upcoming event into view — the runway
   // between today and the first event otherwise renders as dead space.
   useEffect(() => {
     if (!open || !scrollRef.current || dated.length === 0) return
-    const firstX = Math.max(daysUntil(dated[0].startDate), 0) * PX_PER_DAY
+    const firstX = toX(Math.max(daysUntil(dated[0].startDate), 0))
     scrollRef.current.scrollLeft = Math.max(0, firstX - 32)
-  }, [open, dated])
+  }, [open, dated, toX])
 
   if (dated.length === 0) return null
 
@@ -116,14 +155,24 @@ export default function TimelineView({ events, isChecked, onFly }: Props) {
   const next = dated.find((ev) => isChecked(ev.id)) ?? dated[0]
   const nextIn = daysUntil(next.startDate)
   const lastDay = Math.max(...dated.map((ev) => daysUntil(ev.endDate)))
-  const width = (lastDay + RIGHT_PAD_DAYS) * PX_PER_DAY
+  const width = toX(lastDay + RIGHT_PAD_DAYS)
   const labels = dated.map(bubbleLabel)
   const lanes = assignLanes(
     dated.map((ev, i) => {
-      const x = Math.max(daysUntil(ev.startDate), 0) * PX_PER_DAY
+      const x = toX(Math.max(daysUntil(ev.startDate), 0))
       return { x, width: bubbleWidth(labels[i]) }
     }),
   )
+
+  // Compressed stretches squeeze month boundaries together — keep only the
+  // labels with room to breathe (they render on their own row below the dates).
+  const months: { x: number; label: string }[] = []
+  for (const m of monthMarks(lastDay)) {
+    const x = toX(m.day)
+    if (x - (months[months.length - 1]?.x ?? -Infinity) >= MIN_MONTH_GAP_PX) {
+      months.push({ x, label: m.label })
+    }
+  }
 
   // Dynamic vertical layout: each lane's tick height clears the tallest
   // bubble of the lanes below it, and the strip grows/shrinks to match.
@@ -137,7 +186,7 @@ export default function TimelineView({ events, isChecked, onFly }: Props) {
     tickHeights[l] = stack
     stack += (laneMax[l] ?? 0) + LANE_GAP
   }
-  const canvasH = 26 + stack + 8 // axis zone + stacked lanes + headroom
+  const canvasH = 42 + stack + 8 // axis zone (dates + months rows) + lanes + headroom
 
   return (
     <section className="timeline" aria-label="Season timeline">
@@ -155,13 +204,13 @@ export default function TimelineView({ events, isChecked, onFly }: Props) {
             <div className="tl-today" style={{ height: canvasH - 12 }}>
               Today
             </div>
-            {monthMarks(lastDay).map((m) => (
+            {months.map((m) => (
               <div key={m.x} className="tl-month" style={{ left: m.x }}>
                 {m.label}
               </div>
             ))}
             {dated.map((ev, i) => {
-              const x = Math.max(daysUntil(ev.startDate), 0) * PX_PER_DAY
+              const x = toX(Math.max(daysUntil(ev.startDate), 0))
               return (
                 <div
                   key={ev.id}
