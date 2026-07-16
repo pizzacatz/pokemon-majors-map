@@ -4,7 +4,7 @@ import { EVENT_TYPE_LABEL } from '../types'
 import { daysUntil, formatDate, formatDateRange, hasDates, isPast } from '../lib/dates'
 import { travelInfo } from '../lib/travel'
 import { googleCalendarUrl, downloadICS } from '../lib/calendar'
-import { hotelsUrl } from '../lib/links'
+import { flightsUrl, hotelsUrl } from '../lib/links'
 import { widestText, type FitRole } from '../lib/textFit'
 
 interface Props {
@@ -168,6 +168,11 @@ export default function EventCard({ ev, home, checked, onToggle, onClose, onFly,
       <p className="event-when">
         {hasDates(ev) ? formatDateRange(ev.startDate, ev.endDate) : 'Dates to be announced'}{' '}
         <Countdown ev={ev} />
+        {!past && ev.links.registration && (
+          <span className="badge badge-reg" title="An RK9 registration link exists for this event">
+            Reg open
+          </span>
+        )}
         {!past && hasDates(ev) && <CalendarMenu ev={ev} />}
       </p>
       {/* With an address present, city/country are redundant on this line. */}
@@ -212,6 +217,11 @@ export default function EventCard({ ev, home, checked, onToggle, onClose, onFly,
             Event page
           </a>
         )}
+        {!past && (
+          <a href={flightsUrl(ev)} target="_blank" rel="noopener noreferrer" className="btn">
+            Flights
+          </a>
+        )}
         <a href={hotelsUrl(ev)} target="_blank" rel="noopener noreferrer" className="btn">
           Hotels
         </a>
@@ -219,7 +229,7 @@ export default function EventCard({ ev, home, checked, onToggle, onClose, onFly,
       {!past && (
         <label className="check-row">
           <input type="checkbox" checked={checked} onChange={() => onToggle(ev.id)} />
-          In my season plan
+          In my plan
         </label>
       )}
     </article>

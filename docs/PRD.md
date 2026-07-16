@@ -77,12 +77,16 @@ in the repository, refreshed by a scheduled GitHub Actions scraper. All personal
   (TCG / VGC / GO), plus a region selector (NA / EU / LATAM / OCE / APAC).
 - Filters apply to map, schedule, and dashboard alike. Persisted in localStorage.
 
-### 4.4 Season dashboard (checklist)
+### 4.4 Season plan (opt-in, v0.10)
 
-- A compact list of all (filtered) upcoming majors with a checkbox each.
-- Unchecking grays the pin on the map and drops the event from the itinerary and share
-  link. Everything starts checked.
-- State persisted in localStorage keyed by event id.
+- The plan starts empty; users add events via row/card checkboxes ("In my plan").
+- Until a plan exists nothing on the map is de-emphasized; once it has members,
+  unplanned pins/timeline bubbles recede (type color kept, reduced opacity).
+- The map carries a "My plan · n" strip (checked events, days-left, conflicts,
+  hover-highlights its pin); the Schedule tab has an All events / My plan toggle
+  with share + season-.ics actions.
+- State persisted in localStorage (`pmm.plan`, event ids). Pre-0.10 opt-out
+  state (`pmm.excluded`) migrates once: engaged users keep their effective plan.
 
 ### 4.5 Schedule (chronological view)
 

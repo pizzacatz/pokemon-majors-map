@@ -12,12 +12,13 @@ import { reverseGeocodeCountry } from './lib/geo'
 import { conflictIds, planEvents } from './lib/plan'
 import {
   type Filters,
-  loadExcluded,
   loadFilters,
   loadHome,
-  saveExcluded,
+  loadPlan,
+  migratePlan,
   saveFilters,
   saveHome,
+  savePlan,
 } from './lib/storage'
 import { clearPlanFromUrl, readPlanFromUrl } from './lib/share'
 import { normalizeEvent } from './lib/normalize'
@@ -68,8 +69,9 @@ export default function App() {
   const [settingHome, setSettingHome] = useState(false)
   const [filters, setFilters] = useState<Filters>(loadFilters)
   const [filterOpen, setFilterOpen] = useState(false)
-  const [excluded, setExcluded] = useState<Set<string>>(loadExcluded)
+  const [plan, setPlan] = useState<Set<string>>(() => loadPlan() ?? new Set())
   const [dashOpen, setDashOpen] = useState(false)
+  const [updateReady, setUpdateReady] = useState(false)
   const [flyTarget, setFlyTarget] = useState<FlyTarget | null>(null)
   const [hoverId, setHoverId] = useState<string | null>(null)
   // System theme by default; an explicit toggle choice persists (index.html
@@ -81,7 +83,29 @@ export default function App() {
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme
+    // Keep the browser chrome (iOS status bar, Android address bar) in sync.
+    document
+      .querySelector('meta[name="theme-color"]:not([media])')
+      ?.setAttribute('content', theme === 'dark' ? '#17181a' : '#e3350d')
   }, [theme])
+
+  // Countdowns compute at render time — a PWA left open overnight would
+  // show yesterday's numbers. Re-render when the tab becomes visible.
+  const [, setDayTick] = useState(0)
+  useEffect(() => {
+    const tick = () => {
+      if (document.visibilityState === 'visible') setDayTick((n) => n + 1)
+    }
+    document.addEventListener('visibilitychange', tick)
+    return () => document.removeEventListener('visibilitychange', tick)
+  }, [])
+
+  // A fresh service worker installed behind this session — offer a refresh.
+  useEffect(() => {
+    const onUpdate = () => setUpdateReady(true)
+    window.addEventListener('pmm-sw-updated', onUpdate)
+    return () => window.removeEventListener('pmm-sw-updated', onUpdate)
+  }, [])
 
   // Track OS theme changes while the user hasn't chosen explicitly.
   useEffect(() => {
@@ -122,6 +146,8 @@ export default function App() {
         const events = json.events.map(normalizeEvent).filter((ev): ev is PokeEvent => ev !== null)
         setFitCorpus('title', events.map((ev) => ev.name))
         setFitCorpus('address', events.map((ev) => ev.address))
+        // One-time migration from the pre-0.10 opt-out model.
+        setPlan(migratePlan(events.map((ev) => ev.id)))
         setData({ ...json, events })
       })
       .catch(() => setLoadError(true))
@@ -163,13 +189,17 @@ export default function App() {
     [events, filters],
   )
 
-  const isChecked = (id: string) => (sharedPlan ? sharedPlan.includes(id) : !excluded.has(id))
+  const isPlanned = (id: string) => (sharedPlan ? sharedPlan.includes(id) : plan.has(id))
+  // With no plan yet, nothing is de-emphasized — dimming only means something
+  // once there's a plan to contrast against.
+  const planSize = sharedPlan ? sharedPlan.length : plan.size
+  const isEmphasized = (id: string) => planSize === 0 || isPlanned(id)
 
   // Weekend clashes within the plan — badged wherever the plan is visible.
   const conflicts = useMemo(
-    () => conflictIds(planEvents(events, isChecked)),
+    () => conflictIds(planEvents(events, isPlanned)),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [events, excluded, sharedPlan],
+    [events, plan, sharedPlan],
   )
 
   function goTab(t: Tab) {
@@ -207,11 +237,11 @@ export default function App() {
 
   function toggle(id: string) {
     if (sharedPlan) return // view-only until adopted
-    setExcluded((prev) => {
+    setPlan((prev) => {
       const next = new Set(prev)
       if (next.has(id)) next.delete(id)
       else next.add(id)
-      saveExcluded(next)
+      savePlan(next)
       return next
     })
   }
@@ -281,9 +311,9 @@ export default function App() {
 
   function adoptSharedPlan() {
     if (!sharedPlan) return
-    const next = new Set(events.filter((ev) => !sharedPlan.includes(ev.id)).map((ev) => ev.id))
-    setExcluded(next)
-    saveExcluded(next)
+    const next = new Set(sharedPlan)
+    setPlan(next)
+    savePlan(next)
     setSharedPlan(null)
     clearPlanFromUrl()
   }
@@ -374,12 +404,20 @@ export default function App() {
             Offline — showing data from {dataDate}
           </div>
         )}
+        {updateReady && !offline && (
+          <div className="status-pill status-pill-action" role="status">
+            New version ready
+            <button className="btn btn-small btn-primary" onClick={() => window.location.reload()}>
+              Refresh
+            </button>
+          </div>
+        )}
         {tab === 'map' && (
           <div className="map-wrap">
             <MapView
               events={filtered}
               home={home}
-              isChecked={isChecked}
+              isChecked={isEmphasized}
               settingHome={settingHome}
               onPickHome={setHomePin}
               onSelect={(id) => {
@@ -392,13 +430,13 @@ export default function App() {
               highlightIds={[selectedId, hoverId].filter((id): id is string => id !== null)}
             />
             <button className="dash-toggle btn" onClick={() => setDashOpen((v) => !v)}>
-              {dashOpen ? '▾' : '▴'} My plan · {planEvents(filtered, isChecked).length}
+              {dashOpen ? '▾' : '▴'} My plan · {planEvents(filtered, isPlanned).length}
             </button>
             {dashOpen && (
               <div className="dash-panel">
                 <Dashboard
                   events={filtered}
-                  isChecked={isChecked}
+                  isChecked={isPlanned}
                   onToggle={toggle}
                   onSelect={openEvent}
                   onHover={setHoverId}
@@ -413,7 +451,7 @@ export default function App() {
                 </button>
                 <p className="intro-lead">
                   <b>Plan your Play! Pokémon season.</b> Pin your home to see how far each event
-                  is and when to book travel.
+                  is and when to book travel, then check events to build your plan.
                 </p>
                 <div className="intro-legend">
                   {EVENT_TYPES.map((t) => (
@@ -443,7 +481,7 @@ export default function App() {
                 <EventCard
                   ev={selected}
                   home={home}
-                  checked={isChecked(selected.id)}
+                  checked={isPlanned(selected.id)}
                   conflict={conflicts.has(selected.id)}
                   onToggle={toggle}
                   onClose={closeEvent}
@@ -456,7 +494,7 @@ export default function App() {
         {tab === 'map' && (
           <TimelineView
             events={filtered}
-            isChecked={isChecked}
+            isChecked={isEmphasized}
             onFly={flyToEvent}
             onOpen={(ev) => openEvent(ev.id)}
             onHover={setHoverId}
@@ -466,7 +504,7 @@ export default function App() {
           <ScheduleView
             events={filtered}
             home={home}
-            isChecked={isChecked}
+            isChecked={isPlanned}
             onToggle={toggle}
             onFly={flyToEvent}
             view={schedView}

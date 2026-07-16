@@ -23,3 +23,16 @@ export function hotelsUrl(ev: PokeEvent): string {
   if (BOOKING_AFFILIATE_ID) params.set('aid', BOOKING_AFFILIATE_ID)
   return `https://www.booking.com/searchresults.html?${params}`
 }
+
+/**
+ * Flight deep link: Google Flights natural-language query with destination
+ * and dates (day before → day after). Google infers the origin from the
+ * user, so no home data leaves the app.
+ */
+export function flightsUrl(ev: PokeEvent): string {
+  const dates = hasDates(ev)
+    ? ` on ${addDays(ev.startDate, -1)} through ${addDays(ev.endDate, 1)}`
+    : ''
+  const q = `Flights to ${ev.city}, ${ev.country}${dates}`
+  return `https://www.google.com/travel/flights?q=${encodeURIComponent(q)}`
+}

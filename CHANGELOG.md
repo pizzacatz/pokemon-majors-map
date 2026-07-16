@@ -7,6 +7,48 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.10.0] - 2026-07-16
+
+Audit №2: the plan becomes opt-in, plus a batch of polish.
+
+### Changed
+
+- **The plan is opt-in.** New users start with an empty plan and add
+  events; previously everything was "planned" by default, which made the
+  count meaningless and pre-flagged conflicts nobody created. Users who
+  had unchecked events keep their effective plan (one-time migration);
+  users who never engaged start fresh. Until a plan exists nothing is
+  dimmed; once it has members, unplanned pins/bubbles recede (keeping
+  their type color — past events stay gray).
+- Schedule rows drop the year from dates (the month header carries it),
+  so titles stop truncating; plan counts read "My plan · n" everywhere.
+- Card label is "In my plan"; the intro mentions building a plan.
+
+### Added
+
+- Search box on the Schedule tab — filter by city, venue, event name, or
+  country as you type.
+- "Reg open" badge on cards whose RK9 registration link exists; the
+  scraper now stamps `registrationSeenAt` the first day it sees a
+  registration link (groundwork for change notifications).
+- "Flights" button beside Hotels — a Google Flights search pre-filled
+  with the destination and event dates (origin inferred by Google; no
+  home data leaves the app).
+- Social/OG meta tags + a share image, so plan links unfurl properly in
+  Discord/WhatsApp/Slack.
+- "New version ready — Refresh" pill when a new build installs behind a
+  running session.
+- Countdowns recompute when the tab becomes visible again (a PWA left
+  open overnight no longer shows yesterday's numbers).
+- iOS: status-bar styling meta and a dark-scheme theme-color that also
+  tracks the in-app theme toggle.
+
+### Internal
+
+- Tile provider config isolated to one seam in MapView for a future
+  keyed provider; decorative type dots marked aria-hidden (type names
+  are already in the row text).
+
 ## [0.9.1] - 2026-07-16
 
 ### Fixed
@@ -490,7 +532,8 @@ UX Phase 1 (see docs/UX-AUDIT.md P0 items).
 - App version + data snapshot date displayed in the site footer.
 - PRD (docs/PRD.md), README, this changelog.
 
-[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.9.1...HEAD
+[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.10.0...HEAD
+[0.10.0]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.9.1...v0.10.0
 [0.9.1]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.9.0...v0.9.1
 [0.9.0]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.8.1...v0.9.0
 [0.8.1]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.8.0...v0.8.1

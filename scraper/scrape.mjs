@@ -818,6 +818,23 @@ function canonicalize(ev) {
       registration: ev.links?.registration ?? null,
     },
     registrationOpens: ev.registrationOpens ?? null,
+    registrationSeenAt: ev.registrationSeenAt ?? null,
+  }
+}
+
+/**
+ * Stamp the date an event's registration link first appeared. RK9 links show
+ * up roughly when registration opens, so this powers "reg open" indicators
+ * and, later, change notifications.
+ */
+function stampRegistrationSeen(events, baseline, today) {
+  const before = new Map(baseline.map((ev) => [ev.id, ev]))
+  for (const ev of events) {
+    const prev = before.get(ev.id)
+    if (ev.links.registration && !ev.registrationSeenAt) {
+      // carry an existing stamp, else stamp now (first sighting)
+      ev.registrationSeenAt = prev?.registrationSeenAt ?? today
+    }
   }
 }
 
@@ -885,6 +902,7 @@ async function main() {
   // Future events only (owner decision 2026-07-15): drop anything already
   // over. Dates-TBD announcements stay; an event still running today stays.
   const today = new Date().toISOString().slice(0, 10)
+  stampRegistrationSeen(events, current.events, today)
   const isUpcoming = (ev) => ev.endDate === null || ev.endDate >= today
   events = events.filter(isUpcoming)
   events.sort((a, b) => (a.startDate ?? '9999').localeCompare(b.startDate ?? '9999'))

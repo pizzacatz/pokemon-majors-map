@@ -7,6 +7,12 @@ import { shortLabel } from '../lib/labels'
 
 const US_CENTER: [number, number] = [39.5, -98.35]
 
+// Tile provider seam: OSM's public tiles tolerate light use with attribution.
+// If traffic grows, swap in a keyed free tier (MapTiler/Stadia) here — the
+// rest of the app never touches tile config.
+const TILE_URL = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
+const TILE_ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+
 export interface FlyTarget {
   lat: number
   lng: number
@@ -32,11 +38,13 @@ interface Props {
   highlightIds: string[]
 }
 
-function eventIcon(ev: PokeEvent, checked: boolean, hot: boolean) {
-  const off = !checked || isPast(ev)
+function eventIcon(ev: PokeEvent, emphasized: boolean, hot: boolean) {
+  // Past events go gray; unplanned events keep their type color but recede
+  // (opt-in plan: nothing recedes until a plan exists — App decides).
+  const state = isPast(ev) ? ' pin-off' : !emphasized ? ' pin-dim' : ''
   return divIcon({
     className: '',
-    html: `<div class="pin pin-${ev.type}${off ? ' pin-off' : ''}${hot ? ' pin-hot' : ''}"></div>`,
+    html: `<div class="pin pin-${ev.type}${state}${hot ? ' pin-hot' : ''}"></div>`,
     iconSize: [20, 20],
     iconAnchor: [10, 10],
   })
@@ -108,7 +116,7 @@ export default function MapView({ events, home, isChecked, settingHome, onPickHo
   const center: [number, number] = home ? [home.lat, home.lng] : US_CENTER
   const attribution = useMemo(() => {
     const data = dataDate ? ` · data ${dataDate}` : ''
-    return `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> · v${__APP_VERSION__}${data}`
+    return `${TILE_ATTRIBUTION} · v${__APP_VERSION__}${data}`
   }, [dataDate])
 
   return (
@@ -119,7 +127,7 @@ export default function MapView({ events, home, isChecked, settingHome, onPickHo
       className={`map${settingHome ? ' map-picking' : ''}`}
       worldCopyJump
     >
-      <TileLayer url="https://tile.openstreetmap.org/{z}/{x}/{y}.png" attribution={attribution} />
+      <TileLayer url={TILE_URL} attribution={attribution} />
       <CenterOnHome home={home} />
       <FlyTo target={flyTarget} />
       <HomePicker active={settingHome} onPick={onPickHome} />

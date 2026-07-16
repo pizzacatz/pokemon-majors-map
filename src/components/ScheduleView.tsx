@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { Home, PokeEvent } from '../types'
-import { daysUntil, formatDateRange, hasDates, isPast, monthLabel } from '../lib/dates'
+import { daysUntil, formatDateRangeShort, hasDates, isPast, monthLabel } from '../lib/dates'
 import { shortLabel } from '../lib/labels'
 import { planEvents } from '../lib/plan'
 import { downloadICS } from '../lib/calendar'
@@ -38,9 +38,19 @@ export default function ScheduleView({
 }: Props) {
   const [expandedId, setExpandedId] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
+  const [query, setQuery] = useState('')
 
   const plan = planEvents(events, isChecked)
-  const shown = view === 'plan' ? events.filter((ev) => isChecked(ev.id) && !isPast(ev)) : events
+  const q = query.trim().toLowerCase()
+  const matches = (ev: PokeEvent) =>
+    q === '' ||
+    ev.name.toLowerCase().includes(q) ||
+    ev.city.toLowerCase().includes(q) ||
+    (ev.venue ?? '').toLowerCase().includes(q) ||
+    ev.country.toLowerCase().includes(q)
+  const shown = (view === 'plan' ? events.filter((ev) => isChecked(ev.id) && !isPast(ev)) : events).filter(
+    matches,
+  )
   const dated = shown.filter(hasDates).sort((a, b) => a.startDate.localeCompare(b.startDate))
   const upcoming = dated.filter((ev) => !isPast(ev))
   const past = dated.filter(isPast).reverse()
@@ -76,7 +86,7 @@ export default function ScheduleView({
     }
     const left = hasDates(ev) && !isPast(ev) ? daysUntil(ev.startDate) : null
     return (
-      <div key={ev.id} className={`sched-row${isChecked(ev.id) ? '' : ' sched-off'}`}>
+      <div key={ev.id} className="sched-row">
         {!isPast(ev) && (
           <input
             type="checkbox"
@@ -86,7 +96,7 @@ export default function ScheduleView({
           />
         )}
         <button className="sched-main" onClick={() => setExpandedId(ev.id)}>
-          <span className={`dot type-${ev.type}`} />
+          <span className={`dot type-${ev.type}`} aria-hidden="true" />
           <span className="sched-title">{shortLabel(ev)}</span>
           {conflicts.has(ev.id) && (
             <span className="conflict-mark" title="Overlaps another event in your plan">
@@ -94,7 +104,8 @@ export default function ScheduleView({
             </span>
           )}
           <span className="sched-when">
-            {hasDates(ev) ? formatDateRange(ev.startDate, ev.endDate) : 'Dates TBD'}
+            {/* month header carries the year; rows keep it short */}
+            {hasDates(ev) ? formatDateRangeShort(ev.startDate, ev.endDate) : 'Dates TBD'}
             {left !== null && <b> · {left}d</b>}
           </span>
         </button>
@@ -120,7 +131,7 @@ export default function ScheduleView({
             className={view === 'plan' ? 'seg-on' : ''}
             onClick={() => onViewChange('plan')}
           >
-            My plan ({plan.length})
+            My plan · {plan.length}
           </button>
         </div>
         {view === 'plan' && plan.length > 0 && (
@@ -134,11 +145,21 @@ export default function ScheduleView({
           </div>
         )}
       </div>
+      <input
+        type="search"
+        className="sched-search"
+        placeholder="Search city, venue, event…"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        aria-label="Search events"
+      />
       {upcoming.length === 0 && tbd.length === 0 && (
         <p className="empty">
-          {view === 'plan'
-            ? 'Nothing planned yet. Check events here or on the map to build your season.'
-            : 'No upcoming events match your filters.'}
+          {q !== ''
+            ? `Nothing matches “${query.trim()}”.`
+            : view === 'plan'
+              ? 'Nothing planned yet. Check events here or on the map to build your season.'
+              : 'No upcoming events match your filters.'}
         </p>
       )}
       {[...byMonth.entries()].map(([label, list]) => (

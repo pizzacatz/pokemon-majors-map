@@ -50,6 +50,18 @@ export function formatDateRange(startISO: string, endISO: string): string {
   return `${month(start)} ${start.getDate()} – ${month(end)} ${end.getDate()}, ${year}`
 }
 
+/** Row-compact range, no year — for lists already grouped under month headers. */
+export function formatDateRangeShort(startISO: string, endISO: string): string {
+  const start = parseISODate(startISO)
+  const end = parseISODate(endISO)
+  const month = (d: Date) => d.toLocaleDateString('en-US', { month: 'short' })
+  if (start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear()) {
+    if (start.getDate() === end.getDate()) return `${month(start)} ${start.getDate()}`
+    return `${month(start)} ${start.getDate()}–${end.getDate()}`
+  }
+  return `${month(start)} ${start.getDate()} – ${month(end)} ${end.getDate()}`
+}
+
 export function formatDate(iso: string): string {
   return parseISODate(iso).toLocaleDateString('en-US', {
     month: 'short',

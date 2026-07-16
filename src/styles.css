@@ -284,6 +284,11 @@ body {
   }
 }
 
+/* Unplanned events recede once a plan exists — type color kept, just quieter */
+.pin-dim {
+  opacity: 0.55;
+}
+
 .pin-regional {
   background: var(--blue);
 }
@@ -666,6 +671,11 @@ body {
   background: var(--gray);
 }
 
+/* Registration link exists — you can sign up now */
+.badge-reg {
+  background: #1e8e3e;
+}
+
 .travel {
   display: flex;
   flex-wrap: wrap;
@@ -862,8 +872,20 @@ body {
   transform: scale(0.99);
 }
 
-.sched-off {
-  opacity: 0.5;
+.sched-search {
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+}
+
+.sched-search::placeholder {
+  color: var(--text-2);
 }
 
 .sched-title {
@@ -1238,6 +1260,15 @@ body {
   box-shadow: var(--shadow);
   white-space: nowrap;
   pointer-events: none;
+}
+
+/* Update toast: same pill, but tappable, with a refresh action */
+.status-pill-action {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 6px 5px 14px;
 }
 
 /* Leaflet dark-mode chrome: invert the light OSM tiles so the map matches

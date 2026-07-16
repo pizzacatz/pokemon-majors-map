@@ -24,6 +24,8 @@ export interface PokeEvent {
   }
   /** Reserved for v2 registration-open tracking */
   registrationOpens: string | null
+  /** ISO date the scraper first saw a registration link for this event */
+  registrationSeenAt: string | null
 }
 
 export interface EventsFile {

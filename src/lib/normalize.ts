@@ -33,5 +33,6 @@ export function normalizeEvent(raw: unknown): PokeEvent | null {
       registration: typeof ev.links?.registration === 'string' ? (ev.links.registration as string) : null,
     },
     registrationOpens: typeof ev.registrationOpens === 'string' ? ev.registrationOpens : null,
+    registrationSeenAt: typeof ev.registrationSeenAt === 'string' ? ev.registrationSeenAt : null,
   }
 }

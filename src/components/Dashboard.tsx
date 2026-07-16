@@ -47,7 +47,7 @@ export default function Dashboard({ events, isChecked, onToggle, onSelect, onHov
               aria-label={`Remove ${ev.name} from my plan`}
             />
             <button className="dash-name" onClick={() => onSelect(ev.id)}>
-              <span className={`dot type-${ev.type}`} />
+              <span className={`dot type-${ev.type}`} aria-hidden="true" />
               <span className="dash-label">{shortLabel(ev)}</span>
               {conflicts.has(ev.id) && (
                 <span className="conflict-mark" title="Overlaps another event in your plan">

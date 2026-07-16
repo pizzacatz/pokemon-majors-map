@@ -3,7 +3,8 @@ import { EVENT_TYPES, REGIONS } from '../types'
 
 const KEYS = {
   home: 'pmm.home',
-  excluded: 'pmm.excluded',
+  excluded: 'pmm.excluded', // pre-0.10 opt-out model, read only for migration
+  plan: 'pmm.plan',
   filters: 'pmm.filters',
 } as const
 
@@ -34,13 +35,34 @@ export function saveHome(home: Home | null): void {
   else write(KEYS.home, home)
 }
 
-/** Event ids the user has unchecked. Everything starts checked (PRD §4.4). */
-export function loadExcluded(): Set<string> {
-  return new Set(read<string[]>(KEYS.excluded) ?? [])
+/** Event ids the user has added to their plan. Opt-in: empty by default (PRD §4.4). */
+export function loadPlan(): Set<string> | null {
+  const p = read<string[]>(KEYS.plan)
+  return p ? new Set(p) : null
 }
 
-export function saveExcluded(excluded: Set<string>): void {
-  write(KEYS.excluded, [...excluded])
+export function savePlan(plan: Set<string>): void {
+  write(KEYS.plan, [...plan])
+}
+
+/**
+ * Pre-0.10 the plan was opt-out (everything checked, pmm.excluded held the
+ * unchecked). Users who engaged with that model keep their effective plan;
+ * users who never unchecked anything start fresh with an empty plan — an
+ * all-31-event "plan" was noise, not intent. Needs the event list, so it
+ * runs once data arrives.
+ */
+export function migratePlan(allIds: string[]): Set<string> {
+  const existing = loadPlan()
+  if (existing) return existing
+  const excluded = read<string[]>(KEYS.excluded)
+  const plan =
+    excluded && excluded.length > 0
+      ? new Set(allIds.filter((id) => !excluded.includes(id)))
+      : new Set<string>()
+  savePlan(plan)
+  localStorage.removeItem(KEYS.excluded)
+  return plan
 }
 
 export interface Filters {
