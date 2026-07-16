@@ -303,5 +303,134 @@
     "lat": 41.8755616,
     "lng": -87.6244212,
     "country": "US"
-  }
+  },
+  "Baltimore Convention Center, Halls A–G, 1 W. Pratt St., Baltimore, MD 21201, United States": null,
+  "Baltimore Convention Center, Baltimore": {
+    "lat": 39.2851892,
+    "lng": -76.6161507,
+    "country": "US"
+  },
+  "Brisbane Convention & Exhibition Centre, Merivale and Glenelg Streets, South Bank, Brisbane QLD 4101, Australia": null,
+  "Brisbane Convention & Exhibition Centre, Brisbane, AU": {
+    "lat": -27.4760065,
+    "lng": 153.0194663,
+    "country": "AU"
+  },
+  "Messe Frankfurt, Hall 12, Ludwig-Erhard-Anlage 1, 60327 Frankfurt am Main, Germany": null,
+  "Messe Frankfurt, Frankfurt, DE": {
+    "lat": 50.1115781,
+    "lng": 8.6444501,
+    "country": "DE"
+  },
+  "Centro de Conven&ccedil;&otilde;es de Pernambuco, Av. Prof. Andrade Bezerra - Salgadinho, Olinda - PE, 53110-680, Brazil": null,
+  "Centro de Conven&ccedil;&otilde;es de Pernambuco, Recife, BR": null,
+  "Kentucky International Convention Center, Halls A–E, 221 S. 4th St., Louisville, KY 40202, United States": null,
+  "Kentucky International Convention Center, Louisville": {
+    "lat": 38.2544334,
+    "lng": -85.7552942,
+    "country": "US"
+  },
+  "Palais des Expositions - Nice Acropolis, Parv. de l'Europe, 06000 Nice, France": null,
+  "Palais des Expositions - Nice Acropolis, Nice, FR": null,
+  "Puebla Centro Expositor, Av Ejercito de Ote, C&iacute;vica 5 de Mayo, 72260 Heroica Puebla de Zaragoza, Pue., Mexico": null,
+  "Puebla Centro Expositor, Puebla, MX": {
+    "lat": 19.0572829,
+    "lng": -98.1797602,
+    "country": "MX"
+  },
+  "AMBEREXPO, Halls A, B, & C, ul. Żaglowa 11, 80-560 Gdańsk, Poland": null,
+  "AMBEREXPO, Gdańsk, PL": {
+    "lat": 54.3862594,
+    "lng": 18.6351163,
+    "country": "PL"
+  },
+  "Centro de Convenciones de Buenos Aires, Av. Pres. Figueroa Alcorta 2099, C1112, Cdad. Aut&oacute;noma de Buenos Aires, Argentina": null,
+  "Centro de Convenciones de Buenos Aires, Buenos Aires, AR": {
+    "lat": -34.5834582,
+    "lng": -58.3894979,
+    "country": "AR"
+  },
+  "Event Location:, Expo Center Norte – Pavilh&atilde;o Branco, Jos&eacute; Bernardo Pinto Street, 333 – Vila Guilherme, S&atilde;o Paulo – SP, 02055-000, Brazil": null,
+  "Event Location:, São Paulo, BR": null,
+  "Messe Stuttgart, Hall 1, Messepiazza 1, 70629 Stuttgart, Germany": null,
+  "Messe Stuttgart, Stuttgart, DE": {
+    "lat": 48.6904461,
+    "lng": 9.1926989,
+    "country": "DE"
+  },
+  "Las Vegas Convention Center, North Hall - N3 & N4, 3150 Paradise Rd, Las Vegas, NV 89109, United States": null,
+  "Las Vegas Convention Center, Las Vegas": {
+    "lat": 36.1310204,
+    "lng": -115.1501804,
+    "country": "US"
+  },
+  "ICC Sydney, 14 Darling Dr., Sydney NSW 2000, Australia": null,
+  "ICC Sydney, Sydney, AU": {
+    "lat": -33.8751704,
+    "lng": 151.1997485,
+    "country": "AU"
+  },
+  "Centro de Congresos Yucat&aacute;n Siglo XXI, Calle 60 Nte 299, Zona Industrial, Revoluci&oacute;n, 97118 M&eacute;rida, Yuc., Mexico": null,
+  "Centro de Congresos Yucat&aacute;n Siglo XXI, Mérida, MX": null,
+  "The NEC, Birmingham, Halls 9, 10 & 11, North Avenue, Marston Green Birmingham, B40 1NT, United Kingdom": null,
+  "The NEC, Birmingham, Birmingham, GB": {
+    "lat": 52.4538432,
+    "lng": -1.7175497,
+    "country": "GB"
+  },
+  "Te Atatū Peninsula Community Centre, 603 Te Atatu Road, Te Atatū Peninsula, Auckland 0610, New Zealand": null,
+  "Te Atatū Peninsula Community Centre, Auckland, NZ": {
+    "lat": -36.8399979,
+    "lng": 174.6507827,
+    "country": "NZ"
+  },
+  "Event Location:, Excel London, Royal Victoria Dock, 1 Western Gateway, London E16 1XL, UK": null,
+  "Event Location:, London, GB": null,
+  "Espacio Riesco, Av. El Salto 5000, Huechuraba, Santiago de Chile": {
+    "lat": -33.3840444,
+    "lng": -70.6215801,
+    "country": "CL"
+  },
+  "Riocentro, Av. Salvador Allende, 6555 - Barra Ol&iacute;mpica, Rio de Janeiro - RJ, 22783-127, Brazil": null,
+  "Riocentro, Rio de Janeiro, BR": {
+    "lat": -22.9777554,
+    "lng": -43.4116227,
+    "country": "BR"
+  },
+  "CINTERMEX, Av Fundidora 501, Obrera, 64010, Monterrey, N.L., Mexico": null,
+  "CINTERMEX, Monterrey, MX": {
+    "lat": 25.6785945,
+    "lng": -100.2881294,
+    "country": "MX"
+  },
+  "Feira Internacional de Lisboa, Pavilon 1, R. do Bojador, 1998-010 Lisboa, Portugal": null,
+  "Feira Internacional de Lisboa, Lisbon, PT": {
+    "lat": 38.7709304,
+    "lng": -9.0939393,
+    "country": "PT"
+  },
+  "Centro de Exposiciones Jockey, Av. Javier Prado Este S/N, Santiago de Surco, CP 15023, Lima, Peru": null,
+  "Centro de Exposiciones Jockey, Lima, PE": {
+    "lat": -12.0916654,
+    "lng": -76.9797859,
+    "country": "PE"
+  },
+  "PVA EXPO PRAGUE, Halls 3 & 4, Beranov&yacute;ch 667, 199 00 Praha 9, Czechia": null,
+  "PVA EXPO PRAGUE, Prague, CZ": null,
+  "FIERGS, Av. Assis Brasil, 8787 - Sarandi, Porto Alegre - RS, 91140-001, Brazil": null,
+  "FIERGS, Porto Alegre, BR": {
+    "lat": -29.9814239,
+    "lng": -51.1123593,
+    "country": "BR"
+  },
+  "San Diego Convention Center, Halls A, B & C, 111 Harbor Dr., San Diego, CA 92101, United States": null,
+  "San Diego Convention Center, San Diego": {
+    "lat": 32.7063756,
+    "lng": -117.1619257,
+    "country": "US"
+  },
+  "Melbourne Convention and Exhibition Centre, 1 Convention Centre Pl., South Wharf VIC 3006, Australia": null,
+  "Melbourne Convention and Exhibition Centre, Melbourne, AU": null,
+  "BolognaFiere, Viale della Fiera, 20, 40128 Bologna BO, Italy": null,
+  "BolognaFiere, Bologna, IT": null
 }
