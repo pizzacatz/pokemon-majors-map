@@ -1,9 +1,11 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type { EventsFile, Home, PokeEvent } from './types'
+import { EVENT_TYPES, EVENT_TYPE_LABEL } from './types'
 import MapView, { type FlyTarget } from './components/MapView'
 import TimelineView from './components/TimelineView'
 import EventCard from './components/EventCard'
-import FiltersBar from './components/Filters'
+import EventSheet from './components/EventSheet'
+import FilterPanel, { isFiltered } from './components/Filters'
 import Dashboard from './components/Dashboard'
 import ScheduleView from './components/ScheduleView'
 import ItineraryView from './components/ItineraryView'
@@ -22,25 +24,45 @@ import { normalizeEvent } from './lib/normalize'
 
 type Tab = 'map' | 'schedule' | 'itinerary'
 
+function tabFromUrl(): Tab {
+  const t = new URLSearchParams(window.location.search).get('tab')
+  return t === 'schedule' || t === 'itinerary' ? t : 'map'
+}
+
+function eventFromUrl(): string | null {
+  return new URLSearchParams(window.location.search).get('event')
+}
+
+function urlWith(params: Record<string, string | null>): string {
+  const u = new URL(window.location.href)
+  for (const [k, v] of Object.entries(params)) {
+    if (v === null) u.searchParams.delete(k)
+    else u.searchParams.set(k, v)
+  }
+  return u.toString()
+}
+
 export default function App() {
   const [data, setData] = useState<EventsFile | null>(null)
   const [loadError, setLoadError] = useState(false)
-  const [tab, setTab] = useState<Tab>('map')
+  // Tabs and the open event live in the URL (UX audit P0-4): Android back
+  // walks tab history and dismisses the sheet instead of exiting the app,
+  // and every event card is deep-linkable.
+  const [tab, setTab] = useState<Tab>(tabFromUrl)
+  const [selectedId, setSelectedId] = useState<string | null>(eventFromUrl)
+  const pushedEvent = useRef(false)
   const [home, setHome] = useState<Home | null>(loadHome)
   const [settingHome, setSettingHome] = useState(false)
   const [filters, setFilters] = useState<Filters>(loadFilters)
+  const [filterOpen, setFilterOpen] = useState(false)
   const [excluded, setExcluded] = useState<Set<string>>(loadExcluded)
-  const [selectedId, setSelectedId] = useState<string | null>(null)
   const [dashOpen, setDashOpen] = useState(false)
   const [flyTarget, setFlyTarget] = useState<FlyTarget | null>(null)
+  const [introSeen, setIntroSeen] = useState<boolean>(
+    () => localStorage.getItem('pmm.seenIntro') === '1',
+  )
   // A shared ?plan= link is view-only until adopted — it must not overwrite local state.
   const [sharedPlan, setSharedPlan] = useState<string[] | null>(readPlanFromUrl)
-
-  function flyToEvent(ev: PokeEvent) {
-    setTab('map')
-    setSelectedId(ev.id)
-    setFlyTarget((prev) => ({ lat: ev.lat, lng: ev.lng, seq: (prev?.seq ?? 0) + 1 }))
-  }
 
   useEffect(() => {
     fetch(`${import.meta.env.BASE_URL}data/events.json`)
@@ -54,7 +76,26 @@ export default function App() {
       .catch(() => setLoadError(true))
   }, [])
 
+  useEffect(() => {
+    function onPop() {
+      setTab(tabFromUrl())
+      setSelectedId(eventFromUrl())
+      pushedEvent.current = false
+    }
+    window.addEventListener('popstate', onPop)
+    return () => window.removeEventListener('popstate', onPop)
+  }, [])
+
   const events = useMemo(() => data?.events ?? [], [data])
+
+  // Deep link: center the map on the linked event once data arrives.
+  useEffect(() => {
+    if (!data) return
+    const id = eventFromUrl()
+    if (!id) return
+    const ev = data.events.find((e) => e.id === id)
+    if (ev) setFlyTarget({ lat: ev.lat, lng: ev.lng, seq: 1 })
+  }, [data])
 
   const filtered = useMemo(
     () =>
@@ -67,8 +108,34 @@ export default function App() {
     [events, filters],
   )
 
-  const isChecked = (id: string) =>
-    sharedPlan ? sharedPlan.includes(id) : !excluded.has(id)
+  const isChecked = (id: string) => (sharedPlan ? sharedPlan.includes(id) : !excluded.has(id))
+
+  function goTab(t: Tab) {
+    if (t === tab) return
+    window.history.pushState({}, '', urlWith({ tab: t === 'map' ? null : t, event: null }))
+    setTab(t)
+    setSelectedId(null)
+    pushedEvent.current = false
+  }
+
+  function openEvent(id: string) {
+    if (selectedId === null) {
+      window.history.pushState({}, '', urlWith({ event: id }))
+      pushedEvent.current = true
+    } else {
+      window.history.replaceState({}, '', urlWith({ event: id }))
+    }
+    setSelectedId(id)
+  }
+
+  function closeEvent() {
+    if (pushedEvent.current) {
+      window.history.back() // popstate clears state
+    } else {
+      window.history.replaceState({}, '', urlWith({ event: null }))
+      setSelectedId(null)
+    }
+  }
 
   function toggle(id: string) {
     if (sharedPlan) return // view-only until adopted
@@ -84,6 +151,11 @@ export default function App() {
   function updateFilters(f: Filters) {
     setFilters(f)
     saveFilters(f)
+  }
+
+  function dismissIntro() {
+    localStorage.setItem('pmm.seenIntro', '1')
+    setIntroSeen(true)
   }
 
   function setHomePin(lat: number, lng: number) {
@@ -105,6 +177,7 @@ export default function App() {
   }
 
   function useMyLocation() {
+    dismissIntro()
     navigator.geolocation?.getCurrentPosition(
       (pos) => setHomePin(pos.coords.latitude, pos.coords.longitude),
       () => setSettingHome(true), // denied/failed — fall back to tap-to-pin
@@ -116,6 +189,12 @@ export default function App() {
     setHome(null)
     saveHome(null)
     setSettingHome(false)
+  }
+
+  function flyToEvent(ev: PokeEvent) {
+    if (tab !== 'map') goTab('map')
+    openEvent(ev.id)
+    setFlyTarget((prev) => ({ lat: ev.lat, lng: ev.lng, seq: (prev?.seq ?? 0) + 1 }))
   }
 
   function adoptSharedPlan() {
@@ -134,15 +213,22 @@ export default function App() {
 
   const selected: PokeEvent | null = events.find((ev) => ev.id === selectedId) ?? null
   const dataDate = data ? data.meta.generatedAt.slice(0, 10) : null
+  const showIntro = !introSeen && !home && !sharedPlan && data !== null && tab === 'map'
 
   return (
     <div className="app">
       <header className="topbar">
         <h1>
           <img src={`${import.meta.env.BASE_URL}icon.svg`} alt="" className="logo" />
-          Pokémon Majors Map
+          <span className="topbar-title">Pokémon Majors Map</span>
         </h1>
         <div className="topbar-actions">
+          <button
+            className={`btn btn-small${isFiltered(filters) ? ' btn-filtered' : ''}`}
+            onClick={() => setFilterOpen(true)}
+          >
+            Filter{isFiltered(filters) ? ' •' : ''}
+          </button>
           {home ? (
             <button className="btn btn-small" onClick={() => setSettingHome(true)}>
               🏠 Move home
@@ -186,10 +272,6 @@ export default function App() {
 
       {loadError && <div className="banner banner-error">Couldn't load event data. Try again later.</div>}
 
-      {(tab === 'map' || tab === 'schedule') && (
-        <FiltersBar filters={filters} onChange={updateFilters} />
-      )}
-
       <main className="content">
         {tab === 'map' && (
           <div className="map-wrap">
@@ -200,14 +282,14 @@ export default function App() {
               settingHome={settingHome}
               onPickHome={setHomePin}
               onSelect={(id) => {
-                setSelectedId(id)
-                if (tab === 'map') setSettingHome(false)
+                openEvent(id)
+                setSettingHome(false)
               }}
               dataDate={dataDate}
               flyTarget={flyTarget}
             />
             <button className="dash-toggle btn" onClick={() => setDashOpen((v) => !v)}>
-              {dashOpen ? '▾ Hide season list' : '▴ Season list'}
+              {dashOpen ? '▾ My season' : '▴ My season'}
             </button>
             {dashOpen && (
               <div className="dash-panel">
@@ -216,23 +298,55 @@ export default function App() {
                   isChecked={isChecked}
                   onToggle={toggle}
                   onSelect={(id) => {
-                    setSelectedId(id)
+                    openEvent(id)
                     setDashOpen(false)
                   }}
                 />
               </div>
             )}
+            {showIntro && (
+              <div className="intro-card">
+                <button className="icon-btn intro-close" onClick={dismissIntro} aria-label="Dismiss">
+                  ✕
+                </button>
+                <p className="intro-lead">
+                  <b>Plan your Play! Pokémon season.</b> Pin your home to see how far each event
+                  is and when to book travel.
+                </p>
+                <div className="intro-legend">
+                  {EVENT_TYPES.map((t) => (
+                    <span key={t}>
+                      <span className={`dot type-${t}`} /> {EVENT_TYPE_LABEL[t]}
+                    </span>
+                  ))}
+                </div>
+                <div className="intro-actions">
+                  <button className="btn btn-primary" onClick={useMyLocation}>
+                    📡 Use my location
+                  </button>
+                  <button
+                    className="btn"
+                    onClick={() => {
+                      dismissIntro()
+                      setSettingHome(true)
+                    }}
+                  >
+                    Tap the map instead
+                  </button>
+                </div>
+              </div>
+            )}
             {selected && (
-              <div className="sheet">
+              <EventSheet onDismiss={closeEvent}>
                 <EventCard
                   ev={selected}
                   home={home}
                   checked={isChecked(selected.id)}
                   onToggle={toggle}
-                  onClose={() => setSelectedId(null)}
+                  onClose={closeEvent}
                   onFly={flyToEvent}
                 />
-              </div>
+              </EventSheet>
             )}
           </div>
         )}
@@ -261,14 +375,18 @@ export default function App() {
         )}
       </main>
 
+      {filterOpen && (
+        <FilterPanel filters={filters} onChange={updateFilters} onClose={() => setFilterOpen(false)} />
+      )}
+
       <nav className="tabbar">
-        <button className={tab === 'map' ? 'tab-on' : ''} onClick={() => setTab('map')}>
+        <button className={tab === 'map' ? 'tab-on' : ''} onClick={() => goTab('map')}>
           🗺️ Map
         </button>
-        <button className={tab === 'schedule' ? 'tab-on' : ''} onClick={() => setTab('schedule')}>
+        <button className={tab === 'schedule' ? 'tab-on' : ''} onClick={() => goTab('schedule')}>
           📅 Schedule
         </button>
-        <button className={tab === 'itinerary' ? 'tab-on' : ''} onClick={() => setTab('itinerary')}>
+        <button className={tab === 'itinerary' ? 'tab-on' : ''} onClick={() => goTab('itinerary')}>
           🧳 Itinerary
         </button>
       </nav>

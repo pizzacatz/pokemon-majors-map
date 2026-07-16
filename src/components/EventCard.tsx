@@ -70,8 +70,12 @@ export default function EventCard({ ev, home, checked, onToggle, onClose, onFly 
         {hasDates(ev) ? formatDateRange(ev.startDate, ev.endDate) : 'Dates to be announced'}{' '}
         <Countdown ev={ev} />
       </p>
+      {/* With an address present, city/country are redundant on this line. */}
       <p className="event-where">
-        📍 {[ev.venue, ev.city, ev.country].filter(Boolean).join(', ')}
+        📍{' '}
+        {ev.address
+          ? (ev.venue ?? `${ev.city}, ${ev.country}`)
+          : [ev.venue, ev.city, ev.country].filter(Boolean).join(', ')}
       </p>
       {ev.address && <p className="event-addr">{ev.address}</p>}
       <TravelLine ev={ev} home={home} />
@@ -95,7 +99,7 @@ export default function EventCard({ ev, home, checked, onToggle, onClose, onFly 
         </a>
         {onFly && (
           <button className="btn" onClick={() => onFly(ev)}>
-            📍 Fly to map
+            📍 Show on map
           </button>
         )}
       </div>

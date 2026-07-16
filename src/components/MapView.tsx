@@ -52,11 +52,20 @@ function CenterOnHome({ home }: { home: Home | null }) {
   return null
 }
 
-/** Animate to a timeline-requested event location (PRD §4.12). */
+/**
+ * Animate to a requested event location (PRD §4.12). On phones the bottom
+ * sheet covers the lower ~300px, so the flight targets a center offset below
+ * the pin — the pin lands in the visible strip instead of behind the card.
+ */
 function FlyTo({ target }: { target: FlyTarget | null }) {
   const map = useMap()
   useEffect(() => {
-    if (target) map.flyTo([target.lat, target.lng], 7, { duration: 1.6 })
+    if (!target) return
+    const zoom = 7
+    const sheetOffset = window.innerWidth < 700 ? 130 : 0
+    const point = map.project([target.lat, target.lng], zoom).add([0, sheetOffset])
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    map.flyTo(map.unproject(point, zoom), zoom, { duration: reduced ? 0 : 1.6 })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [target?.seq, map])
   return null

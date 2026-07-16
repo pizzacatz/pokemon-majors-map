@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type { PokeEvent } from '../types'
 import { daysUntil, hasDates, isPast, parseISODate, formatDateRange } from '../lib/dates'
 
@@ -79,7 +79,21 @@ function shortLabel(ev: PokeEvent): string {
  * bubble's 📍 flies the map to the venue.
  */
 export default function TimelineView({ events, isChecked, onFly }: Props) {
-  const [open, setOpen] = useState(true)
+  // Collapsed by default on phones (UX audit P0-1): the strip costs ~230px of
+  // map. The user's choice persists; larger screens default open.
+  const [open, setOpen] = useState<boolean>(() => {
+    const saved = localStorage.getItem('pmm.tlOpen')
+    if (saved !== null) return saved === '1'
+    return window.innerWidth >= 700 && window.innerHeight >= 500
+  })
+  const scrollRef = useRef<HTMLDivElement>(null)
+
+  function toggleOpen() {
+    setOpen((o) => {
+      localStorage.setItem('pmm.tlOpen', o ? '0' : '1')
+      return !o
+    })
+  }
 
   const dated = useMemo(
     () =>
@@ -90,8 +104,18 @@ export default function TimelineView({ events, isChecked, onFly }: Props) {
     [events],
   )
 
+  // When opened, bring the first upcoming event into view — the runway
+  // between today and the first event otherwise renders as dead space.
+  useEffect(() => {
+    if (!open || !scrollRef.current || dated.length === 0) return
+    const firstX = Math.max(daysUntil(dated[0].startDate), 0) * PX_PER_DAY
+    scrollRef.current.scrollLeft = Math.max(0, firstX - 32)
+  }, [open, dated])
+
   if (dated.length === 0) return null
 
+  const next = dated[0]
+  const nextIn = daysUntil(next.startDate)
   const lastDay = Math.max(...dated.map((ev) => daysUntil(ev.endDate)))
   const width = (lastDay + RIGHT_PAD_DAYS) * PX_PER_DAY
   const lanes = assignLanes(
@@ -103,11 +127,16 @@ export default function TimelineView({ events, isChecked, onFly }: Props) {
 
   return (
     <section className="timeline" aria-label="Season timeline">
-      <button className="tl-toggle" onClick={() => setOpen((v) => !v)}>
-        {open ? '▾' : '▸'} Season timeline
+      <button className="tl-toggle" onClick={toggleOpen}>
+        <span>{open ? '▾' : '▸'} Season timeline</span>
+        {!open && (
+          <span className="tl-next">
+            Next: {shortLabel(next)} · {nextIn === 0 ? 'today' : `${nextIn}d`}
+          </span>
+        )}
       </button>
       {open && (
-        <div className="tl-scroll">
+        <div className="tl-scroll" ref={scrollRef}>
           <div className="tl-canvas" style={{ width }}>
             <div className="tl-today">Today</div>
             {monthMarks(lastDay).map((m) => (

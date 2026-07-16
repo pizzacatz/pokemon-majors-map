@@ -7,6 +7,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-07-16
+
+UX Phase 1 (see docs/UX-AUDIT.md P0 items).
+
+### Added
+
+- Real bottom sheet for event cards: drag handle, peek/full snap points,
+  swipe-down to dismiss; content scrolls when full, fades at peek.
+- First-run intro card with pin-color legend and one-tap "Use my location".
+- Tabs and the open event live in the URL: Android back dismisses the card
+  and walks tabs instead of exiting the app; every event is deep-linkable
+  (`?event=<id>` also centers the map on it).
+- Collapsed timeline strip shows the next event at a glance
+  ("Next: Worlds · 43d"); expanding auto-scrolls to the first upcoming event.
+
+### Changed
+
+- Timeline is collapsed by default on phones (persisted choice), returning
+  ~230px to the map.
+- Filters moved off the permanent chip row into a Filter panel behind a
+  top-bar button (with active-filter indicator and Reset); type chips double
+  as the pin-color legend.
+- Fly-to now lands the pin in the visible strip above the sheet instead of
+  behind it, and honors prefers-reduced-motion.
+- Venue line drops the redundant city/country when a street address is shown.
+- "Fly to map" → "Show on map"; "Season list" → "My season"; the wordmark
+  hides on narrow phones so top-bar buttons never wrap; buttons get pressed
+  states.
+
 ## [0.2.4] - 2026-07-16
 
 ### Fixed
@@ -167,7 +196,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - App version + data snapshot date displayed in the site footer.
 - PRD (docs/PRD.md), README, this changelog.
 
-[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.2.4...HEAD
+[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.2.4...v0.3.0
 [0.2.4]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.2.3...v0.2.4
 [0.2.3]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.2.2...v0.2.3
 [0.2.2]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.2.1...v0.2.2
