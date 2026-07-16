@@ -432,5 +432,17 @@
   "Melbourne Convention and Exhibition Centre, 1 Convention Centre Pl., South Wharf VIC 3006, Australia": null,
   "Melbourne Convention and Exhibition Centre, Melbourne, AU": null,
   "BolognaFiere, Viale della Fiera, 20, 40128 Bologna BO, Italy": null,
-  "BolognaFiere, Bologna, IT": null
+  "BolognaFiere, Bologna, IT": null,
+  "Centro de Convenções de Pernambuco, Av. Prof. Andrade Bezerra - Salgadinho, Olinda - PE, 53110-680, Brazil": {
+    "lat": -8.0321844,
+    "lng": -34.8705989,
+    "country": "BR"
+  },
+  "Puebla Centro Expositor, Av Ejercito de Ote, Cívica 5 de Mayo, 72260 Heroica Puebla de Zaragoza, Pue., Mexico": null,
+  "Centro de Convenciones de Buenos Aires, Av. Pres. Figueroa Alcorta 2099, C1112, Cdad. Autónoma de Buenos Aires, Argentina": null,
+  "Event Location:, Expo Center Norte – Pavilhão Branco, José Bernardo Pinto Street, 333 – Vila Guilherme, São Paulo – SP, 02055-000, Brazil": null,
+  "Centro de Congresos Yucatán Siglo XXI, Calle 60 Nte 299, Zona Industrial, Revolución, 97118 Mérida, Yuc., Mexico": null,
+  "Centro de Congresos Yucatán Siglo XXI, Mérida, MX": null,
+  "Riocentro, Av. Salvador Allende, 6555 - Barra Olímpica, Rio de Janeiro - RJ, 22783-127, Brazil": null,
+  "PVA EXPO PRAGUE, Halls 3 & 4, Beranových 667, 199 00 Praha 9, Czechia": null
 }
