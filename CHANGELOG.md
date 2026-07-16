@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.9.0] - 2026-07-16
+
+### Added
+
+- Light/dark mode toggle (🌙/☀️ in the top bar). Defaults to the system
+  theme — and keeps following the OS setting until you explicitly toggle,
+  after which your choice persists. The theme resolves before first paint,
+  so no flash on load.
+
 ## [0.8.1] - 2026-07-16
 
 ### Changed
@@ -474,7 +483,8 @@ UX Phase 1 (see docs/UX-AUDIT.md P0 items).
 - App version + data snapshot date displayed in the site footer.
 - PRD (docs/PRD.md), README, this changelog.
 
-[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.8.1...HEAD
+[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.9.0...HEAD
+[0.9.0]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.8.1...v0.9.0
 [0.8.1]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.8.0...v0.8.1
 [0.8.0]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.7.2...v0.8.0
 [0.7.2]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.7.1...v0.7.2

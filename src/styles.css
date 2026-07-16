@@ -15,17 +15,17 @@
   --shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --yellow-text: #f0c420;
-    --bg: #17181a;
-    --bg-2: #212327;
-    --text: #e8eaed;
-    --text-2: #9aa0a6;
-    --border: #3c4043;
-    --card: #26282c;
-    --shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
-  }
+/* JS resolves the theme (saved choice, else system) onto <html data-theme>
+   before first paint — see index.html — so no prefers-color-scheme here. */
+:root[data-theme='dark'] {
+  --yellow-text: #f0c420;
+  --bg: #17181a;
+  --bg-2: #212327;
+  --text: #e8eaed;
+  --text-2: #9aa0a6;
+  --border: #3c4043;
+  --card: #26282c;
+  --shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
 }
 
 * {
@@ -1236,23 +1236,21 @@ body {
 
 /* Leaflet dark-mode chrome: invert the light OSM tiles so the map matches
    the UI instead of flashbanging it (UX audit P1-8). */
-@media (prefers-color-scheme: dark) {
-  .leaflet-container {
-    background: #17181a;
-  }
+[data-theme='dark'] .leaflet-container {
+  background: #17181a;
+}
 
-  .leaflet-tile {
-    filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(0.9);
-  }
+[data-theme='dark'] .leaflet-tile {
+  filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(0.9);
+}
 
-  .leaflet-control-attribution {
-    background: rgba(23, 24, 26, 0.8) !important;
-    color: var(--text-2) !important;
-  }
+[data-theme='dark'] .leaflet-control-attribution {
+  background: rgba(23, 24, 26, 0.8) !important;
+  color: var(--text-2) !important;
+}
 
-  .leaflet-control-zoom a {
-    background: var(--card) !important;
-    color: var(--text) !important;
-    border-color: var(--border) !important;
-  }
+[data-theme='dark'] .leaflet-control-zoom a {
+  background: var(--card) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
 }

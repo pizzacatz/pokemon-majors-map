@@ -40,6 +40,11 @@ function eventFromUrl(): string | null {
   return new URLSearchParams(window.location.search).get('event')
 }
 
+type Theme = 'light' | 'dark'
+
+const systemTheme = (): Theme =>
+  window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+
 function urlWith(params: Record<string, string | null>): string {
   const u = new URL(window.location.href)
   for (const [k, v] of Object.entries(params)) {
@@ -67,6 +72,31 @@ export default function App() {
   const [dashOpen, setDashOpen] = useState(false)
   const [flyTarget, setFlyTarget] = useState<FlyTarget | null>(null)
   const [hoverId, setHoverId] = useState<string | null>(null)
+  // System theme by default; an explicit toggle choice persists (index.html
+  // resolves the same rule before first paint to avoid a flash).
+  const [theme, setTheme] = useState<Theme>(() => {
+    const saved = localStorage.getItem('pmm.theme')
+    return saved === 'light' || saved === 'dark' ? saved : systemTheme()
+  })
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme
+  }, [theme])
+
+  // Track OS theme changes while the user hasn't chosen explicitly.
+  useEffect(() => {
+    if (localStorage.getItem('pmm.theme')) return
+    const mq = window.matchMedia('(prefers-color-scheme: dark)')
+    const follow = () => setTheme(mq.matches ? 'dark' : 'light')
+    mq.addEventListener('change', follow)
+    return () => mq.removeEventListener('change', follow)
+  }, [])
+
+  function toggleTheme() {
+    const next: Theme = theme === 'dark' ? 'light' : 'dark'
+    localStorage.setItem('pmm.theme', next)
+    setTheme(next)
+  }
   const [introSeen, setIntroSeen] = useState<boolean>(
     () => localStorage.getItem('pmm.seenIntro') === '1',
   )
@@ -275,6 +305,14 @@ export default function App() {
           <span className="topbar-title">Pokémon Majors Map</span>
         </h1>
         <div className="topbar-actions">
+          <button
+            className="btn btn-small"
+            onClick={toggleTheme}
+            aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+          >
+            {theme === 'dark' ? '☀️' : '🌙'}
+          </button>
           <button
             className={`btn btn-small${isFiltered(filters) ? ' btn-filtered' : ''}`}
             onClick={() => setFilterOpen(true)}

@@ -11,6 +11,18 @@
     <link rel="icon" type="image/svg+xml" href="/icon.svg" />
     <link rel="apple-touch-icon" href="/icon-192.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
+    <script>
+      // Resolve the theme before first paint: saved choice wins, else system.
+      ;(function () {
+        var t = localStorage.getItem('pmm.theme')
+        document.documentElement.dataset.theme =
+          t === 'light' || t === 'dark'
+            ? t
+            : matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light'
+      })()
+    </script>
     <title>Pokémon Majors Map</title>
   </head>
   <body>
