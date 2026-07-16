@@ -101,6 +101,12 @@ export default function App() {
 
   const events = useMemo(() => data?.events ?? [], [data])
 
+  // The map remounts on tab return; a stale fly target would replay its
+  // flight. Coming back to the Map tab must not fly anywhere.
+  useEffect(() => {
+    if (tab !== 'map') setFlyTarget(null)
+  }, [tab])
+
   // Deep link: center the map on the linked event once data arrives.
   useEffect(() => {
     if (!data) return
