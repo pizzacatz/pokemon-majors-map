@@ -441,6 +441,14 @@ async function scrapeOfficial() {
       if (items.length > 0 && found.length === 0) {
         log(`official api: first item for diagnosis :: ${JSON.stringify(items[0]).slice(0, 900)}`)
       }
+      // Items that mined or normalized to nothing hide real events (NAIC
+      // once vanished this way) — log them verbatim so fixes are informed.
+      for (const item of items) {
+        const mined = mineEventObjects(item)
+        if (mined.length === 0 || mined.every((m) => !normalize(m))) {
+          log(`official api: item did not normalize :: ${JSON.stringify(item).slice(0, 600)}`)
+        }
+      }
     } else {
       log(`official api: HTTP ${res.status}`)
     }
