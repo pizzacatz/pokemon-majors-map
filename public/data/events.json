@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-07-15T23:59:39.219Z",
+    "generatedAt": "2026-07-16T01:44:48.396Z",
     "source": "scraper",
     "schemaVersion": 1
   },
@@ -581,6 +581,29 @@
       "registrationOpens": null
     },
     {
+      "id": "regional-2027-prague-2027-prague-pokemon-regional-championshi",
+      "name": "2027 Prague Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2027-05-08",
+      "endDate": "2027-05-09",
+      "venue": null,
+      "city": "Prague",
+      "country": "CZ",
+      "region": "EU",
+      "lat": 50.0874654,
+      "lng": 14.4212535,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/prague",
+        "registration": null
+      },
+      "registrationOpens": null
+    },
+    {
       "id": "regional-2027-utrecht-2027-utrecht-pokemon-regional-championsh",
       "name": "2027 Utrecht Pokémon Regional Championships",
       "type": "regional",
@@ -673,7 +696,7 @@
       "registrationOpens": null
     },
     {
-      "id": "naic-2027-chicago",
+      "id": "international-2027-chicago-2027-pokemon-north-america-international",
       "name": "2027 Pokémon North America International Championships",
       "type": "international",
       "formats": [
@@ -687,10 +710,10 @@
       "city": "Chicago",
       "country": "US",
       "region": "NA",
-      "lat": 41.8512,
-      "lng": -87.6165,
+      "lat": 41.8755616,
+      "lng": -87.6244212,
       "links": {
-        "official": "https://championships.pokemon.com/en-us/events/",
+        "official": "https://championships.pokemon.com/en-us/events/internationals/2027/chicago",
         "registration": null
       },
       "registrationOpens": null
