@@ -34,11 +34,13 @@ function eventIcon(ev: PokeEvent, checked: boolean) {
   })
 }
 
+// Pure CSS marker — an emoji glyph here rendered doubled on some
+// browser/zoom combinations (glyph + its drop-shadow as a second copy).
 const homeIcon = divIcon({
   className: '',
-  html: '<div class="pin-home">🏠</div>',
-  iconSize: [28, 28],
-  iconAnchor: [14, 14],
+  html: '<div class="pin-home" title="Home"></div>',
+  iconSize: [20, 20],
+  iconAnchor: [10, 10],
 })
 
 /** Recenter when the home pin appears or moves. */

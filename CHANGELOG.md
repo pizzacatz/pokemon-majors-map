@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-07-16
+
+### Added
+
+- "📍 Fly to map" button on every event card (schedule, itinerary, and the
+  map's own bottom sheet), not just timeline bubbles.
+
+### Changed
+
+- Timeline bubbles use compact wrapped labels: "Worlds", "NAIC"/"LAIC"/"EUIC",
+  and "<City> Regional/Special"; full name and dates remain on hover.
+
+### Fixed
+
+- Home marker rendered as two stacked glyphs on some browser/zoom
+  combinations (emoji + its drop-shadow); replaced with a pure CSS marker.
+- Events at (0,0): missing coordinates from the official API were coerced to
+  zero and skipped geocoding, putting pins (and fly-to) in the ocean — the
+  cause of wrong Recife placement and distance/drive-vs-fly confusion.
+  Coordinates now heal via re-geocoding and (0,0) can never publish again.
+- Merge preference: freshly scraped values beat stale baseline fields, so
+  NAIC's specific official page replaces the generic events-hub link the
+  seed data carried.
+
 ## [0.2.0] - 2026-07-15
 
 ### Added
@@ -99,7 +123,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - App version + data snapshot date displayed in the site footer.
 - PRD (docs/PRD.md), README, this changelog.
 
-[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.1.3...v0.2.0
 [0.1.3]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.1.1...v0.1.2

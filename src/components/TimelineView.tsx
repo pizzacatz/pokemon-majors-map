@@ -35,6 +35,20 @@ function monthMarks(lastDay: number): { x: number; label: string }[] {
   return marks
 }
 
+/** Compact bubble label: "Worlds", "NAIC", "LAIC", "EUIC", "<City> Regional/Special". */
+function shortLabel(ev: PokeEvent): string {
+  if (ev.type === 'worlds') return 'Worlds'
+  if (ev.type === 'international') {
+    const n = ev.name.toLowerCase()
+    if (n.includes('north america')) return 'NAIC'
+    if (n.includes('latin america')) return 'LAIC'
+    if (n.includes('europe')) return 'EUIC'
+    if (n.includes('oceania')) return 'OCIC'
+    return 'IC'
+  }
+  return `${ev.city} ${ev.type === 'special' ? 'Special' : 'Regional'}`
+}
+
 /**
  * Horizontal season timeline (PRD §4.12): today anchored at the far left,
  * scale runs to the farthest announced event. Ticks are type-colored; each
@@ -84,7 +98,7 @@ export default function TimelineView({ events, isChecked, onFly }: Props) {
                       className="tl-name"
                       title={`${ev.name} — ${formatDateRange(ev.startDate, ev.endDate)}`}
                     >
-                      {ev.name}
+                      {shortLabel(ev)}
                     </span>
                     <button
                       className="tl-fly"

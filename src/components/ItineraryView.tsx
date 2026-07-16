@@ -10,6 +10,7 @@ interface Props {
   home: Home | null
   isChecked: (id: string) => boolean
   onToggle: (id: string) => void
+  onFly: (ev: PokeEvent) => void
 }
 
 /** Same-weekend clashes among checked events (PRD §4.6). */
@@ -29,7 +30,7 @@ function conflictIds(events: PokeEvent[]): Set<string> {
   return ids
 }
 
-export default function ItineraryView({ events, home, isChecked, onToggle }: Props) {
+export default function ItineraryView({ events, home, isChecked, onToggle, onFly }: Props) {
   const [copied, setCopied] = useState(false)
   const plan = events
     .filter((ev) => isChecked(ev.id) && !isPast(ev))
@@ -67,7 +68,7 @@ export default function ItineraryView({ events, home, isChecked, onToggle }: Pro
           {conflicts.has(ev.id) && (
             <p className="conflict">⚠️ Overlaps another event in your plan</p>
           )}
-          <EventCard ev={ev} home={home} checked={isChecked(ev.id)} onToggle={onToggle} />
+          <EventCard ev={ev} home={home} checked={isChecked(ev.id)} onToggle={onToggle} onFly={onFly} />
         </div>
       ))}
     </div>

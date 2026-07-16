@@ -11,6 +11,8 @@ interface Props {
   checked: boolean
   onToggle: (id: string) => void
   onClose?: () => void
+  /** Fly the map to this event (PRD §4.12); button hidden when absent */
+  onFly?: (ev: PokeEvent) => void
 }
 
 function Countdown({ ev }: { ev: PokeEvent }) {
@@ -49,7 +51,7 @@ function TravelLine({ ev, home }: { ev: PokeEvent; home: Home | null }) {
   )
 }
 
-export default function EventCard({ ev, home, checked, onToggle, onClose }: Props) {
+export default function EventCard({ ev, home, checked, onToggle, onClose, onFly }: Props) {
   const gcal = googleCalendarUrl(ev)
   const past = isPast(ev)
   return (
@@ -90,6 +92,11 @@ export default function EventCard({ ev, home, checked, onToggle, onClose }: Prop
         <a href={hotelsUrl(ev)} target="_blank" rel="noopener noreferrer" className="btn">
           Hotels nearby
         </a>
+        {onFly && (
+          <button className="btn" onClick={() => onFly(ev)}>
+            📍 Fly to map
+          </button>
+        )}
       </div>
       {!past && (
         <div className="event-links">

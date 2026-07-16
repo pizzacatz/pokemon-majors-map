@@ -7,10 +7,11 @@ interface Props {
   home: Home | null
   isChecked: (id: string) => boolean
   onToggle: (id: string) => void
+  onFly: (ev: PokeEvent) => void
 }
 
 /** Chronological alternative to the map — grouped by month (PRD §4.5). */
-export default function ScheduleView({ events, home, isChecked, onToggle }: Props) {
+export default function ScheduleView({ events, home, isChecked, onToggle, onFly }: Props) {
   const dated = events.filter(hasDates).sort((a, b) => a.startDate.localeCompare(b.startDate))
   const upcoming = dated.filter((ev) => !isPast(ev))
   const past = dated.filter(isPast).reverse()
@@ -29,7 +30,7 @@ export default function ScheduleView({ events, home, isChecked, onToggle }: Prop
         <section key={label}>
           <h2 className="month-head">{label}</h2>
           {list.map((ev) => (
-            <EventCard key={ev.id} ev={ev} home={home} checked={isChecked(ev.id)} onToggle={onToggle} />
+            <EventCard key={ev.id} ev={ev} home={home} checked={isChecked(ev.id)} onToggle={onToggle} onFly={onFly} />
           ))}
         </section>
       ))}
@@ -37,7 +38,7 @@ export default function ScheduleView({ events, home, isChecked, onToggle }: Prop
         <section>
           <h2 className="month-head">Announced — dates TBD</h2>
           {tbd.map((ev) => (
-            <EventCard key={ev.id} ev={ev} home={home} checked={isChecked(ev.id)} onToggle={onToggle} />
+            <EventCard key={ev.id} ev={ev} home={home} checked={isChecked(ev.id)} onToggle={onToggle} onFly={onFly} />
           ))}
         </section>
       )}
@@ -45,7 +46,7 @@ export default function ScheduleView({ events, home, isChecked, onToggle }: Prop
         <details className="past-section">
           <summary>Past events ({past.length})</summary>
           {past.map((ev) => (
-            <EventCard key={ev.id} ev={ev} home={home} checked={isChecked(ev.id)} onToggle={onToggle} />
+            <EventCard key={ev.id} ev={ev} home={home} checked={isChecked(ev.id)} onToggle={onToggle} onFly={onFly} />
           ))}
         </details>
       )}

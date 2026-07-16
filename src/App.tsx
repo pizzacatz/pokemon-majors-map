@@ -230,6 +230,7 @@ export default function App() {
                   checked={isChecked(selected.id)}
                   onToggle={toggle}
                   onClose={() => setSelectedId(null)}
+                  onFly={flyToEvent}
                 />
               </div>
             )}
@@ -239,10 +240,10 @@ export default function App() {
           <TimelineView events={filtered} isChecked={isChecked} onFly={flyToEvent} />
         )}
         {tab === 'schedule' && (
-          <ScheduleView events={filtered} home={home} isChecked={isChecked} onToggle={toggle} />
+          <ScheduleView events={filtered} home={home} isChecked={isChecked} onToggle={toggle} onFly={flyToEvent} />
         )}
         {tab === 'itinerary' && (
-          <ItineraryView events={events} home={home} isChecked={isChecked} onToggle={toggle} />
+          <ItineraryView events={events} home={home} isChecked={isChecked} onToggle={toggle} onFly={flyToEvent} />
         )}
         {tab !== 'map' && (
           <footer className="footer">

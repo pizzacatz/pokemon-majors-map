@@ -606,7 +606,17 @@ function dedupe(events) {
     if (!prev) {
       byKey.set(key, ev)
     } else {
-      const [lo, hi] = richness(ev) >= richness(prev) ? [prev, ev] : [ev, prev]
+      // Fresh data layers over stale regardless of richness — a stale entry
+      // with more fields (e.g. a seed's generic hub link) must not overwrite
+      // the current specific values. Richness only breaks like-vs-like ties.
+      const [lo, hi] =
+        ev.fresh && !prev.fresh
+          ? [prev, ev]
+          : !ev.fresh && prev.fresh
+            ? [ev, prev]
+            : richness(ev) >= richness(prev)
+              ? [prev, ev]
+              : [ev, prev]
       byKey.set(key, mergeOne(lo, hi))
     }
   }
