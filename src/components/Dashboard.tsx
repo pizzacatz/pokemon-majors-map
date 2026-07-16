@@ -7,10 +7,12 @@ interface Props {
   isChecked: (id: string) => boolean
   onToggle: (id: string) => void
   onSelect: (id: string) => void
+  /** Hovering/focusing a row highlights the event's map pin. */
+  onHover: (id: string | null) => void
 }
 
 /** Season checklist: uncheck an event and its pin grays out (PRD §4.4). */
-export default function Dashboard({ events, isChecked, onToggle, onSelect }: Props) {
+export default function Dashboard({ events, isChecked, onToggle, onSelect, onHover }: Props) {
   const upcoming = events.filter((ev) => !isPast(ev))
   if (upcoming.length === 0) {
     return <p className="empty">No upcoming events match your filters.</p>
@@ -18,7 +20,14 @@ export default function Dashboard({ events, isChecked, onToggle, onSelect }: Pro
   return (
     <ul className="dash-list">
       {upcoming.map((ev) => (
-        <li key={ev.id} className={isChecked(ev.id) ? '' : 'dash-off'}>
+        <li
+          key={ev.id}
+          className={isChecked(ev.id) ? '' : 'dash-off'}
+          onMouseEnter={() => onHover(ev.id)}
+          onMouseLeave={() => onHover(null)}
+          onFocusCapture={() => onHover(ev.id)}
+          onBlurCapture={() => onHover(null)}
+        >
           <input
             type="checkbox"
             checked={isChecked(ev.id)}

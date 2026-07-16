@@ -345,6 +345,7 @@ export default function App() {
                     openEvent(id)
                     setDashOpen(false)
                   }}
+                  onHover={setHoverId}
                 />
               </div>
             )}
