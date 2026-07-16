@@ -4,7 +4,29 @@ import { daysUntil, hasDates, isPast, parseISODate, formatDateRange } from '../l
 
 const PX_PER_DAY = 9
 const RIGHT_PAD_DAYS = 10
-const LEVELS = 3
+const LANES = 3
+const LANE_STEP = 38 // ≥ bubble height so stacked lanes never collide
+const BASE_TICK = 16
+
+/** Estimated bubble width for collision math (label chars + fly button). */
+function bubbleWidth(label: string): number {
+  return Math.min(96, label.length * 6.4) + 34
+}
+
+/**
+ * Greedy interval packing: each item takes the lowest lane free at its x.
+ * Same-day events get separate lanes instead of overlapping bubbles that
+ * hide each other's fly buttons.
+ */
+function assignLanes(items: { x: number; width: number }[]): number[] {
+  const laneEnds: number[] = []
+  return items.map(({ x, width }) => {
+    let lane = laneEnds.findIndex((end) => end <= x)
+    if (lane === -1) lane = laneEnds.length < LANES ? laneEnds.length : 0
+    laneEnds[lane] = x + width
+    return lane
+  })
+}
 
 interface Props {
   events: PokeEvent[]
@@ -70,6 +92,12 @@ export default function TimelineView({ events, isChecked, onFly }: Props) {
 
   const lastDay = Math.max(...dated.map((ev) => daysUntil(ev.endDate)))
   const width = (lastDay + RIGHT_PAD_DAYS) * PX_PER_DAY
+  const lanes = assignLanes(
+    dated.map((ev) => {
+      const x = Math.max(daysUntil(ev.startDate), 0) * PX_PER_DAY
+      return { x, width: bubbleWidth(shortLabel(ev)) }
+    }),
+  )
 
   return (
     <section className="timeline" aria-label="Season timeline">
@@ -90,7 +118,7 @@ export default function TimelineView({ events, isChecked, onFly }: Props) {
               return (
                 <div
                   key={ev.id}
-                  className={`tl-item tl-lvl-${i % LEVELS}${isChecked(ev.id) ? '' : ' tl-off'}`}
+                  className={`tl-item${isChecked(ev.id) ? '' : ' tl-off'}`}
                   style={{ left: x }}
                 >
                   <div className="tl-bubble">
@@ -109,7 +137,7 @@ export default function TimelineView({ events, isChecked, onFly }: Props) {
                       📍
                     </button>
                   </div>
-                  <div className={`tl-tick type-${ev.type}`} />
+                  <div className={`tl-tick type-${ev.type}`} style={{ height: BASE_TICK + lanes[i] * LANE_STEP }} />
                   <div className="tl-date">
                     {parseISODate(ev.startDate).toLocaleDateString('en-US', {
                       month: 'numeric',

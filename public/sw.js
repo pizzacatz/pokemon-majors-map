@@ -1,5 +1,6 @@
-/* Minimal offline support: stale-while-revalidate app shell, network-first data. */
-const CACHE = 'pmm-v1'
+/* Minimal offline support: network-first navigations and data (so deploys and
+   fresh events show on next load), stale-while-revalidate hashed assets. */
+const CACHE = 'pmm-v2'
 
 self.addEventListener('install', () => {
   self.skipWaiting()
@@ -20,8 +21,9 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(request.url)
   if (url.origin !== location.origin) return
 
-  if (url.pathname.endsWith('/data/events.json')) {
-    // Network-first: fresh event data when online, last snapshot when not.
+  if (url.pathname.endsWith('/data/events.json') || request.mode === 'navigate') {
+    // Network-first: fresh app shell and event data when online, last
+    // snapshot when offline. Serving stale shells made fixed bugs linger.
     event.respondWith(
       fetch(request)
         .then((res) => {

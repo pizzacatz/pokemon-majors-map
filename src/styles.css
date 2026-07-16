@@ -597,7 +597,7 @@ body {
 
 .tl-canvas {
   position: relative;
-  height: 132px;
+  height: 172px;
   margin: 0 12px;
 }
 
@@ -620,10 +620,11 @@ body {
   color: var(--red);
   border-left: 2px solid var(--red);
   padding-left: 4px;
-  height: 118px;
+  height: 158px;
   display: flex;
   align-items: flex-end;
   z-index: 1;
+  pointer-events: none;
 }
 
 .tl-month {
@@ -644,24 +645,15 @@ body {
   flex-direction: column;
   align-items: flex-start;
   z-index: 2;
+  /* container is transparent — it must never swallow clicks aimed at a
+     bubble beneath it; only the bubble itself is interactive */
+  pointer-events: none;
 }
 
 .tl-tick {
   width: 4px;
   border-radius: 2px 2px 0 0;
   order: 2;
-}
-
-.tl-lvl-0 .tl-tick {
-  height: 18px;
-}
-
-.tl-lvl-1 .tl-tick {
-  height: 46px;
-}
-
-.tl-lvl-2 .tl-tick {
-  height: 74px;
 }
 
 .tl-tick.type-regional {
@@ -693,12 +685,18 @@ body {
   display: flex;
   align-items: center;
   gap: 2px;
+  pointer-events: auto;
+  position: relative;
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 8px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
   padding: 2px 3px 2px 7px;
   margin-bottom: 2px;
+}
+
+.tl-bubble:hover {
+  z-index: 5;
 }
 
 .tl-name {

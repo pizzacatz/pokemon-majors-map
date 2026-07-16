@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.3] - 2026-07-16
+
+### Fixed
+
+- Timeline bubbles for same-day events overlapped, showing stacked 📍 icons
+  and making the covered bubble's fly button unclickable. Lanes are now
+  assigned by collision-aware interval packing, transparent item containers
+  no longer swallow clicks, and hovered bubbles raise above neighbors.
+- Service worker serves navigations network-first, so deploys appear on the
+  next load instead of lingering one version behind (the cause of "still
+  broken" reports after fixes shipped).
+
 ## [0.2.2] - 2026-07-16
 
 ### Added
@@ -140,7 +152,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - App version + data snapshot date displayed in the site footer.
 - PRD (docs/PRD.md), README, this changelog.
 
-[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.2.2...HEAD
+[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.2.3...HEAD
+[0.2.3]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.2.2...v0.2.3
 [0.2.2]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.1.3...v0.2.0
