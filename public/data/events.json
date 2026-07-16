@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-07-16T03:59:14.862Z",
+    "generatedAt": "2026-07-16T04:05:39.296Z",
     "source": "scraper",
     "schemaVersion": 1
   },
@@ -640,13 +640,13 @@
       ],
       "startDate": "2027-05-22",
       "endDate": "2027-05-23",
-      "venue": null,
-      "address": null,
+      "venue": "Jaarbeurs Utrecht",
+      "address": "Halls 7 & 8, Jaarbeursplein 6, 3521 AL Utrecht, Netherlands",
       "city": "Utrecht",
       "country": "NL",
       "region": "EU",
-      "lat": 52.0907006,
-      "lng": 5.1215634,
+      "lat": 52.0845399,
+      "lng": 5.1040766,
       "links": {
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/utrecht",
         "registration": null

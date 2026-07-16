@@ -463,5 +463,11 @@
     "lat": 41.8484622,
     "lng": -87.6205541,
     "country": "US"
+  },
+  "Jaarbeurs Utrecht, Halls 7 & 8, Jaarbeursplein 6, 3521 AL Utrecht, Netherlands": null,
+  "Jaarbeurs Utrecht, Utrecht, NL": {
+    "lat": 52.0845399,
+    "lng": 5.1040766,
+    "country": "NL"
   }
 }
