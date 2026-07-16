@@ -1,8 +1,9 @@
 import { useEffect, useMemo } from 'react'
-import { MapContainer, Marker, TileLayer, useMap, useMapEvents } from 'react-leaflet'
+import { MapContainer, Marker, Popup, TileLayer, useMap, useMapEvents } from 'react-leaflet'
 import { divIcon } from 'leaflet'
 import type { Home, PokeEvent } from '../types'
-import { isPast } from '../lib/dates'
+import { formatDateRange, hasDates, isPast } from '../lib/dates'
+import { shortLabel } from '../lib/labels'
 
 const US_CENTER: [number, number] = [39.5, -98.35]
 
@@ -104,10 +105,16 @@ export default function MapView({ events, home, isChecked, settingHome, onPickHo
           key={ev.id}
           position={[ev.lat, ev.lng]}
           icon={eventIcon(ev, isChecked(ev.id))}
+          // title gives keyboard-focusable pins an accessible name (P2-17)
+          title={`${shortLabel(ev)}${hasDates(ev) ? ` — ${formatDateRange(ev.startDate, ev.endDate)}` : ''}`}
           eventHandlers={{ click: () => onSelect(ev.id) }}
         />
       ))}
-      {home && <Marker position={[home.lat, home.lng]} icon={homeIcon} zIndexOffset={1000} />}
+      {home && (
+        <Marker position={[home.lat, home.lng]} icon={homeIcon} title="Home" zIndexOffset={1000}>
+          <Popup>🏠 Home — distances and book-by dates measure from here.</Popup>
+        </Marker>
+      )}
     </MapContainer>
   )
 }

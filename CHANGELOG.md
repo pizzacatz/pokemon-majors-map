@@ -7,6 +7,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-07-16
+
+UX Phase 3 (docs/UX-AUDIT.md P2 polish).
+
+### Added
+
+- PNG app icons (192/512 + maskable): Android's install prompt requires
+  them; the manifest previously carried only the SVG.
+- Loading indicator while event data fetches, and an "Offline — showing
+  data from <date>" pill when the network drops (the service worker keeps
+  the app usable offline).
+- Landscape layout: the tab bar docks as a left rail so the map gets the
+  full height; the event sheet's peek height caps at ~half the screen; the
+  manifest no longer locks the app to portrait.
+- Tapping the home marker explains what it is ("distances and book-by
+  dates measure from here"); the travel line reads "1,354 mi *from home*".
+
+### Changed
+
+- The yellow "book soon" text is a darker, WCAG-passing shade in light
+  mode; timeline date labels are slightly larger.
+
+### Fixed
+
+- The card's ✕ close button sat in the middle of the header instead of the
+  top-right corner (a touch-target margin from 0.4.0 overrode the flex
+  push; the intro card's ✕ drifted 6px off its corner for the same reason).
+
+### Accessibility
+
+- Map pins are keyboard-focusable with accessible names (event + dates).
+- The event sheet and filter panel take focus when they open and close on
+  Escape; "Link copied!" is announced to screen readers.
+
 ## [0.4.0] - 2026-07-16
 
 UX Phase 2 (docs/UX-AUDIT.md P1 items) + data cleanup.
@@ -259,7 +293,8 @@ UX Phase 1 (see docs/UX-AUDIT.md P0 items).
 - App version + data snapshot date displayed in the site footer.
 - PRD (docs/PRD.md), README, this changelog.
 
-[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.3.3...v0.4.0
 [0.3.3]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.3.2...v0.3.3
 [0.3.2]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.3.1...v0.3.2

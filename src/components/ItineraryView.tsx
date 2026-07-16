@@ -57,7 +57,8 @@ export default function ItineraryView({ events, home, isChecked, onToggle, onFly
     <div className="page">
       <div className="itin-actions">
         <button className="btn btn-primary" onClick={share}>
-          {copied ? 'Link copied!' : '🔗 Share my season'}
+          {/* role=status announces the copy confirmation (UX audit P2-17) */}
+          <span role="status">{copied ? 'Link copied!' : '🔗 Share my season'}</span>
         </button>
         <button className="btn" onClick={() => downloadICS(plan, 'pokemon-season.ics')}>
           ⬇ Season .ics

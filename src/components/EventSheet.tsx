@@ -1,4 +1,4 @@
-import { useRef, useState, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 
 const PEEK = 300
 const DISMISS_BELOW = 170
@@ -26,6 +26,18 @@ export default function EventSheet({ onDismiss, children }: Props) {
     return Math.max(360, (wrap?.clientHeight ?? window.innerHeight) - 56)
   }
 
+  // On short (landscape) screens a 300px peek is basically full — cap it.
+  const peekH = () => {
+    const wrap = sheetRef.current?.parentElement
+    return Math.min(PEEK, Math.round(((wrap?.clientHeight ?? window.innerHeight) * 0.55)))
+  }
+
+  // Move focus into the sheet on open so keyboard/screen-reader users land in
+  // the card, and let Escape dismiss it (UX audit P2-17).
+  useEffect(() => {
+    sheetRef.current?.focus()
+  }, [])
+
   function onPointerDown(e: React.PointerEvent) {
     start.current = { y: e.clientY, h: sheetRef.current?.offsetHeight ?? PEEK, moved: false }
     ;(e.target as HTMLElement).setPointerCapture(e.pointerId)
@@ -41,7 +53,7 @@ export default function EventSheet({ onDismiss, children }: Props) {
   function onPointerUp() {
     if (!start.current) return
     const { moved } = start.current
-    const h = dragH ?? (snap === 'peek' ? PEEK : maxH())
+    const h = dragH ?? (snap === 'peek' ? peekH() : maxH())
     start.current = null
     setDragH(null)
     if (!moved) {
@@ -52,16 +64,22 @@ export default function EventSheet({ onDismiss, children }: Props) {
       onDismiss()
       return
     }
-    setSnap(h > (PEEK + maxH()) / 2 ? 'full' : 'peek')
+    setSnap(h > (peekH() + maxH()) / 2 ? 'full' : 'peek')
   }
 
-  const height = dragH ?? (snap === 'peek' ? PEEK : maxH())
+  const height = dragH ?? (snap === 'peek' ? peekH() : maxH())
 
   return (
     <div
       ref={sheetRef}
       className={`sheet sheet-${snap}${dragH !== null ? ' sheet-dragging' : ''}`}
       style={{ height }}
+      role="dialog"
+      aria-label="Event details"
+      tabIndex={-1}
+      onKeyDown={(e) => {
+        if (e.key === 'Escape') onDismiss()
+      }}
     >
       <div
         className="sheet-handle"

@@ -2,6 +2,8 @@
   --red: #e3350d;
   --blue: #2a75bb;
   --yellow: #f5b800;
+  /* --yellow fails contrast as text on light backgrounds (~1.9:1) */
+  --yellow-text: #8a6800;
   --purple: #7b2fbe;
   --gray: #9aa0a6;
   --bg: #ffffff;
@@ -15,6 +17,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
+    --yellow-text: #f0c420;
     --bg: #17181a;
     --bg-2: #212327;
     --text: #e8eaed;
@@ -226,6 +229,7 @@ body {
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+  position: relative; /* anchors .status-pill on list tabs */
 }
 
 .map-wrap {
@@ -472,7 +476,8 @@ body {
   letter-spacing: 0.03em;
 }
 
-.close-btn {
+/* beat .icon-btn's margin shorthand so the button stays on the right edge */
+.icon-btn.close-btn {
   margin-left: auto;
 }
 
@@ -608,7 +613,7 @@ body {
 }
 
 .bookby-window {
-  color: var(--yellow);
+  color: var(--yellow-text);
 }
 
 .bookby-asap {
@@ -929,7 +934,7 @@ body {
   order: 3;
   position: absolute;
   bottom: -22px;
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   color: var(--text-2);
 }
 
@@ -960,6 +965,7 @@ body {
   top: 4px;
   right: 4px;
   padding: 8px;
+  margin: 0;
 }
 
 .intro-lead {
@@ -1029,6 +1035,65 @@ body {
   color: var(--text);
   border-top-color: var(--red);
   font-weight: 600;
+}
+
+/* Landscape phones (UX audit P2-15): the tab bar docks as a left rail so the
+   map gets the full (short) height instead of surviving as a sliver. */
+@media (orientation: landscape) and (max-height: 520px) {
+  .app {
+    padding-left: 64px;
+  }
+
+  .tabbar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 64px;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    border-top: none;
+    border-right: 1px solid var(--border);
+    padding-bottom: 0;
+    padding-left: env(safe-area-inset-left);
+    z-index: 1200;
+  }
+
+  .tabbar button {
+    flex: 0 0 auto;
+    padding: 12px 4px;
+    border-top: none;
+    border-left: 3px solid transparent;
+  }
+
+  .tabbar button.tab-on {
+    border-top-color: transparent;
+    border-left-color: var(--red);
+  }
+}
+
+.sheet:focus,
+.filter-panel:focus {
+  outline: none; /* programmatic focus target, not an interactive control */
+}
+
+/* ---------- loading / offline status (UX audit P2-16) ---------- */
+.status-pill {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1100;
+  background: var(--card);
+  color: var(--text-2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  box-shadow: var(--shadow);
+  white-space: nowrap;
+  pointer-events: none;
 }
 
 /* Leaflet dark-mode chrome: invert the light OSM tiles so the map matches

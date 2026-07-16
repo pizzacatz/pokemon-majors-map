@@ -39,7 +39,7 @@ function TravelLine({ ev, home }: { ev: PokeEvent; home: Home | null }) {
   return (
     <div className="travel">
       <span>
-        {miles} mi · {mode}
+        {miles} mi from home · {mode}
       </span>
       {t.bookByISO && !isPast(ev) && (
         <span className={`bookby bookby-${t.urgency}`}>

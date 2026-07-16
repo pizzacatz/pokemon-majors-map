@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import type { Filters } from '../lib/storage'
 import { ALL_FILTERS } from '../lib/storage'
 import type { EventType, Format, Region } from '../types'
@@ -28,10 +29,27 @@ interface Props {
  * color legend (P1-7).
  */
 export default function FilterPanel({ filters, onChange, onClose }: Props) {
+  const panelRef = useRef<HTMLDivElement>(null)
+
+  // Land focus in the dialog and let Escape close it (UX audit P2-17).
+  useEffect(() => {
+    panelRef.current?.focus()
+  }, [])
+
   return (
     <>
       <div className="panel-backdrop" onClick={onClose} />
-      <div className="filter-panel" role="dialog" aria-label="Filters">
+      <div
+        className="filter-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Filters"
+        ref={panelRef}
+        tabIndex={-1}
+        onKeyDown={(e) => {
+          if (e.key === 'Escape') onClose()
+        }}
+      >
         <div className="filter-head">
           <h2>Filters</h2>
           {isFiltered(filters) && (

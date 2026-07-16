@@ -63,6 +63,18 @@ export default function App() {
   )
   // A shared ?plan= link is view-only until adopted — it must not overwrite local state.
   const [sharedPlan, setSharedPlan] = useState<string[] | null>(readPlanFromUrl)
+  const [offline, setOffline] = useState(() => !navigator.onLine)
+
+  useEffect(() => {
+    const on = () => setOffline(false)
+    const off = () => setOffline(true)
+    window.addEventListener('online', on)
+    window.addEventListener('offline', off)
+    return () => {
+      window.removeEventListener('online', on)
+      window.removeEventListener('offline', off)
+    }
+  }, [])
 
   useEffect(() => {
     fetch(`${import.meta.env.BASE_URL}data/events.json`)
@@ -273,6 +285,17 @@ export default function App() {
       {loadError && <div className="banner banner-error">Couldn't load event data. Try again later.</div>}
 
       <main className="content">
+        {/* Loading/offline status (UX audit P2-16); role="status" announces politely */}
+        {!data && !loadError && (
+          <div className="status-pill" role="status">
+            Loading events…
+          </div>
+        )}
+        {offline && dataDate && (
+          <div className="status-pill" role="status">
+            Offline — showing data from {dataDate}
+          </div>
+        )}
         {tab === 'map' && (
           <div className="map-wrap">
             <MapView
