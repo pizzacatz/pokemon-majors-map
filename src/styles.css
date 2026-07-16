@@ -597,7 +597,7 @@ body {
 
 .tl-canvas {
   position: relative;
-  height: 172px;
+  height: 182px;
   margin: 0 12px;
 }
 
@@ -620,7 +620,7 @@ body {
   color: var(--red);
   border-left: 2px solid var(--red);
   padding-left: 4px;
-  height: 158px;
+  height: 168px;
   display: flex;
   align-items: flex-end;
   z-index: 1;
@@ -648,6 +648,12 @@ body {
   /* container is transparent — it must never swallow clicks aimed at a
      bubble beneath it; only the bubble itself is interactive */
   pointer-events: none;
+}
+
+/* Each item is its own stacking context, so raising the BUBBLE's z-index
+   can't lift it over sibling items — raise the item on (bubble) hover. */
+.tl-item:hover {
+  z-index: 6;
 }
 
 .tl-tick {
@@ -684,25 +690,20 @@ body {
   order: 1;
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 0;
   pointer-events: auto;
-  position: relative;
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
-  padding: 2px 3px 2px 7px;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  padding: 1px 1px 1px 5px;
   margin-bottom: 2px;
 }
 
-.tl-bubble:hover {
-  z-index: 5;
-}
-
 .tl-name {
-  font-size: 0.68rem;
+  font-size: 0.64rem;
   line-height: 1.15;
-  max-width: 82px;
+  max-width: 72px;
   white-space: normal;
   overflow-wrap: break-word;
 }
@@ -710,9 +711,9 @@ body {
 .tl-fly {
   background: none;
   border: none;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   cursor: pointer;
-  padding: 2px;
+  padding: 1px 2px;
   line-height: 1;
 }
 

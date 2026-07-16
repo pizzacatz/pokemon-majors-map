@@ -4,25 +4,27 @@ import { daysUntil, hasDates, isPast, parseISODate, formatDateRange } from '../l
 
 const PX_PER_DAY = 9
 const RIGHT_PAD_DAYS = 10
-const LANES = 3
-const LANE_STEP = 38 // ≥ bubble height so stacked lanes never collide
-const BASE_TICK = 16
+const LANES = 4
+const LANE_STEP = 34 // ≥ bubble height so stacked lanes never collide
+const BASE_TICK = 14
 
 /** Estimated bubble width for collision math (label chars + fly button). */
 function bubbleWidth(label: string): number {
-  return Math.min(96, label.length * 6.4) + 34
+  return Math.min(76, label.length * 5.8) + 26
 }
 
 /**
  * Greedy interval packing: each item takes the lowest lane free at its x.
- * Same-day events get separate lanes instead of overlapping bubbles that
- * hide each other's fly buttons.
+ * When every lane is busy, take the one that frees up soonest — dumping
+ * overflow on lane 0 buried Recife and San Diego under dense clusters.
  */
 function assignLanes(items: { x: number; width: number }[]): number[] {
   const laneEnds: number[] = []
   return items.map(({ x, width }) => {
     let lane = laneEnds.findIndex((end) => end <= x)
-    if (lane === -1) lane = laneEnds.length < LANES ? laneEnds.length : 0
+    if (lane === -1) {
+      lane = laneEnds.length < LANES ? laneEnds.length : laneEnds.indexOf(Math.min(...laneEnds))
+    }
     laneEnds[lane] = x + width
     return lane
   })
