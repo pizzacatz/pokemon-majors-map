@@ -1,3 +1,4 @@
+import { useLayoutEffect, useRef } from 'react'
 import type { Home, PokeEvent } from '../types'
 import { EVENT_TYPE_LABEL } from '../types'
 import { daysUntil, formatDate, formatDateRange, hasDates, isPast } from '../lib/dates'
@@ -13,6 +14,23 @@ interface Props {
   onClose?: () => void
   /** Fly the map to this event (PRD §4.12); button hidden when absent */
   onFly?: (ev: PokeEvent) => void
+}
+
+/** Title stays on one line: long official names shrink to fit the card. */
+function FitTitle({ text }: { text: string }) {
+  const ref = useRef<HTMLHeadingElement>(null)
+  useLayoutEffect(() => {
+    const el = ref.current
+    if (!el) return
+    el.style.fontSize = '' // reset to the CSS base before measuring
+    const scale = el.clientWidth / el.scrollWidth
+    if (scale < 1) el.style.fontSize = `${Math.max(0.66, scale - 0.01)}rem`
+  }, [text])
+  return (
+    <h3 className="event-name" ref={ref} title={text}>
+      {text}
+    </h3>
+  )
 }
 
 function Countdown({ ev }: { ev: PokeEvent }) {
@@ -55,14 +73,13 @@ export default function EventCard({ ev, home, checked, onToggle, onClose, onFly 
     <article className={`event-card${past ? ' event-card-past' : ''}`}>
       <header className="event-card-head">
         <span className={`badge type-${ev.type}`}>{EVENT_TYPE_LABEL[ev.type]}</span>
-        <span className="formats">{ev.formats.map((f) => f.toUpperCase()).join(' · ')}</span>
         {onClose && (
           <button className="icon-btn close-btn" onClick={onClose} aria-label="Close">
             ✕
           </button>
         )}
       </header>
-      <h3 className="event-name">{ev.name}</h3>
+      <FitTitle text={ev.name} />
       <p className="event-when">
         {hasDates(ev) ? formatDateRange(ev.startDate, ev.endDate) : 'Dates to be announced'}{' '}
         <Countdown ev={ev} />

@@ -112,10 +112,7 @@ export default function App() {
   const filtered = useMemo(
     () =>
       events.filter(
-        (ev) =>
-          filters.types.includes(ev.type) &&
-          filters.regions.includes(ev.region) &&
-          ev.formats.some((f) => filters.formats.includes(f)),
+        (ev) => filters.types.includes(ev.type) && filters.regions.includes(ev.region),
       ),
     [events, filters],
   )

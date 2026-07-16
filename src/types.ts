@@ -51,4 +51,3 @@ export const EVENT_TYPE_LABEL: Record<EventType, string> = {
 
 export const REGIONS: Region[] = ['NA', 'EU', 'LATAM', 'OCE', 'APAC']
 export const EVENT_TYPES: EventType[] = ['regional', 'special', 'international', 'worlds']
-export const FORMATS: Format[] = ['tcg', 'vgc', 'go']

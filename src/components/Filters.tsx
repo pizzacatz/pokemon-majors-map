@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react'
 import type { Filters } from '../lib/storage'
 import { ALL_FILTERS } from '../lib/storage'
-import type { EventType, Format, Region } from '../types'
-import { EVENT_TYPES, EVENT_TYPE_LABEL, FORMATS, REGIONS } from '../types'
+import type { EventType, Region } from '../types'
+import { EVENT_TYPES, EVENT_TYPE_LABEL, REGIONS } from '../types'
 
 function toggle<T>(list: T[], value: T): T[] {
   return list.includes(value) ? list.filter((v) => v !== value) : [...list, value]
@@ -10,11 +10,7 @@ function toggle<T>(list: T[], value: T): T[] {
 
 /** True when any filter deviates from "everything on". */
 export function isFiltered(f: Filters): boolean {
-  return (
-    f.types.length !== EVENT_TYPES.length ||
-    f.formats.length !== FORMATS.length ||
-    f.regions.length !== REGIONS.length
-  )
+  return f.types.length !== EVENT_TYPES.length || f.regions.length !== REGIONS.length
 }
 
 interface Props {
@@ -71,19 +67,6 @@ export default function FilterPanel({ filters, onChange, onClose }: Props) {
               onClick={() => onChange({ ...filters, types: toggle(filters.types, t) })}
             >
               <span className={`dot type-${t}`} /> {EVENT_TYPE_LABEL[t]}
-            </button>
-          ))}
-        </div>
-
-        <h3 className="filter-group">Game</h3>
-        <div className="filter-chips">
-          {FORMATS.map((f: Format) => (
-            <button
-              key={f}
-              className={`chip${filters.formats.includes(f) ? ' chip-on' : ''}`}
-              onClick={() => onChange({ ...filters, formats: toggle(filters.formats, f) })}
-            >
-              {f.toUpperCase()}
             </button>
           ))}
         </div>

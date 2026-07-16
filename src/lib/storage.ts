@@ -1,5 +1,5 @@
-import type { EventType, Format, Home, Region } from '../types'
-import { EVENT_TYPES, FORMATS, REGIONS } from '../types'
+import type { EventType, Home, Region } from '../types'
+import { EVENT_TYPES, REGIONS } from '../types'
 
 const KEYS = {
   home: 'pmm.home',
@@ -45,18 +45,18 @@ export function saveExcluded(excluded: Set<string>): void {
 
 export interface Filters {
   types: EventType[]
-  formats: Format[]
   regions: Region[]
 }
 
-export const ALL_FILTERS: Filters = { types: EVENT_TYPES, formats: FORMATS, regions: REGIONS }
+export const ALL_FILTERS: Filters = { types: EVENT_TYPES, regions: REGIONS }
 
 export function loadFilters(): Filters {
   const f = read<Filters>(KEYS.filters)
-  if (!f || !Array.isArray(f.types) || !Array.isArray(f.formats) || !Array.isArray(f.regions)) {
+  if (!f || !Array.isArray(f.types) || !Array.isArray(f.regions)) {
     return ALL_FILTERS
   }
-  return f
+  // Saved filters from before v0.6.0 carried a formats key — ignore it.
+  return { types: f.types, regions: f.regions }
 }
 
 export function saveFilters(filters: Filters): void {
