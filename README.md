@@ -16,12 +16,12 @@ book travel. Plan your season, export it to your calendar, and share it as a lin
   or the continental US until you set one. Your home is stored in `localStorage`,
   never sent anywhere.
 - ⏳ **Countdowns & travel timing** — days until each event, plus a heuristic
-  "book flights/hotel by" date based on your distance (drive vs. domestic vs.
-  international).
-- ✅ **Season dashboard** — uncheck events you're skipping and they gray out on the map.
-- 📅 **Schedule view** — the whole season, chronologically.
-- 🧳 **Itinerary tab** — your checked events as a plan, with weekend-conflict warnings,
-  Google Calendar buttons, and .ics export.
+  "book flights by" date based on your distance (domestic vs. international).
+- 📅 **Schedule tab** — the whole season chronologically, with an "All events /
+  My plan" toggle. Check events on any row; clashing weekends get a ⚠;
+  share your plan or export a season .ics from the plan view.
+- ✅ **My plan strip on the map** — your checked events at a glance; hovering a
+  row highlights its pin, unchecking grays it out.
 - 🏨 **Hotels nearby** — one tap to a Booking.com search pre-filled with the venue and
   event dates.
 - 🔗 **Shareable plan** — your season selection encoded in a URL.

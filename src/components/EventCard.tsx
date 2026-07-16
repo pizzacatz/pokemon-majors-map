@@ -17,6 +17,8 @@ interface Props {
   onFly?: (ev: PokeEvent) => void
   /** When set, tapping the header/title collapses the card (schedule rows). */
   onTitleTap?: () => void
+  /** Overlaps another planned event — show the clash warning. */
+  conflict?: boolean
 }
 
 /**
@@ -130,7 +132,7 @@ function TravelLine({ ev, home }: { ev: PokeEvent; home: Home | null }) {
   )
 }
 
-export default function EventCard({ ev, home, checked, onToggle, onClose, onFly, onTitleTap }: Props) {
+export default function EventCard({ ev, home, checked, onToggle, onClose, onFly, onTitleTap, conflict }: Props) {
   const past = isPast(ev)
   return (
     <article className={`event-card${past ? ' event-card-past' : ''}`}>
@@ -187,6 +189,7 @@ export default function EventCard({ ev, home, checked, onToggle, onClose, onFly,
           : [ev.venue, ev.city, ev.country].filter(Boolean).join(', ')}
       </p>
       {ev.address && <FitText role="address" className="event-addr" text={ev.address} />}
+      {conflict && <p className="conflict">⚠️ Overlaps another event in your plan</p>}
       <TravelLine ev={ev} home={home} />
       <div className="event-links">
         {ev.links.registration ? (

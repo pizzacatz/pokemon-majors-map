@@ -7,9 +7,9 @@ import EventCard from './components/EventCard'
 import EventSheet from './components/EventSheet'
 import FilterPanel, { isFiltered } from './components/Filters'
 import Dashboard from './components/Dashboard'
-import ScheduleView from './components/ScheduleView'
-import ItineraryView from './components/ItineraryView'
+import ScheduleView, { type SchedView } from './components/ScheduleView'
 import { reverseGeocodeCountry } from './lib/geo'
+import { conflictIds, planEvents } from './lib/plan'
 import {
   type Filters,
   loadExcluded,
@@ -23,11 +23,17 @@ import { clearPlanFromUrl, readPlanFromUrl } from './lib/share'
 import { normalizeEvent } from './lib/normalize'
 import { setFitCorpus } from './lib/textFit'
 
-type Tab = 'map' | 'schedule' | 'itinerary'
+type Tab = 'map' | 'schedule'
 
 function tabFromUrl(): Tab {
   const t = new URLSearchParams(window.location.search).get('tab')
-  return t === 'schedule' || t === 'itinerary' ? t : 'map'
+  // 'itinerary' is the pre-0.8 name for the plan view of the schedule
+  return t === 'schedule' || t === 'itinerary' ? 'schedule' : 'map'
+}
+
+function viewFromUrl(): SchedView {
+  const p = new URLSearchParams(window.location.search)
+  return p.get('view') === 'plan' || p.get('tab') === 'itinerary' ? 'plan' : 'all'
 }
 
 function eventFromUrl(): string | null {
@@ -50,6 +56,7 @@ export default function App() {
   // walks tab history and dismisses the sheet instead of exiting the app,
   // and every event card is deep-linkable.
   const [tab, setTab] = useState<Tab>(tabFromUrl)
+  const [schedView, setSchedView] = useState<SchedView>(viewFromUrl)
   const [selectedId, setSelectedId] = useState<string | null>(eventFromUrl)
   const pushedEvent = useRef(false)
   const [home, setHome] = useState<Home | null>(loadHome)
@@ -93,6 +100,7 @@ export default function App() {
   useEffect(() => {
     function onPop() {
       setTab(tabFromUrl())
+      setSchedView(viewFromUrl())
       setSelectedId(eventFromUrl())
       pushedEvent.current = false
     }
@@ -127,12 +135,25 @@ export default function App() {
 
   const isChecked = (id: string) => (sharedPlan ? sharedPlan.includes(id) : !excluded.has(id))
 
+  // Weekend clashes within the plan — badged wherever the plan is visible.
+  const conflicts = useMemo(
+    () => conflictIds(planEvents(events, isChecked)),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [events, excluded, sharedPlan],
+  )
+
   function goTab(t: Tab) {
     if (t === tab) return
-    window.history.pushState({}, '', urlWith({ tab: t === 'map' ? null : t, event: null }))
+    window.history.pushState({}, '', urlWith({ tab: t === 'map' ? null : t, event: null, view: null }))
     setTab(t)
+    setSchedView(viewFromUrl())
     setSelectedId(null)
     pushedEvent.current = false
+  }
+
+  function changeSchedView(v: SchedView) {
+    window.history.replaceState({}, '', urlWith({ view: v === 'plan' ? 'plan' : null }))
+    setSchedView(v)
   }
 
   function openEvent(id: string) {
@@ -333,7 +354,7 @@ export default function App() {
               highlightIds={[selectedId, hoverId].filter((id): id is string => id !== null)}
             />
             <button className="dash-toggle btn" onClick={() => setDashOpen((v) => !v)}>
-              {dashOpen ? '▾ My season' : '▴ My season'}
+              {dashOpen ? '▾' : '▴'} My plan · {planEvents(filtered, isChecked).length}
             </button>
             {dashOpen && (
               <div className="dash-panel">
@@ -346,6 +367,7 @@ export default function App() {
                     setDashOpen(false)
                   }}
                   onHover={setHoverId}
+                  conflicts={conflicts}
                 />
               </div>
             )}
@@ -387,6 +409,7 @@ export default function App() {
                   ev={selected}
                   home={home}
                   checked={isChecked(selected.id)}
+                  conflict={conflicts.has(selected.id)}
                   onToggle={toggle}
                   onClose={closeEvent}
                   onFly={flyToEvent}
@@ -405,10 +428,16 @@ export default function App() {
           />
         )}
         {tab === 'schedule' && (
-          <ScheduleView events={filtered} home={home} isChecked={isChecked} onToggle={toggle} onFly={flyToEvent} />
-        )}
-        {tab === 'itinerary' && (
-          <ItineraryView events={events} home={home} isChecked={isChecked} onToggle={toggle} onFly={flyToEvent} />
+          <ScheduleView
+            events={filtered}
+            home={home}
+            isChecked={isChecked}
+            onToggle={toggle}
+            onFly={flyToEvent}
+            view={schedView}
+            onViewChange={changeSchedView}
+            conflicts={conflicts}
+          />
         )}
         {tab !== 'map' && (
           <footer className="footer">
@@ -435,9 +464,6 @@ export default function App() {
         </button>
         <button className={tab === 'schedule' ? 'tab-on' : ''} onClick={() => goTab('schedule')}>
           📅 Schedule
-        </button>
-        <button className={tab === 'itinerary' ? 'tab-on' : ''} onClick={() => goTab('itinerary')}>
-          🧳 Itinerary
         </button>
       </nav>
     </div>

@@ -2,7 +2,12 @@ import { useState } from 'react'
 import type { Home, PokeEvent } from '../types'
 import { daysUntil, formatDateRange, hasDates, isPast, monthLabel } from '../lib/dates'
 import { shortLabel } from '../lib/labels'
+import { planEvents } from '../lib/plan'
+import { downloadICS } from '../lib/calendar'
+import { buildPlanUrl, sharePlanUrl } from '../lib/share'
 import EventCard from './EventCard'
+
+export type SchedView = 'all' | 'plan'
 
 interface Props {
   events: PokeEvent[]
@@ -10,24 +15,47 @@ interface Props {
   isChecked: (id: string) => boolean
   onToggle: (id: string) => void
   onFly: (ev: PokeEvent) => void
+  view: SchedView
+  onViewChange: (v: SchedView) => void
+  conflicts: Set<string>
 }
 
 /**
- * Chronological alternative to the map (PRD §4.5). Compact rows with sticky
- * month headers (UX audit P1-6) — 30+ full cards was 10,000px of scrolling.
- * Tapping a row expands it into the full card.
+ * The season, one list, two views (UX consolidation): "All events" is the
+ * chronological calendar; "My plan" filters to checked events and carries the
+ * plan actions (share, season .ics). Compact rows with sticky month headers;
+ * the checkbox lives on the row; tapping a row expands the full card.
  */
-export default function ScheduleView({ events, home, isChecked, onToggle, onFly }: Props) {
+export default function ScheduleView({
+  events,
+  home,
+  isChecked,
+  onToggle,
+  onFly,
+  view,
+  onViewChange,
+  conflicts,
+}: Props) {
   const [expandedId, setExpandedId] = useState<string | null>(null)
-  const dated = events.filter(hasDates).sort((a, b) => a.startDate.localeCompare(b.startDate))
+  const [copied, setCopied] = useState(false)
+
+  const plan = planEvents(events, isChecked)
+  const shown = view === 'plan' ? events.filter((ev) => isChecked(ev.id) && !isPast(ev)) : events
+  const dated = shown.filter(hasDates).sort((a, b) => a.startDate.localeCompare(b.startDate))
   const upcoming = dated.filter((ev) => !isPast(ev))
   const past = dated.filter(isPast).reverse()
-  const tbd = events.filter((ev) => !hasDates(ev))
+  const tbd = shown.filter((ev) => !hasDates(ev))
 
   const byMonth = new Map<string, PokeEvent[]>()
   for (const ev of upcoming) {
     const label = monthLabel(ev.startDate!)
     byMonth.set(label, [...(byMonth.get(label) ?? []), ev])
+  }
+
+  async function share() {
+    const result = await sharePlanUrl(buildPlanUrl(plan.map((ev) => ev.id)))
+    setCopied(result === 'copied')
+    setTimeout(() => setCopied(false), 2500)
   }
 
   function row(ev: PokeEvent) {
@@ -38,6 +66,7 @@ export default function ScheduleView({ events, home, isChecked, onToggle, onFly 
           ev={ev}
           home={home}
           checked={isChecked(ev.id)}
+          conflict={conflicts.has(ev.id)}
           onToggle={onToggle}
           onFly={onFly}
           onClose={() => setExpandedId(null)}
@@ -47,24 +76,71 @@ export default function ScheduleView({ events, home, isChecked, onToggle, onFly 
     }
     const left = hasDates(ev) && !isPast(ev) ? daysUntil(ev.startDate) : null
     return (
-      <button
-        key={ev.id}
-        className={`sched-row${isChecked(ev.id) ? '' : ' sched-off'}`}
-        onClick={() => setExpandedId(ev.id)}
-      >
-        <span className={`dot type-${ev.type}`} />
-        <span className="sched-title">{shortLabel(ev)}</span>
-        <span className="sched-when">
-          {hasDates(ev) ? formatDateRange(ev.startDate, ev.endDate) : 'Dates TBD'}
-          {left !== null && <b> · {left}d</b>}
-        </span>
-      </button>
+      <div key={ev.id} className={`sched-row${isChecked(ev.id) ? '' : ' sched-off'}`}>
+        {!isPast(ev) && (
+          <input
+            type="checkbox"
+            checked={isChecked(ev.id)}
+            onChange={() => onToggle(ev.id)}
+            aria-label={`Include ${ev.name} in my plan`}
+          />
+        )}
+        <button className="sched-main" onClick={() => setExpandedId(ev.id)}>
+          <span className={`dot type-${ev.type}`} />
+          <span className="sched-title">{shortLabel(ev)}</span>
+          {conflicts.has(ev.id) && (
+            <span className="conflict-mark" title="Overlaps another event in your plan">
+              ⚠
+            </span>
+          )}
+          <span className="sched-when">
+            {hasDates(ev) ? formatDateRange(ev.startDate, ev.endDate) : 'Dates TBD'}
+            {left !== null && <b> · {left}d</b>}
+          </span>
+        </button>
+      </div>
     )
   }
 
   return (
     <div className="page">
-      {upcoming.length === 0 && <p className="empty">No upcoming events match your filters.</p>}
+      <div className="seg-row">
+        <div className="seg" role="tablist" aria-label="Schedule view">
+          <button
+            role="tab"
+            aria-selected={view === 'all'}
+            className={view === 'all' ? 'seg-on' : ''}
+            onClick={() => onViewChange('all')}
+          >
+            All events
+          </button>
+          <button
+            role="tab"
+            aria-selected={view === 'plan'}
+            className={view === 'plan' ? 'seg-on' : ''}
+            onClick={() => onViewChange('plan')}
+          >
+            My plan ({plan.length})
+          </button>
+        </div>
+        {view === 'plan' && plan.length > 0 && (
+          <div className="plan-actions">
+            <button className="btn btn-small btn-primary" onClick={share}>
+              <span role="status">{copied ? 'Link copied!' : '🔗 Share'}</span>
+            </button>
+            <button className="btn btn-small" onClick={() => downloadICS(plan, 'pokemon-season.ics')}>
+              ⬇ .ics
+            </button>
+          </div>
+        )}
+      </div>
+      {upcoming.length === 0 && tbd.length === 0 && (
+        <p className="empty">
+          {view === 'plan'
+            ? 'Nothing planned yet. Check events here or on the map to build your season.'
+            : 'No upcoming events match your filters.'}
+        </p>
+      )}
       {[...byMonth.entries()].map(([label, list]) => (
         <section key={label}>
           <h2 className="month-head">{label}</h2>
@@ -77,7 +153,7 @@ export default function ScheduleView({ events, home, isChecked, onToggle, onFly 
           {tbd.map(row)}
         </section>
       )}
-      {past.length > 0 && (
+      {view === 'all' && past.length > 0 && (
         <details className="past-section">
           <summary>Past events ({past.length})</summary>
           {past.map(row)}

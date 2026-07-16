@@ -7,6 +7,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-07-16
+
+Plan-surface consolidation: My Season, Schedule, and Itinerary were one
+list wearing three costumes. Now there are two surfaces with distinct
+jobs — the Schedule tab (calendar) and a plan strip on the map.
+
+### Changed
+
+- Schedule has an "All events / My plan (n)" toggle. The plan view is the
+  same compact month-grouped rows filtered to checked events, and carries
+  the plan actions (Share, season .ics) that used to live in Itinerary.
+  The view is in the URL (`?view=plan`).
+- Every schedule row has the plan checkbox directly on it.
+- Weekend clashes get a ⚠ on rows (schedule + map strip) and a warning
+  line on the card — previously conflicts were only computed in Itinerary,
+  after you'd already built the plan.
+- The map's "My season" panel is now a slim "My plan · n" strip: checked
+  events only, short labels, days-left, checkboxes, pin hover-highlight.
+- One name for the concept everywhere: "My plan".
+
+### Removed
+
+- The Itinerary tab. Old `?tab=itinerary` links open the Schedule tab's
+  plan view. Nothing else was lost: share, export, conflicts, and the
+  full cards all live on in Schedule.
+
 ## [0.7.2] - 2026-07-16
 
 ### Changed
@@ -441,7 +467,8 @@ UX Phase 1 (see docs/UX-AUDIT.md P0 items).
 - App version + data snapshot date displayed in the site footer.
 - PRD (docs/PRD.md), README, this changelog.
 
-[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.7.2...HEAD
+[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.8.0...HEAD
+[0.8.0]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.7.2...v0.8.0
 [0.7.2]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.7.1...v0.7.2
 [0.7.1]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.7.0...v0.7.1
 [0.7.0]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.6.5...v0.7.0
