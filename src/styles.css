@@ -565,9 +565,11 @@ body {
   overflow: hidden;
 }
 
-.popup-btn {
-  display: block;
-  margin-top: 8px;
+/* beat the base .btn's inline-flex so auto margins can center it */
+.btn.popup-btn {
+  display: flex;
+  width: fit-content;
+  margin: 8px auto 0; /* own line, centered */
 }
 
 /* ---------- "Add to calendar" split menu ---------- */

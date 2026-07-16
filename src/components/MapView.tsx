@@ -140,7 +140,7 @@ export default function MapView({ events, home, isChecked, settingHome, onPickHo
       {home && (
         <Marker position={[home.lat, home.lng]} icon={homeIcon} title="Home" zIndexOffset={1000}>
           <Popup>
-            🏠 Home — distances and book-by dates measure from here.
+            🏠 Home — distances measure from here
             <MoveHomeButton onMoveHome={onMoveHome} />
           </Popup>
         </Marker>
