@@ -21,6 +21,7 @@ import {
 } from './lib/storage'
 import { clearPlanFromUrl, readPlanFromUrl } from './lib/share'
 import { normalizeEvent } from './lib/normalize'
+import { setAddressCorpus } from './lib/addrFit'
 
 type Tab = 'map' | 'schedule' | 'itinerary'
 
@@ -79,12 +80,11 @@ export default function App() {
   useEffect(() => {
     fetch(`${import.meta.env.BASE_URL}data/events.json`)
       .then((res) => (res.ok ? res.json() : Promise.reject(new Error(String(res.status)))))
-      .then((json: EventsFile) =>
-        setData({
-          ...json,
-          events: json.events.map(normalizeEvent).filter((ev): ev is PokeEvent => ev !== null),
-        }),
-      )
+      .then((json: EventsFile) => {
+        const events = json.events.map(normalizeEvent).filter((ev): ev is PokeEvent => ev !== null)
+        setAddressCorpus(events.map((ev) => ev.address))
+        setData({ ...json, events })
+      })
       .catch(() => setLoadError(true))
   }, [])
 

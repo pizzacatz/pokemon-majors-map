@@ -113,6 +113,9 @@ export default function TimelineView({ events, isChecked, onFly, onOpen }: Props
     return window.innerWidth >= 700 && window.innerHeight >= 500
   })
   const scrollRef = useRef<HTMLDivElement>(null)
+  // Desktop fits the whole season in view (no horizontal scroll): track the
+  // strip's width and scale the day→x mapping to fill it exactly.
+  const [availW, setAvailW] = useState<number | null>(null)
 
   function toggleOpen() {
     setOpen((o) => {
@@ -141,6 +144,16 @@ export default function TimelineView({ events, isChecked, onFly, onOpen }: Props
     [dated],
   )
 
+  useEffect(() => {
+    const el = scrollRef.current
+    if (!open || !el) return
+    const ro = new ResizeObserver(() => setAvailW(el.clientWidth))
+    ro.observe(el)
+    setAvailW(el.clientWidth)
+    return () => ro.disconnect()
+    // dated.length: the strip mounts only once events load — re-attach then.
+  }, [open, dated.length])
+
   // When opened, bring the first upcoming event into view — the runway
   // between today and the first event otherwise renders as dead space.
   useEffect(() => {
@@ -157,20 +170,39 @@ export default function TimelineView({ events, isChecked, onFly, onOpen }: Props
   const next = dated.find((ev) => isChecked(ev.id)) ?? dated[0]
   const nextIn = daysUntil(next.startDate)
   const lastDay = Math.max(...dated.map((ev) => daysUntil(ev.endDate)))
-  const width = toX(lastDay + RIGHT_PAD_DAYS)
+  const naturalW = toX(lastDay + RIGHT_PAD_DAYS)
+  // Scale the season to the strip's exact width: shrink-to-fit on desktop
+  // (≥700px), and expand-to-fill everywhere when few events leave the strip
+  // narrower than the screen. Phones keep scrolling for a full season.
+  const target = availW !== null ? Math.max(availW - 24, 100) : null // 24 = margins
+  const k = target !== null && (availW! >= 700 || naturalW < target) ? target / naturalW : 1
+  const dayX = (day: number) => toX(day) * k
+  const width = naturalW * k
   const labels = dated.map(bubbleLabel)
   const lanes = assignLanes(
     dated.map((ev, i) => {
-      const x = toX(Math.max(daysUntil(ev.startDate), 0))
+      const x = dayX(Math.max(daysUntil(ev.startDate), 0))
       return { x, width: bubbleWidth(labels[i]) }
     }),
   )
+
+  // Date labels share one row: when scaling packs events tightly, show a
+  // date only if it clears the previous one (same-day events share anyway).
+  const dateShow: boolean[] = []
+  {
+    let lastX = -Infinity
+    dated.forEach((ev, i) => {
+      const x = dayX(Math.max(daysUntil(ev.startDate), 0))
+      dateShow[i] = x - lastX >= 30
+      if (dateShow[i]) lastX = x
+    })
+  }
 
   // Compressed stretches squeeze month boundaries together — keep only the
   // labels with room to breathe (they render on their own row below the dates).
   const months: { x: number; label: string }[] = []
   for (const m of monthMarks(lastDay)) {
-    const x = toX(m.day)
+    const x = dayX(m.day)
     if (x - (months[months.length - 1]?.x ?? -Infinity) >= MIN_MONTH_GAP_PX) {
       months.push({ x, label: m.label })
     }
@@ -212,7 +244,7 @@ export default function TimelineView({ events, isChecked, onFly, onOpen }: Props
               </div>
             ))}
             {dated.map((ev, i) => {
-              const x = toX(Math.max(daysUntil(ev.startDate), 0))
+              const x = dayX(Math.max(daysUntil(ev.startDate), 0))
               return (
                 <div
                   key={ev.id}
@@ -238,12 +270,14 @@ export default function TimelineView({ events, isChecked, onFly, onOpen }: Props
                     </button>
                   </div>
                   <div className={`tl-tick type-${ev.type}`} style={{ height: tickHeights[lanes[i]] }} />
-                  <div className="tl-date">
-                    {parseISODate(ev.startDate).toLocaleDateString('en-US', {
-                      month: 'numeric',
-                      day: 'numeric',
-                    })}
-                  </div>
+                  {dateShow[i] && (
+                    <div className="tl-date">
+                      {parseISODate(ev.startDate).toLocaleDateString('en-US', {
+                        month: 'numeric',
+                        day: 'numeric',
+                      })}
+                    </div>
+                  )}
                 </div>
               )
             })}

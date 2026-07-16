@@ -5,6 +5,7 @@ import { daysUntil, formatDate, formatDateRange, hasDates, isPast } from '../lib
 import { travelInfo } from '../lib/travel'
 import { googleCalendarUrl, downloadICS } from '../lib/calendar'
 import { hotelsUrl } from '../lib/links'
+import { widestAddress } from '../lib/addrFit'
 
 interface Props {
   ev: PokeEvent
@@ -45,6 +46,31 @@ function FitLine({
     <Tag className={className} ref={ref as React.RefObject<never>} title={text}>
       {text}
     </Tag>
+  )
+}
+
+/**
+ * Address on one line at a size shared by ALL events: scaled against the
+ * widest address in the dataset, so switching cards never jitters.
+ */
+function FitAddr({ text }: { text: string }) {
+  const ref = useRef<HTMLParagraphElement>(null)
+  useLayoutEffect(() => {
+    const el = ref.current
+    if (!el) return
+    el.style.fontSize = '' // reset to the CSS base before measuring
+    const cs = getComputedStyle(el)
+    const widest = widestAddress(`${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`)
+    const scale = widest > 0 ? el.clientWidth / widest : 1
+    if (scale < 1) {
+      const base = parseFloat(cs.fontSize)
+      el.style.fontSize = `${Math.max(base * scale - 0.2, 7)}px`
+    }
+  }, [text])
+  return (
+    <p className="event-addr" ref={ref} title={text}>
+      {text}
+    </p>
   )
 }
 
@@ -179,7 +205,7 @@ export default function EventCard({ ev, home, checked, onToggle, onClose, onFly,
           ? (ev.venue ?? `${ev.city}, ${ev.country}`)
           : [ev.venue, ev.city, ev.country].filter(Boolean).join(', ')}
       </p>
-      {ev.address && <FitLine className="event-addr" text={ev.address} />}
+      {ev.address && <FitAddr text={ev.address} />}
       <TravelLine ev={ev} home={home} />
       <div className="event-links">
         {ev.links.registration ? (

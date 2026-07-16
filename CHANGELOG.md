@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.3] - 2026-07-16
+
+### Changed
+
+- The timeline scales to the screen: on desktop the whole season fits the
+  strip's width exactly (no horizontal scrolling), and when a filtered
+  list leaves few events, the timeline expands to fill the width on any
+  device. Event date labels thin out when scaling packs them too tightly.
+  Phones keep the scrollable strip for a full season.
+- All event addresses render at one shared font size (sized against the
+  widest address in the dataset), so switching between events no longer
+  jitters from per-card font scaling.
+
 ## [0.6.2] - 2026-07-16
 
 ### Changed
@@ -383,7 +396,8 @@ UX Phase 1 (see docs/UX-AUDIT.md P0 items).
 - App version + data snapshot date displayed in the site footer.
 - PRD (docs/PRD.md), README, this changelog.
 
-[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.6.2...HEAD
+[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.6.3...HEAD
+[0.6.3]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.6.2...v0.6.3
 [0.6.2]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.6.1...v0.6.2
 [0.6.1]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.5.4...v0.6.0
