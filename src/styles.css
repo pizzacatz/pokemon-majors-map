@@ -773,12 +773,6 @@ body {
   pointer-events: none;
 }
 
-/* Each item is its own stacking context, so raising the BUBBLE's z-index
-   can't lift it over sibling items — raise the item on (bubble) hover.
-   !important beats the inline per-lane z-index. */
-.tl-item:hover {
-  z-index: 40 !important;
-}
 
 .tl-tick {
   width: 4px;
