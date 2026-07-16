@@ -258,6 +258,7 @@ const COUNTRY_NAMES = {
   canada: 'CA', mexico: 'MX', brazil: 'BR', brasil: 'BR', argentina: 'AR',
   chile: 'CL', colombia: 'CO', peru: 'PE',
   'united kingdom': 'GB', uk: 'GB', england: 'GB', germany: 'DE', france: 'FR',
+  czechia: 'CZ', 'czech republic': 'CZ',
   spain: 'ES', italy: 'IT', netherlands: 'NL', belgium: 'BE', portugal: 'PT',
   ireland: 'IE', poland: 'PL', australia: 'AU', 'new zealand': 'NZ',
   japan: 'JP', 'south korea': 'KR', korea: 'KR', singapore: 'SG', malaysia: 'MY',
@@ -329,8 +330,9 @@ function parseLocation(text) {
   if (/^[A-Za-z]{2}$/.test(tail) && tail.toUpperCase() !== 'UK') {
     return { city, country: null, raw }
   }
-  const country = normalizeCountry(tail)
-  return country ? { city, country, raw } : null
+  // Unknown tails ("Illinois", "Czechia", provinces…) defer to the geocoder
+  // rather than dropping the event — NAIC and Prague once vanished this way.
+  return { city, country: normalizeCountry(tail), raw }
 }
 
 /** Strip trailing UI text RK9 renders after the event name. */
