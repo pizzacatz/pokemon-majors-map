@@ -14,6 +14,8 @@ interface Props {
   onClose?: () => void
   /** Fly the map to this event (PRD §4.12); button hidden when absent */
   onFly?: (ev: PokeEvent) => void
+  /** When set, tapping the header/title collapses the card (schedule rows). */
+  onTitleTap?: () => void
 }
 
 /** One line always: long text shrinks to fit the card width. */
@@ -121,19 +123,39 @@ function TravelLine({ ev, home }: { ev: PokeEvent; home: Home | null }) {
   )
 }
 
-export default function EventCard({ ev, home, checked, onToggle, onClose, onFly }: Props) {
+export default function EventCard({ ev, home, checked, onToggle, onClose, onFly, onTitleTap }: Props) {
   const past = isPast(ev)
   return (
     <article className={`event-card${past ? ' event-card-past' : ''}`}>
-      <header className="event-card-head">
-        <span className={`badge type-${ev.type}`}>{EVENT_TYPE_LABEL[ev.type]}</span>
-        {onClose && (
-          <button className="icon-btn close-btn" onClick={onClose} aria-label="Close">
-            ✕
-          </button>
-        )}
-      </header>
-      <FitLine as="h3" className="event-name" text={ev.name} minPx={10.5} />
+      <div
+        className={onTitleTap ? 'card-titlebar' : undefined}
+        onClick={onTitleTap}
+        {...(onTitleTap && {
+          role: 'button',
+          tabIndex: 0,
+          'aria-label': 'Collapse event details',
+          onKeyDown: (e: React.KeyboardEvent) => {
+            if (e.key === 'Enter' || e.key === ' ') onTitleTap()
+          },
+        })}
+      >
+        <header className="event-card-head">
+          <span className={`badge type-${ev.type}`}>{EVENT_TYPE_LABEL[ev.type]}</span>
+          {onClose && (
+            <button
+              className="icon-btn close-btn"
+              onClick={(e) => {
+                e.stopPropagation() // don't double-fire through the title bar
+                onClose()
+              }}
+              aria-label="Close"
+            >
+              ✕
+            </button>
+          )}
+        </header>
+        <FitLine as="h3" className="event-name" text={ev.name} minPx={10.5} />
+      </div>
       <p className="event-when">
         {hasDates(ev) ? formatDateRange(ev.startDate, ev.endDate) : 'Dates to be announced'}{' '}
         <Countdown ev={ev} />

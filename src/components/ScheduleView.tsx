@@ -41,6 +41,7 @@ export default function ScheduleView({ events, home, isChecked, onToggle, onFly 
           onToggle={onToggle}
           onFly={onFly}
           onClose={() => setExpandedId(null)}
+          onTitleTap={() => setExpandedId(null)}
         />
       )
     }

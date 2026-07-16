@@ -466,6 +466,11 @@ body {
   gap: 8px;
 }
 
+/* Schedule cards: the whole header/title strip collapses the card */
+.card-titlebar {
+  cursor: pointer;
+}
+
 /* beat .icon-btn's margin shorthand so the button stays on the right edge */
 .icon-btn.close-btn {
   margin-left: auto;
