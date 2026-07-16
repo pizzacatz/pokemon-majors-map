@@ -293,5 +293,15 @@
     "lat": 44.4938203,
     "lng": 11.3426327,
     "country": "IT"
+  },
+  "Prague, Czechia": {
+    "lat": 50.0874654,
+    "lng": 14.4212535,
+    "country": "CZ"
+  },
+  "Chicago, Illinois": {
+    "lat": 41.8755616,
+    "lng": -87.6244212,
+    "country": "US"
   }
 }
