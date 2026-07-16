@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-07-16T04:38:30.965Z",
+    "generatedAt": "2026-07-16T15:53:37.918Z",
     "source": "scraper",
     "schemaVersion": 1
   },
@@ -27,7 +27,8 @@
         "official": "https://worlds.pokemon.com/en-us",
         "registration": "https://rk9.gg/event/pokemon-worlds-2026"
       },
-      "registrationOpens": null
+      "registrationOpens": null,
+      "registrationSeenAt": "2026-07-16"
     },
     {
       "id": "regional-2026-baltimore-2027-baltimore-pokemon-regional-champion",
@@ -51,7 +52,8 @@
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/baltimore",
         "registration": null
       },
-      "registrationOpens": null
+      "registrationOpens": null,
+      "registrationSeenAt": null
     },
     {
       "id": "regional-2026-frankfurt-2027-frankfurt-pokemon-regional-champion",
@@ -75,7 +77,8 @@
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/frankfurt",
         "registration": null
       },
-      "registrationOpens": null
+      "registrationOpens": null,
+      "registrationSeenAt": null
     },
     {
       "id": "regional-2026-brisbane-2027-brisbane-pokemon-regional-champions",
@@ -99,7 +102,8 @@
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/brisbane",
         "registration": null
       },
-      "registrationOpens": null
+      "registrationOpens": null,
+      "registrationSeenAt": null
     },
     {
       "id": "regional-2026-recife-2027-recife-pokemon-regional-championshi",
@@ -123,7 +127,8 @@
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/recife",
         "registration": null
       },
-      "registrationOpens": null
+      "registrationOpens": null,
+      "registrationSeenAt": null
     },
     {
       "id": "regional-2026-louisville-2027-louisville-pokemon-regional-champio",
@@ -147,7 +152,8 @@
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/louisville",
         "registration": null
       },
-      "registrationOpens": null
+      "registrationOpens": null,
+      "registrationSeenAt": null
     },
     {
       "id": "regional-2026-nice-2027-nice-pokemon-regional-championships",
@@ -171,7 +177,8 @@
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/nice",
         "registration": null
       },
-      "registrationOpens": null
+      "registrationOpens": null,
+      "registrationSeenAt": null
     },
     {
       "id": "regional-2026-puebla-2027-puebla-pokemon-regional-championshi",
@@ -195,7 +202,8 @@
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/puebla",
         "registration": null
       },
-      "registrationOpens": null
+      "registrationOpens": null,
+      "registrationSeenAt": null
     },
     {
       "id": "regional-2026-gdansk-2027-gdansk-pokemon-regional-championshi",
@@ -219,7 +227,8 @@
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/gdansk",
         "registration": null
       },
-      "registrationOpens": null
+      "registrationOpens": null,
+      "registrationSeenAt": null
     },
     {
       "id": "special-2026-buenos-aires-2027-buenos-aires-pokemon-special-event",
@@ -243,7 +252,8 @@
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/buenos-aires",
         "registration": null
       },
-      "registrationOpens": null
+      "registrationOpens": null,
+      "registrationSeenAt": null
     },
     {
       "id": "international-2026-sao-paulo-2027-pokemon-latin-america-international",
@@ -267,7 +277,8 @@
         "official": "https://championships.pokemon.com/en-us/events/internationals/2027/sao-paulo",
         "registration": null
       },
-      "registrationOpens": null
+      "registrationOpens": null,
+      "registrationSeenAt": null
     },
     {
       "id": "regional-2026-stuttgart-2027-stuttgart-pokemon-regional-champion",
@@ -291,7 +302,8 @@
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/stuttgart",
         "registration": null
       },
-      "registrationOpens": null
+      "registrationOpens": null,
+      "registrationSeenAt": null
     },
     {
       "id": "regional-2026-las-vegas-2027-las-vegas-pokemon-regional-champion",
@@ -315,7 +327,8 @@
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/las-vegas",
         "registration": null
       },
-      "registrationOpens": null
+      "registrationOpens": null,
+      "registrationSeenAt": null
     },
     {
       "id": "regional-2027-sydney-2027-sydney-pokemon-regional-championshi",
@@ -339,7 +352,8 @@
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/sydney",
         "registration": null
       },
-      "registrationOpens": null
+      "registrationOpens": null,
+      "registrationSeenAt": null
     },
     {
       "id": "regional-2027-merida-2027-merida-pokemon-regional-championshi",
@@ -363,7 +377,8 @@
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/merida",
         "registration": null
       },
-      "registrationOpens": null
+      "registrationOpens": null,
+      "registrationSeenAt": null
     },
     {
       "id": "regional-2027-birmingham-2027-birmingham-pokemon-regional-champio",
@@ -387,7 +402,8 @@
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/birmingham",
         "registration": null
       },
-      "registrationOpens": null
+      "registrationOpens": null,
+      "registrationSeenAt": null
     },
     {
       "id": "special-2027-auckland-2027-auckland-pokemon-special-event",
@@ -411,7 +427,8 @@
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/auckland",
         "registration": null
       },
-      "registrationOpens": null
+      "registrationOpens": null,
+      "registrationSeenAt": null
     },
     {
       "id": "international-2027-london-2027-pokemon-europe-international-champi",
@@ -435,7 +452,8 @@
         "official": "https://championships.pokemon.com/en-us/events/internationals/2027/london",
         "registration": null
       },
-      "registrationOpens": null
+      "registrationOpens": null,
+      "registrationSeenAt": null
     },
     {
       "id": "regional-2027-santiago-2027-santiago-pokemon-regional-champions",
@@ -459,7 +477,8 @@
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/santiago",
         "registration": null
       },
-      "registrationOpens": null
+      "registrationOpens": null,
+      "registrationSeenAt": null
     },
     {
       "id": "regional-2027-rio-de-janeiro-2027-rio-de-janeiro-pokemon-regional-cha",
@@ -483,7 +502,8 @@
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/rio-de-janeiro",
         "registration": null
       },
-      "registrationOpens": null
+      "registrationOpens": null,
+      "registrationSeenAt": null
     },
     {
       "id": "regional-2027-monterrey-2027-monterrey-pokemon-regional-champion",
@@ -507,7 +527,8 @@
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/monterrey",
         "registration": null
       },
-      "registrationOpens": null
+      "registrationOpens": null,
+      "registrationSeenAt": null
     },
     {
       "id": "special-2027-lisbon-2027-lisbon-pokemon-special-event",
@@ -531,7 +552,8 @@
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/lisbon",
         "registration": null
       },
-      "registrationOpens": null
+      "registrationOpens": null,
+      "registrationSeenAt": null
     },
     {
       "id": "regional-2027-milwaukee-2027-milwaukee-pokemon-regional-champion",
@@ -555,7 +577,8 @@
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/milwaukee",
         "registration": null
       },
-      "registrationOpens": null
+      "registrationOpens": null,
+      "registrationSeenAt": null
     },
     {
       "id": "special-2027-lima-2027-lima-pokemon-special-event",
@@ -579,7 +602,8 @@
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/lima",
         "registration": null
       },
-      "registrationOpens": null
+      "registrationOpens": null,
+      "registrationSeenAt": null
     },
     {
       "id": "regional-2027-porto-alegre-2027-porto-alegre-pokemon-regional-champ",
@@ -603,7 +627,8 @@
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/porto-alegre",
         "registration": null
       },
-      "registrationOpens": null
+      "registrationOpens": null,
+      "registrationSeenAt": null
     },
     {
       "id": "regional-2027-prague-2027-prague-pokemon-regional-championshi",
@@ -627,7 +652,8 @@
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/prague",
         "registration": null
       },
-      "registrationOpens": null
+      "registrationOpens": null,
+      "registrationSeenAt": null
     },
     {
       "id": "regional-2027-utrecht-2027-utrecht-pokemon-regional-championsh",
@@ -651,7 +677,8 @@
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/utrecht",
         "registration": null
       },
-      "registrationOpens": null
+      "registrationOpens": null,
+      "registrationSeenAt": null
     },
     {
       "id": "regional-2027-san-diego-2027-san-diego-pokemon-regional-champion",
@@ -675,7 +702,8 @@
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/san-diego",
         "registration": null
       },
-      "registrationOpens": null
+      "registrationOpens": null,
+      "registrationSeenAt": null
     },
     {
       "id": "regional-2027-melbourne-2027-melbourne-pokemon-regional-champion",
@@ -699,7 +727,8 @@
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/melbourne",
         "registration": null
       },
-      "registrationOpens": null
+      "registrationOpens": null,
+      "registrationSeenAt": null
     },
     {
       "id": "special-2027-bologna-2027-bologna-pokemon-special-event",
@@ -723,7 +752,8 @@
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/bologna",
         "registration": null
       },
-      "registrationOpens": null
+      "registrationOpens": null,
+      "registrationSeenAt": null
     },
     {
       "id": "international-2027-chicago-2027-pokemon-north-america-international",
@@ -747,7 +777,8 @@
         "official": "https://championships.pokemon.com/en-us/events/internationals/2027/chicago",
         "registration": null
       },
-      "registrationOpens": null
+      "registrationOpens": null,
+      "registrationSeenAt": null
     }
   ]
 }
