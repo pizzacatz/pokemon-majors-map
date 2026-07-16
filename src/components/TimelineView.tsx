@@ -5,12 +5,21 @@ import { daysUntil, hasDates, isPast, parseISODate, formatDateRange } from '../l
 const PX_PER_DAY = 9
 const RIGHT_PAD_DAYS = 10
 const LANES = 4
-const LANE_STEP = 34 // ≥ bubble height so stacked lanes never collide
 const BASE_TICK = 14
+const LANE_GAP = 6
 
-/** Estimated bubble width for collision math (label chars + fly button). */
+/**
+ * Bubbles hug their wrapped text (width: min-content), so a bubble is as
+ * wide as its longest word. Estimated width for collision math.
+ */
 function bubbleWidth(label: string): number {
-  return Math.min(76, label.length * 5.8) + 26
+  const longest = Math.max(...label.split(' ').map((w) => w.length))
+  return Math.min(76, Math.max(longest * 6, 30)) + 26
+}
+
+/** Estimated rendered bubble height: one line per word at min-content. */
+function bubbleHeight(label: string): number {
+  return Math.min(label.split(' ').length, 4) * 12 + 8
 }
 
 /**
@@ -118,12 +127,27 @@ export default function TimelineView({ events, isChecked, onFly }: Props) {
   const nextIn = daysUntil(next.startDate)
   const lastDay = Math.max(...dated.map((ev) => daysUntil(ev.endDate)))
   const width = (lastDay + RIGHT_PAD_DAYS) * PX_PER_DAY
+  const labels = dated.map(shortLabel)
   const lanes = assignLanes(
-    dated.map((ev) => {
+    dated.map((ev, i) => {
       const x = Math.max(daysUntil(ev.startDate), 0) * PX_PER_DAY
-      return { x, width: bubbleWidth(shortLabel(ev)) }
+      return { x, width: bubbleWidth(labels[i]) }
     }),
   )
+
+  // Dynamic vertical layout: each lane's tick height clears the tallest
+  // bubble of the lanes below it, and the strip grows/shrinks to match.
+  const laneMax: number[] = []
+  lanes.forEach((lane, i) => {
+    laneMax[lane] = Math.max(laneMax[lane] ?? 0, bubbleHeight(labels[i]))
+  })
+  const tickHeights: number[] = []
+  let stack = BASE_TICK
+  for (let l = 0; l < laneMax.length; l++) {
+    tickHeights[l] = stack
+    stack += (laneMax[l] ?? 0) + LANE_GAP
+  }
+  const canvasH = 26 + stack + 8 // axis zone + stacked lanes + headroom
 
   return (
     <section className="timeline" aria-label="Season timeline">
@@ -137,8 +161,10 @@ export default function TimelineView({ events, isChecked, onFly }: Props) {
       </button>
       {open && (
         <div className="tl-scroll" ref={scrollRef}>
-          <div className="tl-canvas" style={{ width }}>
-            <div className="tl-today">Today</div>
+          <div className="tl-canvas" style={{ width, height: canvasH }}>
+            <div className="tl-today" style={{ height: canvasH - 12 }}>
+              Today
+            </div>
             {monthMarks(lastDay).map((m) => (
               <div key={m.x} className="tl-month" style={{ left: m.x }}>
                 {m.label}
@@ -150,14 +176,15 @@ export default function TimelineView({ events, isChecked, onFly }: Props) {
                 <div
                   key={ev.id}
                   className={`tl-item${isChecked(ev.id) ? '' : ' tl-off'}`}
-                  style={{ left: x }}
+                  // Vertically lowest bubbles layer on top of taller lanes.
+                  style={{ left: x, zIndex: 30 - lanes[i] }}
                 >
                   <div className="tl-bubble">
                     <span
                       className="tl-name"
                       title={`${ev.name} — ${formatDateRange(ev.startDate, ev.endDate)}`}
                     >
-                      {shortLabel(ev)}
+                      {labels[i]}
                     </span>
                     <button
                       className="tl-fly"
@@ -168,7 +195,7 @@ export default function TimelineView({ events, isChecked, onFly }: Props) {
                       📍
                     </button>
                   </div>
-                  <div className={`tl-tick type-${ev.type}`} style={{ height: BASE_TICK + lanes[i] * LANE_STEP }} />
+                  <div className={`tl-tick type-${ev.type}`} style={{ height: tickHeights[lanes[i]] }} />
                   <div className="tl-date">
                     {parseISODate(ev.startDate).toLocaleDateString('en-US', {
                       month: 'numeric',

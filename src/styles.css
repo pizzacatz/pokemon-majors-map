@@ -719,9 +719,9 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
+/* height set inline: grows/shrinks with the bubbles it holds */
 .tl-canvas {
   position: relative;
-  height: 182px;
   margin: 0 12px;
 }
 
@@ -744,7 +744,6 @@ body {
   color: var(--red);
   border-left: 2px solid var(--red);
   padding-left: 4px;
-  height: 168px;
   display: flex;
   align-items: flex-end;
   z-index: 1;
@@ -775,9 +774,10 @@ body {
 }
 
 /* Each item is its own stacking context, so raising the BUBBLE's z-index
-   can't lift it over sibling items — raise the item on (bubble) hover. */
+   can't lift it over sibling items — raise the item on (bubble) hover.
+   !important beats the inline per-lane z-index. */
 .tl-item:hover {
-  z-index: 6;
+  z-index: 40 !important;
 }
 
 .tl-tick {
@@ -827,7 +827,8 @@ body {
 .tl-name {
   font-size: 0.64rem;
   line-height: 1.15;
-  max-width: 72px;
+  width: min-content; /* hug the wrapped text — no uniform-width bubbles */
+  max-width: 76px;
   white-space: normal;
   overflow-wrap: break-word;
 }

@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-07-16
+
+### Changed
+
+- Timeline bubbles hug their wrapped text instead of a uniform width, the
+  vertically lowest bubbles layer on top when overlapping, and the strip's
+  height grows/shrinks with the bubbles it actually holds.
+
+### Fixed
+
+- Utrecht and Milwaukee venues/addresses were missing: their detail pages
+  wrap each address line in `<div>` rather than `<br>`, which the venue-block
+  parser now understands. Both self-fill on the next scrape.
+
 ## [0.3.0] - 2026-07-16
 
 UX Phase 1 (see docs/UX-AUDIT.md P0 items).
@@ -196,7 +210,8 @@ UX Phase 1 (see docs/UX-AUDIT.md P0 items).
 - App version + data snapshot date displayed in the site footer.
 - PRD (docs/PRD.md), README, this changelog.
 
-[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.3.1...HEAD
+[0.3.1]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.2.4...v0.3.0
 [0.2.4]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.2.3...v0.2.4
 [0.2.3]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.2.2...v0.2.3

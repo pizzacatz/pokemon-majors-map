@@ -457,8 +457,10 @@ function decodeEntities(s) {
  * remainder = address.
  */
 function parseVenueBlock(html) {
+  // Pages vary: some separate lines with <br>, others wrap each line in
+  // <div> or <p> (Milwaukee, Utrecht) — split on any of them.
   const lines = String(html)
-    .split(/<br\s*\/?>/i)
+    .split(/<br\s*\/?>|<\/div\s*>|<\/p\s*>/i)
     .map((l) => decodeEntities(stripTags(l)).trim())
     .filter(Boolean)
   if (lines.length < 3) return null
