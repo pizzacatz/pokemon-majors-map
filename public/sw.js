@@ -1,6 +1,6 @@
 /* Minimal offline support: network-first navigations and data (so deploys and
    fresh events show on next load), stale-while-revalidate hashed assets. */
-const CACHE = 'pmm-v2'
+const CACHE = 'pmm-v3'
 
 self.addEventListener('install', () => {
   self.skipWaiting()

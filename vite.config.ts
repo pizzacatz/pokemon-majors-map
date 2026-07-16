@@ -5,7 +5,9 @@ import { readFileSync } from 'node:fs'
 const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'))
 
 export default defineConfig({
-  base: '/pokemon-majors-map/',
+  // Served from the domain root at majors.georgiaplayevents.com (custom
+  // domain — GitHub Pages no longer serves under /pokemon-majors-map/).
+  base: '/',
   plugins: [react()],
   define: {
     __APP_VERSION__: JSON.stringify(pkg.version),

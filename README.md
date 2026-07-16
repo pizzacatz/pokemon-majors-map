@@ -7,7 +7,7 @@ Championships, Special Events, International Championships, and Worlds — aroun
 globe. Pin your home, see how far each event is, how many days are left, and when to
 book travel. Plan your season, export it to your calendar, and share it as a link.
 
-**Live site:** https://pizzacatz.github.io/pokemon-majors-map/
+**Live site:** https://majors.georgiaplayevents.com/
 
 > This is a fan project. Not affiliated with, endorsed, or sponsored by Nintendo,
 > The Pokémon Company International, or Game Freak.

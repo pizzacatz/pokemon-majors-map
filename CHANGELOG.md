@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.12.1] - 2026-07-16
+
+### Fixed
+
+- **White page after moving to majors.georgiaplayevents.com.** The app was
+  built for the old `/pokemon-majors-map/` sub-path; on a custom domain
+  GitHub Pages serves from the root, so every asset URL 404'd. Vite base
+  is now `/`, the manifest scope/start_url and OG URLs point at the new
+  domain, and `public/CNAME` carries the domain through our force-push
+  deploys (GitHub's auto-written CNAME would have been wiped on the next
+  deploy, silently un-setting the domain). Old
+  pizzacatz.github.io/pokemon-majors-map links redirect automatically.
+
 ## [0.12.0] - 2026-07-16
 
 ### Changed
@@ -576,7 +589,8 @@ UX Phase 1 (see docs/UX-AUDIT.md P0 items).
 - App version + data snapshot date displayed in the site footer.
 - PRD (docs/PRD.md), README, this changelog.
 
-[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.12.0...HEAD
+[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.12.1...HEAD
+[0.12.1]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.12.0...v0.12.1
 [0.12.0]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.11.1...v0.12.0
 [0.11.1]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.11.0...v0.11.1
 [0.11.0]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.10.0...v0.11.0
