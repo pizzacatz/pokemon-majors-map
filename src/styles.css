@@ -315,7 +315,7 @@ body {
   flex-shrink: 0;
   display: flex;
   justify-content: center;
-  padding: 8px 0 6px;
+  padding: 6px 0 4px;
   cursor: grab;
   touch-action: none;
 }
@@ -331,19 +331,15 @@ body {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
-  padding: 0 12px 12px;
-}
-
-.sheet-body-peek {
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(#000 82%, transparent);
-  mask-image: linear-gradient(#000 82%, transparent);
+  padding: 0 12px 10px;
 }
 
 .sheet .event-card {
   border: none;
   box-shadow: none;
   background: transparent;
+  padding: 0; /* the sheet body already pads — don't double up */
+  margin-bottom: 0;
   padding: 0;
   margin: 0;
 }
@@ -494,7 +490,7 @@ body {
 }
 
 .event-name {
-  margin: 8px 0 4px;
+  margin: 4px 0 2px;
   font-size: 1rem;
   line-height: 1.3;
 }
@@ -588,9 +584,9 @@ body {
 .travel {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px 14px;
+  gap: 4px 14px;
   font-size: 0.88rem;
-  margin: 6px 0;
+  margin: 4px 0;
 }
 
 .travel-hint {
@@ -619,15 +615,21 @@ body {
 .event-links {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin: 8px 0 0;
+  gap: 5px;
+  margin: 6px 0 0;
+}
+
+/* Slimmer than the base .btn so all three links fit one row on phones */
+.event-links .btn {
+  padding: 6px 9px;
+  font-size: 0.8rem;
 }
 
 .check-row {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-top: 10px;
+  margin-top: 6px;
   font-size: 0.88rem;
   cursor: pointer;
 }
