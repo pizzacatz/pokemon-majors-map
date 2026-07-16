@@ -1,42 +1,24 @@
 {
-  "name": "Pokémon Majors Map",
-  "short_name": "PokéMajors",
+  "name": "GeorgiaPlayEvents Majors Map",
+  "short_name": "Majors Map",
   "description": "Every Play! Pokémon major on one map. Pin your home, count down, plan your season.",
   "start_url": "/pokemon-majors-map/",
   "scope": "/pokemon-majors-map/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#e3350d",
+  "background_color": "#fdefdf",
+  "theme_color": "#c85c24",
   "icons": [
-    {
-      "src": "icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any"
-    },
     {
       "src": "icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "any maskable"
     },
     {
       "src": "icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icon-maskable-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "icon-maskable-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "any maskable"
     }
   ]
 }

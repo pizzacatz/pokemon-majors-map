@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.11.0] - 2026-07-16
+
+GeorgiaPlayEvents rebrand, using assets from
+`pizzacatz/GeorgiaPlayEventsAssets`.
+
+### Changed
+
+- Name: "GeorgiaPlayEvents Majors Map" (title, manifest, OG card); the
+  header reads "Majors Map" with the peach logo; the footer links to
+  georgiaplayevents.com.
+- Logos/icons: the peach-Pokéball replaces the Pokéball everywhere —
+  favicon.ico, apple-touch-icon, 192/512 app icons (full-bleed cream
+  background doubles as maskable), header logo, and a rebuilt OG share
+  card in the TeamSheet style.
+- Light mode is warm cream (page #fdefdf, cards #fdf7ef, espresso text)
+  with burnt-orange accent #c85c24 replacing the Pokéball red.
+- Dark mode is the brand after dark: espresso browns (#201812 bg) with
+  peach/orange accents; the pulse ring is warm white.
+- Event-type colors warm-shifted but still mutually distinct: regional
+  copper, special gold, international plum, worlds brick (new --worlds
+  variable — worlds no longer shares the UI accent color).
+
 ## [0.10.0] - 2026-07-16
 
 Audit №2: the plan becomes opt-in, plus a batch of polish.
@@ -532,7 +554,8 @@ UX Phase 1 (see docs/UX-AUDIT.md P0 items).
 - App version + data snapshot date displayed in the site footer.
 - PRD (docs/PRD.md), README, this changelog.
 
-[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.10.0...HEAD
+[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.11.0...HEAD
+[0.11.0]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.9.1...v0.10.0
 [0.9.1]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.9.0...v0.9.1
 [0.9.0]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.8.1...v0.9.0

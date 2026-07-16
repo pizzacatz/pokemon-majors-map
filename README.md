@@ -1,4 +1,6 @@
-# Pokémon Majors Map
+# GeorgiaPlayEvents Majors Map
+
+Part of the [GeorgiaPlayEvents](https://georgiaplayevents.com) family of Pokémon apps.
 
 A mobile-first, single-page map of every Play! Pokémon **major event** — Regional
 Championships, Special Events, International Championships, and Worlds — around the

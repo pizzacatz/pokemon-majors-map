@@ -1,36 +1,47 @@
+/* GeorgiaPlayEvents brand palette (assets: pizzacatz/GeorgiaPlayEventsAssets).
+   --red is the historical name for the UI accent — now brand burnt orange.
+   Event-type colors are warm-shifted but stay mutually distinct:
+   regional copper, special gold, international plum, worlds brick. */
 :root {
-  --red: #e3350d;
-  --blue: #2a75bb;
-  --yellow: #f5b800;
-  /* --yellow fails contrast as text on light backgrounds (~1.9:1) */
+  --red: #c85c24;
+  --worlds: #b02a2a;
+  --blue: #b06030;
+  --yellow: #d9a514;
+  /* --yellow fails contrast as text on light backgrounds */
   --yellow-text: #8a6800;
-  /* highlighted-pin pulse ring — red reads on light tiles */
-  --pulse: rgba(227, 53, 13, 0.5);
-  --pulse-end: rgba(227, 53, 13, 0);
-  --purple: #7b2fbe;
+  /* highlighted-pin pulse ring — brand orange reads on light tiles */
+  --pulse: rgba(200, 92, 36, 0.55);
+  --pulse-end: rgba(200, 92, 36, 0);
+  --purple: #8e4e86;
   --gray: #9aa0a6;
-  --bg: #ffffff;
-  --bg-2: #f4f5f7;
-  --text: #1b1b1b;
-  --text-2: #5f6368;
-  --border: #dadce0;
-  --card: #ffffff;
-  --shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
+  --bg: #fdefdf;
+  --bg-2: #f7e3cb;
+  --text: #2d2018;
+  --text-2: #7a6a58;
+  --border: #e8d3b8;
+  --card: #fdf7ef;
+  --shadow: 0 2px 12px rgba(90, 60, 30, 0.18);
 }
 
 /* JS resolves the theme (saved choice, else system) onto <html data-theme>
    before first paint — see index.html — so no prefers-color-scheme here. */
+/* Dark mode is the brand after dark: warm espresso browns, peach accents. */
 :root[data-theme='dark'] {
-  --yellow-text: #f0c420;
-  /* red is invisible on the inverted dark tiles — pulse white instead */
-  --pulse: rgba(255, 255, 255, 0.7);
-  --pulse-end: rgba(255, 255, 255, 0);
-  --bg: #17181a;
-  --bg-2: #212327;
-  --text: #e8eaed;
-  --text-2: #9aa0a6;
-  --border: #3c4043;
-  --card: #26282c;
+  --red: #e07a3e;
+  --worlds: #d24848;
+  --blue: #cf854e;
+  --yellow: #e5b83a;
+  --yellow-text: #ecc25a;
+  --purple: #b06fa6;
+  /* saturated rings vanish on the inverted dark tiles — pulse warm white */
+  --pulse: rgba(255, 236, 214, 0.7);
+  --pulse-end: rgba(255, 236, 214, 0);
+  --bg: #201812;
+  --bg-2: #2a2018;
+  --text: #f2e8dc;
+  --text-2: #b3a08c;
+  --border: #4a3a2b;
+  --card: #2c2219;
   --shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
 }
 
@@ -217,8 +228,8 @@ body {
 }
 
 .chip-on.chip-worlds {
-  background: var(--red);
-  border-color: var(--red);
+  background: var(--worlds);
+  border-color: var(--worlds);
   color: #fff;
 }
 
@@ -302,7 +313,7 @@ body {
 }
 
 .pin-worlds {
-  background: var(--red);
+  background: var(--worlds);
 }
 
 .pin-off {
@@ -483,7 +494,7 @@ body {
 }
 
 .dot.type-worlds {
-  background: var(--red);
+  background: var(--worlds);
 }
 
 /* ---------- event card ---------- */
@@ -653,7 +664,7 @@ body {
 }
 
 .badge.type-worlds {
-  background: var(--red);
+  background: var(--worlds);
 }
 
 .badge-count {
@@ -1045,7 +1056,7 @@ body {
 }
 
 .tl-tick.type-worlds {
-  background: var(--red);
+  background: var(--worlds);
 }
 
 .tl-off .tl-tick {

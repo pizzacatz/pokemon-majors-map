@@ -86,7 +86,7 @@ export default function App() {
     // Keep the browser chrome (iOS status bar, Android address bar) in sync.
     document
       .querySelector('meta[name="theme-color"]:not([media])')
-      ?.setAttribute('content', theme === 'dark' ? '#17181a' : '#e3350d')
+      ?.setAttribute('content', theme === 'dark' ? '#201812' : '#fdefdf')
   }, [theme])
 
   // Countdowns compute at render time — a PWA left open overnight would
@@ -331,8 +331,8 @@ export default function App() {
     <div className="app">
       <header className="topbar">
         <h1>
-          <img src={`${import.meta.env.BASE_URL}icon.svg`} alt="" className="logo" />
-          <span className="topbar-title">Pokémon Majors Map</span>
+          <img src={`${import.meta.env.BASE_URL}icon-192.png`} alt="" className="logo" />
+          <span className="topbar-title">Majors Map</span>
         </h1>
         <div className="topbar-actions">
           <button
@@ -515,7 +515,8 @@ export default function App() {
         {tab !== 'map' && (
           <footer className="footer">
             <p>
-              v{__APP_VERSION__}
+              <a href="https://georgiaplayevents.com">georgiaplayevents.com</a> · v
+              {__APP_VERSION__}
               {dataDate && <> · data {dataDate}</>}
             </p>
             <p className="disclaimer">
