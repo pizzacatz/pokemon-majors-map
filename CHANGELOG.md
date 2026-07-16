@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-07-16
+
+UX Phase 2 (docs/UX-AUDIT.md P1 items) + data cleanup.
+
+### Removed
+
+- Los Angeles 2027 placeholder: it has no official source yet. It returns
+  automatically when the official site announces it.
+
+### Changed
+
+- Event cards lead with a short title ("Baltimore Regional", "NAIC") with the
+  official name as a subtitle; the dead "Registration TBA" chip is replaced by
+  a useful note ("RK9 link typically appears 2–3 months before the event").
+- Schedule is compact rows (title, dates, days-left) with sticky month
+  headers; tapping a row expands the full card. ~70% less scrolling.
+- Dark mode inverts the map tiles so the map matches the UI, and restyles
+  the zoom/attribution controls.
+- "Share my season" uses the native share sheet on mobile (clipboard
+  fallback on desktop).
+- Touch targets: close buttons and timeline fly pins now have ≥44px hit
+  areas.
+
 ## [0.3.3] - 2026-07-16
 
 ### Changed
@@ -236,7 +259,8 @@ UX Phase 1 (see docs/UX-AUDIT.md P0 items).
 - App version + data snapshot date displayed in the site footer.
 - PRD (docs/PRD.md), README, this changelog.
 
-[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.3.3...HEAD
+[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.3.3...v0.4.0
 [0.3.3]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.3.2...v0.3.3
 [0.3.2]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.3.0...v0.3.1

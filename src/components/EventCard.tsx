@@ -1,5 +1,6 @@
 import type { Home, PokeEvent } from '../types'
 import { EVENT_TYPE_LABEL } from '../types'
+import { shortLabel } from '../lib/labels'
 import { daysUntil, formatDate, formatDateRange, hasDates, isPast } from '../lib/dates'
 import { travelInfo } from '../lib/travel'
 import { googleCalendarUrl, downloadICS } from '../lib/calendar'
@@ -65,7 +66,9 @@ export default function EventCard({ ev, home, checked, onToggle, onClose, onFly 
           </button>
         )}
       </header>
-      <h3 className="event-name">{ev.name}</h3>
+      {/* Short title carries the signal; the official name is boilerplate. */}
+      <h3 className="event-name">{shortLabel(ev)}</h3>
+      <p className="event-fullname">{ev.name}</p>
       <p className="event-when">
         {hasDates(ev) ? formatDateRange(ev.startDate, ev.endDate) : 'Dates to be announced'}{' '}
         <Countdown ev={ev} />
@@ -100,15 +103,17 @@ export default function EventCard({ ev, home, checked, onToggle, onClose, onFly 
       </p>
       {ev.address && <p className="event-addr">{ev.address}</p>}
       <TravelLine ev={ev} home={home} />
+      {!past && !ev.links.registration && (
+        <p className="reg-note">
+          Registration isn't open yet — the RK9 link typically appears 2–3 months before the
+          event.
+        </p>
+      )}
       <div className="event-links">
-        {ev.links.registration ? (
+        {ev.links.registration && (
           <a href={ev.links.registration} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
             Register on RK9
           </a>
-        ) : (
-          <span className="btn btn-disabled" title="Registration link not posted yet">
-            Registration TBA
-          </span>
         )}
         {ev.links.official && (
           <a href={ev.links.official} target="_blank" rel="noopener noreferrer" className="btn">

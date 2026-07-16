@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { PokeEvent } from '../types'
 import { daysUntil, hasDates, isPast, parseISODate, formatDateRange } from '../lib/dates'
+import { bubbleLabel, shortLabel } from '../lib/labels'
 
 const PX_PER_DAY = 9
 const RIGHT_PAD_DAYS = 10
@@ -68,22 +69,6 @@ function monthMarks(lastDay: number): { x: number; label: string }[] {
   return marks
 }
 
-/** Compact bubble label: "Worlds", "NAIC", "LAIC", "EUIC", "<City> Regional/Special". */
-function shortLabel(ev: PokeEvent): string {
-  if (ev.type === 'worlds') return 'Worlds'
-  if (ev.type === 'international') {
-    const n = ev.name.toLowerCase()
-    if (n.includes('north america')) return 'NAIC'
-    if (n.includes('latin america')) return 'LAIC'
-    if (n.includes('europe')) return 'EUIC'
-    if (n.includes('oceania')) return 'OCIC'
-    return 'IC'
-  }
-  // Non-breaking spaces keep multi-word cities ("Rio de Janeiro") on one
-  // line — min-content bubbles wrap only before the Regional/Special suffix.
-  return `${ev.city.replace(/ /g, '\u00A0')} ${ev.type === 'special' ? 'Special' : 'Regional'}`
-}
-
 /**
  * Horizontal season timeline (PRD §4.12): today anchored at the far left,
  * scale runs to the farthest announced event. Ticks are type-colored; each
@@ -132,7 +117,7 @@ export default function TimelineView({ events, isChecked, onFly }: Props) {
   const nextIn = daysUntil(next.startDate)
   const lastDay = Math.max(...dated.map((ev) => daysUntil(ev.endDate)))
   const width = (lastDay + RIGHT_PAD_DAYS) * PX_PER_DAY
-  const labels = dated.map(shortLabel)
+  const labels = dated.map(bubbleLabel)
   const lanes = assignLanes(
     dated.map((ev, i) => {
       const x = Math.max(daysUntil(ev.startDate), 0) * PX_PER_DAY

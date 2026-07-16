@@ -2,7 +2,7 @@ import { useState } from 'react'
 import type { Home, PokeEvent } from '../types'
 import { hasDates, isPast, rangesOverlap } from '../lib/dates'
 import { downloadICS } from '../lib/calendar'
-import { buildPlanUrl, copyText } from '../lib/share'
+import { buildPlanUrl, sharePlanUrl } from '../lib/share'
 import EventCard from './EventCard'
 
 interface Props {
@@ -38,8 +38,8 @@ export default function ItineraryView({ events, home, isChecked, onToggle, onFly
   const conflicts = conflictIds(plan)
 
   async function share() {
-    const ok = await copyText(buildPlanUrl(plan.map((ev) => ev.id)))
-    setCopied(ok)
+    const result = await sharePlanUrl(buildPlanUrl(plan.map((ev) => ev.id)))
+    setCopied(result === 'copied')
     setTimeout(() => setCopied(false), 2500)
   }
 

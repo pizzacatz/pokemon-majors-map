@@ -476,19 +476,35 @@ body {
   margin-left: auto;
 }
 
+/* ≥44px hit areas via padding (UX audit P1-10) */
 .icon-btn {
   background: none;
   border: none;
   color: var(--text-2);
   font-size: 1rem;
   cursor: pointer;
-  padding: 4px;
+  padding: 12px;
+  margin: -6px;
+  line-height: 1;
 }
 
 .event-name {
-  margin: 8px 0 4px;
-  font-size: 1rem;
+  margin: 8px 0 0;
+  font-size: 1.05rem;
   line-height: 1.3;
+}
+
+.event-fullname {
+  margin: 0 0 6px;
+  font-size: 0.74rem;
+  color: var(--text-2);
+}
+
+.reg-note {
+  margin: 8px 0 0;
+  font-size: 0.8rem;
+  color: var(--text-2);
+  font-style: italic;
 }
 
 .event-when,
@@ -671,7 +687,56 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--text-2);
-  margin: 18px 0 8px;
+  margin: 0;
+  padding: 16px 0 8px;
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 5;
+}
+
+/* Compact schedule rows (UX audit P1-6); tap to expand into the full card */
+.sched-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  text-align: left;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 11px 12px;
+  margin-bottom: 6px;
+  font-size: 0.88rem;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.sched-row:active {
+  transform: scale(0.99);
+}
+
+.sched-off {
+  opacity: 0.5;
+}
+
+.sched-title {
+  flex: 1;
+  font-weight: 600;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sched-when {
+  color: var(--text-2);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.sched-when b {
+  color: var(--text);
 }
 
 .past-section {
@@ -855,7 +920,8 @@ body {
   border: none;
   font-size: 0.75rem;
   cursor: pointer;
-  padding: 1px 2px;
+  padding: 8px 6px;
+  margin: -7px -4px;
   line-height: 1;
 }
 
@@ -965,9 +1031,25 @@ body {
   font-weight: 600;
 }
 
-/* Leaflet dark-mode chrome */
+/* Leaflet dark-mode chrome: invert the light OSM tiles so the map matches
+   the UI instead of flashbanging it (UX audit P1-8). */
 @media (prefers-color-scheme: dark) {
   .leaflet-container {
     background: #17181a;
+  }
+
+  .leaflet-tile {
+    filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(0.9);
+  }
+
+  .leaflet-control-attribution {
+    background: rgba(23, 24, 26, 0.8) !important;
+    color: var(--text-2) !important;
+  }
+
+  .leaflet-control-zoom a {
+    background: var(--card) !important;
+    color: var(--text) !important;
+    border-color: var(--border) !important;
   }
 }

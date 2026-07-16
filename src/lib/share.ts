@@ -28,3 +28,20 @@ export async function copyText(text: string): Promise<boolean> {
     return false
   }
 }
+
+/**
+ * Native share sheet on mobile (UX audit P1-9), clipboard fallback elsewhere.
+ * Returns what actually happened so the button can say so.
+ */
+export async function sharePlanUrl(url: string): Promise<'shared' | 'copied' | 'failed'> {
+  if (navigator.share) {
+    try {
+      await navigator.share({ title: 'My Pokémon season plan', url })
+      return 'shared'
+    } catch (err) {
+      if ((err as DOMException)?.name === 'AbortError') return 'failed' // user cancelled: stay quiet
+      // fall through to clipboard
+    }
+  }
+  return (await copyText(url)) ? 'copied' : 'failed'
+}

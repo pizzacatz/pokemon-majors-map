@@ -9,20 +9,5 @@
     "venue": "Moscone Center",
     "address": "747 Howard St., San Francisco, CA 94103, United States"
   },
-  {
-    "id": "regional-2027-los-angeles",
-    "name": "Los Angeles Pokémon Regional Championships 2027",
-    "type": "regional",
-    "formats": ["tcg", "vgc", "go"],
-    "startDate": null,
-    "endDate": null,
-    "venue": null,
-    "city": "Los Angeles",
-    "country": "US",
-    "region": "NA",
-    "lat": 34.0522,
-    "lng": -118.2437,
-    "links": { "official": "https://championships.pokemon.com/en-us/events/", "registration": null },
-    "registrationOpens": null
-  }
+  { "id": "regional-2027-los-angeles", "remove": true }
 ]
