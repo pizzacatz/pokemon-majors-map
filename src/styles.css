@@ -4,6 +4,9 @@
   --yellow: #f5b800;
   /* --yellow fails contrast as text on light backgrounds (~1.9:1) */
   --yellow-text: #8a6800;
+  /* highlighted-pin pulse ring — red reads on light tiles */
+  --pulse: rgba(227, 53, 13, 0.5);
+  --pulse-end: rgba(227, 53, 13, 0);
   --purple: #7b2fbe;
   --gray: #9aa0a6;
   --bg: #ffffff;
@@ -19,6 +22,9 @@
    before first paint — see index.html — so no prefers-color-scheme here. */
 :root[data-theme='dark'] {
   --yellow-text: #f0c420;
+  /* red is invisible on the inverted dark tiles — pulse white instead */
+  --pulse: rgba(255, 255, 255, 0.7);
+  --pulse-end: rgba(255, 255, 255, 0);
   --bg: #17181a;
   --bg-2: #212327;
   --text: #e8eaed;
@@ -269,12 +275,12 @@ body {
   0% {
     box-shadow:
       0 1px 4px rgba(0, 0, 0, 0.4),
-      0 0 0 0 rgba(227, 53, 13, 0.5);
+      0 0 0 0 var(--pulse);
   }
   100% {
     box-shadow:
       0 1px 4px rgba(0, 0, 0, 0.4),
-      0 0 0 12px rgba(227, 53, 13, 0);
+      0 0 0 12px var(--pulse-end);
   }
 }
 
