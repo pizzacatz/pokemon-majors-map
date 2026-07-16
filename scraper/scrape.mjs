@@ -417,28 +417,46 @@ function mineBlobs(blobs, found) {
   }
 }
 
-/** First string value in a JSON tree whose canonical key matches. */
-function deepPickString(node, names, depth = 0) {
-  if (depth > 10 || node === null || typeof node !== 'object') return null
+/** All string values in a JSON tree whose canonical key matches, in order. */
+function deepCollectStrings(node, names, out = [], depth = 0) {
+  if (depth > 12 || node === null || typeof node !== 'object') return out
   if (Array.isArray(node)) {
-    for (const item of node) {
-      const hit = deepPickString(item, names, depth + 1)
-      if (hit) return hit
-    }
-    return null
+    for (const item of node) deepCollectStrings(item, names, out, depth + 1)
+    return out
   }
   for (const [k, v] of Object.entries(node)) {
-    if (typeof v === 'string' && v.trim() && names.includes(canonKey(k))) return v
+    if (typeof v === 'string' && v.trim() && names.includes(canonKey(k))) out.push(v)
+    deepCollectStrings(v, names, out, depth + 1)
   }
-  for (const v of Object.values(node)) {
-    const hit = deepPickString(v, names, depth + 1)
-    if (hit) return hit
-  }
-  return null
+  return out
 }
 
-function cleanText(html) {
-  return stripTags(String(html).replace(/<br\s*\/?>/gi, ', ')).replace(/\s*,\s*,+/g, ',').trim()
+function decodeEntities(s) {
+  return s
+    .replace(/&ndash;/g, '–')
+    .replace(/&mdash;/g, '—')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&#39;|&apos;/g, "'")
+    .replace(/&quot;/g, '"')
+}
+
+/**
+ * The hero blade's bottomCopy_html holds the venue block as rich text:
+ * "Venue Name<br>Street<br>City, ST ZIP<br>Country". First line = venue,
+ * remainder = address.
+ */
+function parseVenueBlock(html) {
+  const lines = String(html)
+    .split(/<br\s*\/?>/i)
+    .map((l) => decodeEntities(stripTags(l)).trim())
+    .filter(Boolean)
+  if (lines.length < 3) return null
+  const venue = lines[0]
+  const address = lines.slice(1).join(', ')
+  // Real venue blocks are short-named with a numbered street/postal address.
+  if (venue.length > 90 || !/\d/.test(address)) return null
+  return { venue, address }
 }
 
 /**
@@ -460,11 +478,16 @@ async function enrichOfficialDetails(events) {
         continue
       }
       const body = await res.json()
-      const venue = deepPickString(body, ['venue', 'venuename', 'venuetitle', 'locationname'])
-      const address = deepPickString(body, ['address', 'venueaddress', 'addressline1', 'streetaddress', 'eventaddress'])
-      if (venue) ev.venue = cleanText(venue)
-      if (address) ev.address = cleanText(address)
-      if (!venue && !address && !diagnosed) {
+      let found = null
+      for (const block of deepCollectStrings(body, ['bottomcopy', 'topcopy', 'copy'])) {
+        found = parseVenueBlock(block)
+        if (found) break
+      }
+      if (found) {
+        ev.venue = found.venue
+        ev.address = found.address
+      }
+      if (!found && !diagnosed) {
         // Unknown page shape — log a key inventory plus context around any
         // venue/address-ish text so the next fix targets real structure.
         diagnosed = true
