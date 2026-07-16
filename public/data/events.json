@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-07-16T02:42:36.558Z",
+    "generatedAt": "2026-07-16T03:59:14.862Z",
     "source": "scraper",
     "schemaVersion": 1
   },
@@ -256,8 +256,8 @@
       ],
       "startDate": "2026-11-20",
       "endDate": "2026-11-22",
-      "venue": "Event Location:",
-      "address": "Expo Center Norte – Pavilhão Branco, José Bernardo Pinto Street, 333 – Vila Guilherme, São Paulo – SP, 02055-000, Brazil",
+      "venue": "Centro de Convenções - Distrito Anhembi",
+      "address": "Av. Olavo Fontoura, 1209 - Santana, São Paulo - SP, 02012-021, Brazil",
       "city": "São Paulo",
       "country": "BR",
       "region": "LATAM",
@@ -424,13 +424,13 @@
       ],
       "startDate": "2027-02-19",
       "endDate": "2027-02-21",
-      "venue": "Event Location:",
-      "address": "Excel London, Royal Victoria Dock, 1 Western Gateway, London E16 1XL, UK",
+      "venue": "Excel London",
+      "address": "Royal Victoria Dock, 1 Western Gateway, London E16 1XL, United Kingdom",
       "city": "London",
       "country": "GB",
       "region": "EU",
-      "lat": 51.5074456,
-      "lng": -0.1277653,
+      "lat": 51.5081127,
+      "lng": 0.0297071,
       "links": {
         "official": "https://championships.pokemon.com/en-us/events/internationals/2027/london",
         "registration": null
@@ -544,13 +544,13 @@
       ],
       "startDate": "2027-04-16",
       "endDate": "2027-04-18",
-      "venue": null,
-      "address": null,
+      "venue": "Baird Center",
+      "address": "Halls B, C, D, & E, 400 W Wisconsin Ave, Milwaukee, WI 53203, USA",
       "city": "Milwaukee",
       "country": "US",
       "region": "NA",
-      "lat": 43.0386475,
-      "lng": -87.9090751,
+      "lat": 43.0401683,
+      "lng": -87.917494,
       "links": {
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/milwaukee",
         "registration": null
@@ -737,12 +737,12 @@
       "startDate": "2027-06-18",
       "endDate": "2027-06-20",
       "venue": "McCormick Place",
-      "address": null,
+      "address": "2301 S. Martin Luther King Dr., Chicago, IL 60616, United States",
       "city": "Chicago",
       "country": "US",
       "region": "NA",
-      "lat": 41.8755616,
-      "lng": -87.6244212,
+      "lat": 41.8484622,
+      "lng": -87.6205541,
       "links": {
         "official": "https://championships.pokemon.com/en-us/events/internationals/2027/chicago",
         "registration": null

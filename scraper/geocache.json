@@ -444,5 +444,24 @@
   "Centro de Congresos Yucatán Siglo XXI, Calle 60 Nte 299, Zona Industrial, Revolución, 97118 Mérida, Yuc., Mexico": null,
   "Centro de Congresos Yucatán Siglo XXI, Mérida, MX": null,
   "Riocentro, Av. Salvador Allende, 6555 - Barra Olímpica, Rio de Janeiro - RJ, 22783-127, Brazil": null,
-  "PVA EXPO PRAGUE, Halls 3 & 4, Beranových 667, 199 00 Praha 9, Czechia": null
+  "PVA EXPO PRAGUE, Halls 3 & 4, Beranových 667, 199 00 Praha 9, Czechia": null,
+  "Centro de Convenções - Distrito Anhembi, Av. Olavo Fontoura, 1209 - Santana, São Paulo - SP, 02012-021, Brazil": null,
+  "Centro de Convenções - Distrito Anhembi, São Paulo, BR": null,
+  "Excel London, Royal Victoria Dock, 1 Western Gateway, London E16 1XL, United Kingdom": null,
+  "Excel London, London, GB": {
+    "lat": 51.5081127,
+    "lng": 0.0297071,
+    "country": "GB"
+  },
+  "Baird Center, Halls B, C, D, & E, 400 W Wisconsin Ave, Milwaukee, WI 53203, USA": null,
+  "Baird Center, Milwaukee": {
+    "lat": 43.0401683,
+    "lng": -87.917494,
+    "country": "US"
+  },
+  "McCormick Place, 2301 S. Martin Luther King Dr., Chicago, IL 60616, United States": {
+    "lat": 41.8484622,
+    "lng": -87.6205541,
+    "country": "US"
+  }
 }
