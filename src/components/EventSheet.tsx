@@ -18,7 +18,10 @@ export default function EventSheet({ onDismiss, children }: Props) {
     window.innerWidth >= 700 ? 'full' : 'peek',
   )
   const [dragH, setDragH] = useState<number | null>(null)
+  // Height at which the whole card is visible (content + handle chrome).
+  const [fitH, setFitH] = useState<number | null>(null)
   const sheetRef = useRef<HTMLDivElement>(null)
+  const bodyRef = useRef<HTMLDivElement>(null)
   const start = useRef<{ y: number; h: number; moved: boolean } | null>(null)
 
   const maxH = () => {
@@ -26,11 +29,21 @@ export default function EventSheet({ onDismiss, children }: Props) {
     return Math.max(360, (wrap?.clientHeight ?? window.innerHeight) - 56)
   }
 
-  // On short (landscape) screens a 300px peek is basically full — cap it.
+  // Peek hugs the content: most cards fit entirely, so no expand needed.
+  // Capped at ~55% of the map so the flown-to pin stays visible above it.
   const peekH = () => {
     const wrap = sheetRef.current?.parentElement
-    return Math.min(PEEK, Math.round(((wrap?.clientHeight ?? window.innerHeight) * 0.55)))
+    const cap = Math.round((wrap?.clientHeight ?? window.innerHeight) * 0.55)
+    return Math.min(fitH ?? PEEK, cap)
   }
+
+  useEffect(() => {
+    const sheet = sheetRef.current
+    const body = bodyRef.current
+    if (!sheet || !body) return
+    const chrome = sheet.offsetHeight - body.offsetHeight // handle + borders
+    setFitH(body.scrollHeight + chrome + 2)
+  }, [children])
 
   // Move focus into the sheet on open so keyboard/screen-reader users land in
   // the card, and let Escape dismiss it (UX audit P2-17).
@@ -68,6 +81,8 @@ export default function EventSheet({ onDismiss, children }: Props) {
   }
 
   const height = dragH ?? (snap === 'peek' ? peekH() : maxH())
+  // Fade hint (and reason to expand) only when the card is actually clipped.
+  const clipped = fitH !== null && fitH > height + 2
 
   return (
     <div
@@ -92,7 +107,10 @@ export default function EventSheet({ onDismiss, children }: Props) {
       >
         <div className="sheet-pill" />
       </div>
-      <div className={`sheet-body${snap === 'peek' && dragH === null ? ' sheet-body-peek' : ''}`}>
+      <div
+        ref={bodyRef}
+        className={`sheet-body${snap === 'peek' && dragH === null && clipped ? ' sheet-body-peek' : ''}`}
+      >
         {children}
       </div>
     </div>

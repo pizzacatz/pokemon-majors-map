@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.3] - 2026-07-16
+
+Card compression: a typical event card now fits entirely in the sheet's
+peek state — no expanding needed.
+
+### Changed
+
+- Travel line is just "N mi from home · Book flights by <date>": the
+  drive/fly badge and "(international)" tag are gone, and the booking
+  heuristic assumes flights for every trip (international still gets the
+  longer 90-day lead time under the hood).
+- When registration isn't open, the card shows the Register on RK9 button
+  grayed out with struck-through text instead of an explanatory paragraph
+  (the explanation lives in its tooltip).
+- Calendar chips are "GCal" / "iCal" (consistent, no stray plus sign).
+- The sheet's peek height hugs the card content (capped at ~55% of the
+  screen), and the bottom fade only appears when content is actually
+  clipped.
+
 ## [0.5.2] - 2026-07-16
 
 ### Changed
@@ -310,7 +329,8 @@ UX Phase 1 (see docs/UX-AUDIT.md P0 items).
 - App version + data snapshot date displayed in the site footer.
 - PRD (docs/PRD.md), README, this changelog.
 
-[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.5.2...HEAD
+[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.5.3...HEAD
+[0.5.3]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.5.2...v0.5.3
 [0.5.2]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.5.1...v0.5.2
 [0.5.1]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.4.0...v0.5.0

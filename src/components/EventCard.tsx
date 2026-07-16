@@ -34,12 +34,9 @@ function TravelLine({ ev, home }: { ev: PokeEvent; home: Home | null }) {
   }
   const t = travelInfo(ev, home)
   const miles = Math.round(t.distanceMi).toLocaleString()
-  const mode = t.mode === 'drive' ? '🚗 drive' : t.international ? '✈️ fly (international)' : '✈️ fly'
   return (
     <div className="travel">
-      <span>
-        {miles} mi from home · {mode}
-      </span>
+      <span>{miles} mi from home</span>
       {t.bookByISO && !isPast(ev) && (
         <span className={`bookby bookby-${t.urgency}`}>
           {t.urgency === 'asap'
@@ -71,7 +68,7 @@ export default function EventCard({ ev, home, checked, onToggle, onClose, onFly 
         <Countdown ev={ev} />
         {!past && gcal && (
           <a href={gcal} target="_blank" rel="noopener noreferrer" className="btn btn-mini">
-            + GCal
+            GCal
           </a>
         )}
         {!past && hasDates(ev) && (
@@ -100,17 +97,21 @@ export default function EventCard({ ev, home, checked, onToggle, onClose, onFly 
       </p>
       {ev.address && <p className="event-addr">{ev.address}</p>}
       <TravelLine ev={ev} home={home} />
-      {!past && !ev.links.registration && (
-        <p className="reg-note">
-          Registration isn't open yet — the RK9 link typically appears 2–3 months before the
-          event.
-        </p>
-      )}
       <div className="event-links">
-        {ev.links.registration && (
+        {ev.links.registration ? (
           <a href={ev.links.registration} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
             Register on RK9
           </a>
+        ) : (
+          !past && (
+            <span
+              className="btn btn-disabled"
+              aria-disabled="true"
+              title="Registration isn't open yet — the RK9 link typically appears 2–3 months before the event."
+            >
+              Register on RK9
+            </span>
+          )
         )}
         {ev.links.official && (
           <a href={ev.links.official} target="_blank" rel="noopener noreferrer" className="btn">

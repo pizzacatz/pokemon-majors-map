@@ -55,7 +55,7 @@ in the repository, refreshed by a scheduled GitHub Actions scraper. All personal
   full-screen modal — with:
   - Event name, type badge, format availability (TCG / VGC / GO)
   - Dates (venue-local) and **days-left countdown**
-  - Venue name + city/country, distance from home, travel-mode badge (drive / fly)
+  - Venue name + city/country, distance from home
   - **Book-travel-by date** (§4.6)
   - Links: RK9.gg registration page, official event page, **Hotels nearby** (§4.7)
   - **Add to Google Calendar** button + **.ics download**
@@ -106,11 +106,12 @@ in the repository, refreshed by a scheduled GitHub Actions scraper. All personal
 
 Computed client-side from great-circle distance between home pin and venue:
 
-| Distance from home       | Mode  | Guidance shown                                   |
-| ------------------------ | ----- | ------------------------------------------------ |
-| < 350 mi                 | Drive | "Book hotel by" = event − 30 days                |
-| ≥ 350 mi, same country   | Fly   | "Book flights by" = event − 45 days (window 45–75) |
-| Different country        | Fly   | "Book flights by" = event − 90 days (window 90–150) |
+Flights-only (no drive/fly mode shown on the card):
+
+| Trip              | Guidance shown                                       |
+| ----------------- | ---------------------------------------------------- |
+| Same country      | "Book flights by" = event − 45 days (window 45–75)   |
+| Different country | "Book flights by" = event − 90 days (window 90–150)  |
 
 Dates already inside the window show "book now"; past-window shows "book ASAP".
 The heuristic lives in one module (`src/lib/travel.ts`) so a future live-fare source only

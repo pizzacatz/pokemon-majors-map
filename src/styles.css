@@ -499,11 +499,13 @@ body {
   line-height: 1.3;
 }
 
-.reg-note {
-  margin: 8px 0 0;
-  font-size: 0.8rem;
+/* Registration not open yet: the Register button exists but is inert */
+.btn-disabled {
+  background: var(--bg-2);
+  border-color: var(--border);
   color: var(--text-2);
-  font-style: italic;
+  text-decoration: line-through;
+  cursor: not-allowed;
 }
 
 .event-when,
