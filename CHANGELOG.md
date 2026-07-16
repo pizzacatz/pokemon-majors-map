@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.1] - 2026-07-16
+
+### Changed
+
+- The "My plan" strip stays open when you select an event from it, so you
+  can step through your season without reopening it each time.
+
 ## [0.8.0] - 2026-07-16
 
 Plan-surface consolidation: My Season, Schedule, and Itinerary were one
@@ -467,7 +474,8 @@ UX Phase 1 (see docs/UX-AUDIT.md P0 items).
 - App version + data snapshot date displayed in the site footer.
 - PRD (docs/PRD.md), README, this changelog.
 
-[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.8.0...HEAD
+[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.8.1...HEAD
+[0.8.1]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.8.0...v0.8.1
 [0.8.0]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.7.2...v0.8.0
 [0.7.2]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.7.1...v0.7.2
 [0.7.1]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.7.0...v0.7.1

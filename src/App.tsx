@@ -362,10 +362,7 @@ export default function App() {
                   events={filtered}
                   isChecked={isChecked}
                   onToggle={toggle}
-                  onSelect={(id) => {
-                    openEvent(id)
-                    setDashOpen(false)
-                  }}
+                  onSelect={openEvent}
                   onHover={setHoverId}
                   conflicts={conflicts}
                 />
