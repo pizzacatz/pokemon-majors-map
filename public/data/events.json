@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-07-16T04:05:39.296Z",
+    "generatedAt": "2026-07-16T04:38:30.965Z",
     "source": "scraper",
     "schemaVersion": 1
   },
@@ -745,30 +745,6 @@
       "lng": -87.6205541,
       "links": {
         "official": "https://championships.pokemon.com/en-us/events/internationals/2027/chicago",
-        "registration": null
-      },
-      "registrationOpens": null
-    },
-    {
-      "id": "regional-2027-los-angeles",
-      "name": "Los Angeles Pokémon Regional Championships 2027",
-      "type": "regional",
-      "formats": [
-        "tcg",
-        "vgc",
-        "go"
-      ],
-      "startDate": null,
-      "endDate": null,
-      "venue": null,
-      "address": null,
-      "city": "Los Angeles",
-      "country": "US",
-      "region": "NA",
-      "lat": 34.0522,
-      "lng": -118.2437,
-      "links": {
-        "official": "https://championships.pokemon.com/en-us/events/",
         "registration": null
       },
       "registrationOpens": null
