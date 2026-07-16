@@ -5,7 +5,7 @@ import { daysUntil, formatDate, formatDateRange, hasDates, isPast } from '../lib
 import { travelInfo } from '../lib/travel'
 import { googleCalendarUrl, downloadICS } from '../lib/calendar'
 import { hotelsUrl } from '../lib/links'
-import { widestAddress } from '../lib/addrFit'
+import { widestText, type FitRole } from '../lib/textFit'
 
 interface Props {
   ev: PokeEvent
@@ -19,58 +19,39 @@ interface Props {
   onTitleTap?: () => void
 }
 
-/** One line always: long text shrinks to fit the card width. */
-function FitLine({
+/**
+ * One line at a size shared by ALL events: scaled against the widest string
+ * of its role (title/address) in the dataset, so switching cards never
+ * jitters from per-card font scaling.
+ */
+function FitText({
+  role,
   text,
   className,
   as: Tag = 'p',
-  minPx = 9,
 }: {
+  role: FitRole
   text: string
   className: string
   as?: 'p' | 'h3'
-  minPx?: number
 }) {
   const ref = useRef<HTMLElement>(null)
   useLayoutEffect(() => {
     const el = ref.current
     if (!el) return
     el.style.fontSize = '' // reset to the CSS base before measuring
-    const scale = el.clientWidth / el.scrollWidth
-    if (scale < 1) {
-      const base = parseFloat(getComputedStyle(el).fontSize)
-      el.style.fontSize = `${Math.max(base * scale - 0.2, minPx)}px`
-    }
-  }, [text])
-  return (
-    <Tag className={className} ref={ref as React.RefObject<never>} title={text}>
-      {text}
-    </Tag>
-  )
-}
-
-/**
- * Address on one line at a size shared by ALL events: scaled against the
- * widest address in the dataset, so switching cards never jitters.
- */
-function FitAddr({ text }: { text: string }) {
-  const ref = useRef<HTMLParagraphElement>(null)
-  useLayoutEffect(() => {
-    const el = ref.current
-    if (!el) return
-    el.style.fontSize = '' // reset to the CSS base before measuring
     const cs = getComputedStyle(el)
-    const widest = widestAddress(`${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`)
+    const widest = widestText(role, `${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`)
     const scale = widest > 0 ? el.clientWidth / widest : 1
     if (scale < 1) {
       const base = parseFloat(cs.fontSize)
       el.style.fontSize = `${Math.max(base * scale - 0.2, 7)}px`
     }
-  }, [text])
+  }, [role, text])
   return (
-    <p className="event-addr" ref={ref} title={text}>
+    <Tag className={className} ref={ref as React.RefObject<never>} title={text}>
       {text}
-    </p>
+    </Tag>
   )
 }
 
@@ -180,7 +161,7 @@ export default function EventCard({ ev, home, checked, onToggle, onClose, onFly,
             </button>
           )}
         </header>
-        <FitLine as="h3" className="event-name" text={ev.name} minPx={10.5} />
+        <FitText role="title" as="h3" className="event-name" text={ev.name} />
       </div>
       <p className="event-when">
         {hasDates(ev) ? formatDateRange(ev.startDate, ev.endDate) : 'Dates to be announced'}{' '}
@@ -205,7 +186,7 @@ export default function EventCard({ ev, home, checked, onToggle, onClose, onFly,
           ? (ev.venue ?? `${ev.city}, ${ev.country}`)
           : [ev.venue, ev.city, ev.country].filter(Boolean).join(', ')}
       </p>
-      {ev.address && <FitAddr text={ev.address} />}
+      {ev.address && <FitText role="address" className="event-addr" text={ev.address} />}
       <TravelLine ev={ev} home={home} />
       <div className="event-links">
         {ev.links.registration ? (

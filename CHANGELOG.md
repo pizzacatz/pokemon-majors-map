@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.4] - 2026-07-16
+
+### Changed
+
+- Event titles now use one shared font size too (sized against the widest
+  official name in the dataset), finishing the jitter fix: switching
+  events changes no font metrics anywhere on the card.
+
 ## [0.6.3] - 2026-07-16
 
 ### Changed
@@ -396,7 +404,8 @@ UX Phase 1 (see docs/UX-AUDIT.md P0 items).
 - App version + data snapshot date displayed in the site footer.
 - PRD (docs/PRD.md), README, this changelog.
 
-[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.6.3...HEAD
+[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.6.4...HEAD
+[0.6.4]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.6.3...v0.6.4
 [0.6.3]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.6.2...v0.6.3
 [0.6.2]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.6.1...v0.6.2
 [0.6.1]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.6.0...v0.6.1

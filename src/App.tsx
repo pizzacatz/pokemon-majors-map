@@ -21,7 +21,7 @@ import {
 } from './lib/storage'
 import { clearPlanFromUrl, readPlanFromUrl } from './lib/share'
 import { normalizeEvent } from './lib/normalize'
-import { setAddressCorpus } from './lib/addrFit'
+import { setFitCorpus } from './lib/textFit'
 
 type Tab = 'map' | 'schedule' | 'itinerary'
 
@@ -82,7 +82,8 @@ export default function App() {
       .then((res) => (res.ok ? res.json() : Promise.reject(new Error(String(res.status)))))
       .then((json: EventsFile) => {
         const events = json.events.map(normalizeEvent).filter((ev): ev is PokeEvent => ev !== null)
-        setAddressCorpus(events.map((ev) => ev.address))
+        setFitCorpus('title', events.map((ev) => ev.name))
+        setFitCorpus('address', events.map((ev) => ev.address))
         setData({ ...json, events })
       })
       .catch(() => setLoadError(true))
