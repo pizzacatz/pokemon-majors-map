@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.12.0] - 2026-07-16
+
+### Changed
+
+- Renamed to **Map of Pokémon Championships** (browser title, OG title,
+  installed-app name, and the header wordmark). A "part of the GPE
+  network" subtitle under the header links to georgiaplayevents.com.
+- Dark mode now matches TeamSheet (`team-sheet-builder`): neutral
+  near-black page (#0d0d0e), gray panels (#2f2f33), warm off-white text
+  (#f8efe5), and TeamSheet's peach accent (#ffb072). Primary buttons take
+  dark text on the peach (per-theme `--red-contrast`), and the dark map
+  frame matches the page. Light mode is unchanged.
+
 ## [0.11.1] - 2026-07-16
 
 ### Changed
@@ -563,7 +576,8 @@ UX Phase 1 (see docs/UX-AUDIT.md P0 items).
 - App version + data snapshot date displayed in the site footer.
 - PRD (docs/PRD.md), README, this changelog.
 
-[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.11.1...HEAD
+[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.12.0...HEAD
+[0.12.0]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.11.1...v0.12.0
 [0.11.1]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.11.0...v0.11.1
 [0.11.0]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.9.1...v0.10.0

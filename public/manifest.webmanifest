@@ -1,6 +1,6 @@
 {
-  "name": "GeorgiaPlayEvents Majors Map",
-  "short_name": "Majors Map",
+  "name": "Map of Pokémon Championships",
+  "short_name": "Champ Map",
   "description": "Every Play! Pokémon major on one map. Pin your home, count down, plan your season.",
   "start_url": "/pokemon-majors-map/",
   "scope": "/pokemon-majors-map/",
