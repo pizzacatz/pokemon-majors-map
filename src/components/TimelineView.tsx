@@ -14,7 +14,7 @@ const LANE_GAP = 6
  */
 function bubbleWidth(label: string): number {
   const longest = Math.max(...label.split(' ').map((w) => w.length))
-  return Math.min(76, Math.max(longest * 6, 30)) + 26
+  return Math.min(96, Math.max(longest * 6, 30)) + 26
 }
 
 /** Estimated rendered bubble height: one line per word at min-content. */
@@ -79,7 +79,9 @@ function shortLabel(ev: PokeEvent): string {
     if (n.includes('oceania')) return 'OCIC'
     return 'IC'
   }
-  return `${ev.city} ${ev.type === 'special' ? 'Special' : 'Regional'}`
+  // Non-breaking spaces keep multi-word cities ("Rio de Janeiro") on one
+  // line — min-content bubbles wrap only before the Regional/Special suffix.
+  return `${ev.city.replace(/ /g, '\u00A0')} ${ev.type === 'special' ? 'Special' : 'Regional'}`
 }
 
 /**
@@ -123,7 +125,10 @@ export default function TimelineView({ events, isChecked, onFly }: Props) {
 
   if (dated.length === 0) return null
 
-  const next = dated[0]
+  // The strip shows the next event in YOUR season plan — if you're skipping
+  // Worlds, its countdown isn't the one you care about. Falls back to the
+  // next upcoming event when nothing is checked.
+  const next = dated.find((ev) => isChecked(ev.id)) ?? dated[0]
   const nextIn = daysUntil(next.startDate)
   const lastDay = Math.max(...dated.map((ev) => daysUntil(ev.endDate)))
   const width = (lastDay + RIGHT_PAD_DAYS) * PX_PER_DAY

@@ -69,10 +69,31 @@ export default function EventCard({ ev, home, checked, onToggle, onClose, onFly 
       <p className="event-when">
         {hasDates(ev) ? formatDateRange(ev.startDate, ev.endDate) : 'Dates to be announced'}{' '}
         <Countdown ev={ev} />
+        {!past && gcal && (
+          <a href={gcal} target="_blank" rel="noopener noreferrer" className="btn btn-mini">
+            + GCal
+          </a>
+        )}
+        {!past && hasDates(ev) && (
+          <button className="btn btn-mini" onClick={() => downloadICS([ev], `${ev.id}.ics`)}>
+            iCal
+          </button>
+        )}
       </p>
       {/* With an address present, city/country are redundant on this line. */}
       <p className="event-where">
-        📍{' '}
+        {onFly ? (
+          <button
+            className="pin-btn"
+            onClick={() => onFly(ev)}
+            title={`Show ${ev.city} on the map`}
+            aria-label={`Show ${ev.city} on the map`}
+          >
+            📍
+          </button>
+        ) : (
+          <>📍 </>
+        )}
         {ev.address
           ? (ev.venue ?? `${ev.city}, ${ev.country}`)
           : [ev.venue, ev.city, ev.country].filter(Boolean).join(', ')}
@@ -97,26 +118,7 @@ export default function EventCard({ ev, home, checked, onToggle, onClose, onFly 
         <a href={hotelsUrl(ev)} target="_blank" rel="noopener noreferrer" className="btn">
           Hotels nearby
         </a>
-        {onFly && (
-          <button className="btn" onClick={() => onFly(ev)}>
-            📍 Show on map
-          </button>
-        )}
       </div>
-      {!past && (
-        <div className="event-links">
-          {gcal && (
-            <a href={gcal} target="_blank" rel="noopener noreferrer" className="btn btn-small">
-              + Google Calendar
-            </a>
-          )}
-          {hasDates(ev) && (
-            <button className="btn btn-small" onClick={() => downloadICS([ev], `${ev.id}.ics`)}>
-              ⬇ .ics
-            </button>
-          )}
-        </div>
-      )}
       {!past && (
         <label className="check-row">
           <input type="checkbox" checked={checked} onChange={() => onToggle(ev.id)} />

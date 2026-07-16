@@ -498,6 +498,29 @@ body {
   color: var(--text-2);
 }
 
+.event-when {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-mini {
+  padding: 2px 8px;
+  font-size: 0.72rem;
+  border-radius: 6px;
+}
+
+/* The 📍 next to the venue IS the show-on-map action */
+.pin-btn {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 4px 6px 4px 0;
+  line-height: 1;
+}
+
 .event-addr {
   margin: 0 0 4px 22px;
   font-size: 0.78rem;
@@ -822,7 +845,7 @@ body {
   font-size: 0.64rem;
   line-height: 1.15;
   width: min-content; /* hug the wrapped text — no uniform-width bubbles */
-  max-width: 76px;
+  max-width: 96px; /* fits unbreakable multi-word cities (Rio de Janeiro) */
   white-space: normal;
   overflow-wrap: break-word;
 }
