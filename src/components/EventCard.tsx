@@ -1,6 +1,5 @@
 import type { Home, PokeEvent } from '../types'
 import { EVENT_TYPE_LABEL } from '../types'
-import { shortLabel } from '../lib/labels'
 import { daysUntil, formatDate, formatDateRange, hasDates, isPast } from '../lib/dates'
 import { travelInfo } from '../lib/travel'
 import { googleCalendarUrl, downloadICS } from '../lib/calendar'
@@ -66,9 +65,7 @@ export default function EventCard({ ev, home, checked, onToggle, onClose, onFly 
           </button>
         )}
       </header>
-      {/* Short title carries the signal; the official name is boilerplate. */}
-      <h3 className="event-name">{shortLabel(ev)}</h3>
-      <p className="event-fullname">{ev.name}</p>
+      <h3 className="event-name">{ev.name}</h3>
       <p className="event-when">
         {hasDates(ev) ? formatDateRange(ev.startDate, ev.endDate) : 'Dates to be announced'}{' '}
         <Countdown ev={ev} />

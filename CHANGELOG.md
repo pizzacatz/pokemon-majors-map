@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.2] - 2026-07-16
+
+### Changed
+
+- Event cards use a single title line — the official event name — instead
+  of the short title plus official-name subtitle, saving a line per card.
+
 ## [0.5.1] - 2026-07-16
 
 ### Changed
@@ -303,7 +310,8 @@ UX Phase 1 (see docs/UX-AUDIT.md P0 items).
 - App version + data snapshot date displayed in the site footer.
 - PRD (docs/PRD.md), README, this changelog.
 
-[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.5.1...HEAD
+[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.5.2...HEAD
+[0.5.2]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.5.1...v0.5.2
 [0.5.1]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.3.3...v0.4.0
