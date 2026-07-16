@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
 import type { Home, PokeEvent } from '../types'
 import { EVENT_TYPE_LABEL } from '../types'
 import { daysUntil, formatDate, formatDateRange, hasDates, isPast } from '../lib/dates'
@@ -16,20 +16,75 @@ interface Props {
   onFly?: (ev: PokeEvent) => void
 }
 
-/** Title stays on one line: long official names shrink to fit the card. */
-function FitTitle({ text }: { text: string }) {
-  const ref = useRef<HTMLHeadingElement>(null)
+/** One line always: long text shrinks to fit the card width. */
+function FitLine({
+  text,
+  className,
+  as: Tag = 'p',
+  minPx = 9,
+}: {
+  text: string
+  className: string
+  as?: 'p' | 'h3'
+  minPx?: number
+}) {
+  const ref = useRef<HTMLElement>(null)
   useLayoutEffect(() => {
     const el = ref.current
     if (!el) return
     el.style.fontSize = '' // reset to the CSS base before measuring
     const scale = el.clientWidth / el.scrollWidth
-    if (scale < 1) el.style.fontSize = `${Math.max(0.66, scale - 0.01)}rem`
+    if (scale < 1) {
+      const base = parseFloat(getComputedStyle(el).fontSize)
+      el.style.fontSize = `${Math.max(base * scale - 0.2, minPx)}px`
+    }
   }, [text])
   return (
-    <h3 className="event-name" ref={ref} title={text}>
+    <Tag className={className} ref={ref as React.RefObject<never>} title={text}>
       {text}
-    </h3>
+    </Tag>
+  )
+}
+
+/** "Add to calendar ▾" split: one button, pick the app in a small menu. */
+function CalendarMenu({ ev }: { ev: PokeEvent }) {
+  const [open, setOpen] = useState(false)
+  const gcal = googleCalendarUrl(ev)
+  return (
+    <span className="cal-menu">
+      <button
+        className="btn btn-mini"
+        onClick={() => setOpen((o) => !o)}
+        aria-haspopup="menu"
+        aria-expanded={open}
+      >
+        Add to calendar ▾
+      </button>
+      {open && (
+        <span className="cal-options" role="menu">
+          {gcal && (
+            <a
+              role="menuitem"
+              href={gcal}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setOpen(false)}
+            >
+              Google Calendar
+            </a>
+          )}
+          <button
+            role="menuitem"
+            onClick={() => {
+              downloadICS([ev], `${ev.id}.ics`)
+              setOpen(false)
+            }}
+          >
+            Apple / Outlook (.ics)
+          </button>
+        </span>
+      )}
+    </span>
   )
 }
 
@@ -67,7 +122,6 @@ function TravelLine({ ev, home }: { ev: PokeEvent; home: Home | null }) {
 }
 
 export default function EventCard({ ev, home, checked, onToggle, onClose, onFly }: Props) {
-  const gcal = googleCalendarUrl(ev)
   const past = isPast(ev)
   return (
     <article className={`event-card${past ? ' event-card-past' : ''}`}>
@@ -79,20 +133,11 @@ export default function EventCard({ ev, home, checked, onToggle, onClose, onFly 
           </button>
         )}
       </header>
-      <FitTitle text={ev.name} />
+      <FitLine as="h3" className="event-name" text={ev.name} minPx={10.5} />
       <p className="event-when">
         {hasDates(ev) ? formatDateRange(ev.startDate, ev.endDate) : 'Dates to be announced'}{' '}
         <Countdown ev={ev} />
-        {!past && gcal && (
-          <a href={gcal} target="_blank" rel="noopener noreferrer" className="btn btn-mini">
-            GCal
-          </a>
-        )}
-        {!past && hasDates(ev) && (
-          <button className="btn btn-mini" onClick={() => downloadICS([ev], `${ev.id}.ics`)}>
-            iCal
-          </button>
-        )}
+        {!past && hasDates(ev) && <CalendarMenu ev={ev} />}
       </p>
       {/* With an address present, city/country are redundant on this line. */}
       <p className="event-where">
@@ -112,7 +157,7 @@ export default function EventCard({ ev, home, checked, onToggle, onClose, onFly 
           ? (ev.venue ?? `${ev.city}, ${ev.country}`)
           : [ev.venue, ev.city, ev.country].filter(Boolean).join(', ')}
       </p>
-      {ev.address && <p className="event-addr">{ev.address}</p>}
+      {ev.address && <FitLine className="event-addr" text={ev.address} />}
       <TravelLine ev={ev} home={home} />
       <div className="event-links">
         {ev.links.registration ? (
@@ -132,11 +177,11 @@ export default function EventCard({ ev, home, checked, onToggle, onClose, onFly 
         )}
         {ev.links.official && (
           <a href={ev.links.official} target="_blank" rel="noopener noreferrer" className="btn">
-            Official page
+            Event page
           </a>
         )}
         <a href={hotelsUrl(ev)} target="_blank" rel="noopener noreferrer" className="btn">
-          Hotels nearby
+          Hotels
         </a>
       </div>
       {!past && (

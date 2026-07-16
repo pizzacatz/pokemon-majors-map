@@ -72,6 +72,8 @@ interface Props {
   events: PokeEvent[]
   isChecked: (id: string) => boolean
   onFly: (ev: PokeEvent) => void
+  /** Open the event card without moving the map (bubble-name tap). */
+  onOpen: (ev: PokeEvent) => void
 }
 
 /** Month boundary marks from today through the last event. */
@@ -102,7 +104,7 @@ function monthMarks(lastDay: number): { day: number; label: string }[] {
  * scale runs to the farthest announced event. Ticks are type-colored; each
  * bubble's 📍 flies the map to the venue.
  */
-export default function TimelineView({ events, isChecked, onFly }: Props) {
+export default function TimelineView({ events, isChecked, onFly, onOpen }: Props) {
   // Collapsed by default on phones (UX audit P0-1): the strip costs ~230px of
   // map. The user's choice persists; larger screens default open.
   const [open, setOpen] = useState<boolean>(() => {
@@ -219,12 +221,13 @@ export default function TimelineView({ events, isChecked, onFly }: Props) {
                   style={{ left: x, zIndex: 30 - lanes[i] }}
                 >
                   <div className="tl-bubble">
-                    <span
+                    <button
                       className="tl-name"
+                      onClick={() => onOpen(ev)}
                       title={`${ev.name} — ${formatDateRange(ev.startDate, ev.endDate)}`}
                     >
                       {labels[i]}
-                    </span>
+                    </button>
                     <button
                       className="tl-fly"
                       onClick={() => onFly(ev)}

@@ -371,7 +371,12 @@ export default function App() {
           </div>
         )}
         {tab === 'map' && (
-          <TimelineView events={filtered} isChecked={isChecked} onFly={flyToEvent} />
+          <TimelineView
+            events={filtered}
+            isChecked={isChecked}
+            onFly={flyToEvent}
+            onOpen={(ev) => openEvent(ev.id)}
+          />
         )}
         {tab === 'schedule' && (
           <ScheduleView events={filtered} home={home} isChecked={isChecked} onToggle={toggle} onFly={flyToEvent} />
@@ -383,8 +388,7 @@ export default function App() {
           <footer className="footer">
             <p>
               v{__APP_VERSION__}
-              {dataDate && <> · data {dataDate}</>} ·{' '}
-              <a href="https://github.com/pizzacatz/pokemon-majors-map">source</a>
+              {dataDate && <> · data {dataDate}</>}
             </p>
             <p className="disclaimer">
               This is a fan project. Not affiliated with, endorsed, or sponsored by Nintendo, The

@@ -535,6 +535,47 @@ body {
   margin: 0 0 4px 22px;
   font-size: 0.78rem;
   color: var(--text-2);
+  /* One line always — FitLine shrinks long addresses to fit */
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* ---------- "Add to calendar" split menu ---------- */
+.cal-menu {
+  position: relative;
+  display: inline-flex;
+}
+
+.cal-options {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  min-width: 170px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.cal-options a,
+.cal-options button {
+  background: none;
+  border: none;
+  color: var(--text);
+  text-decoration: none;
+  text-align: left;
+  font-size: 0.82rem;
+  padding: 9px 12px;
+  cursor: pointer;
+}
+
+.cal-options a:hover,
+.cal-options button:hover {
+  background: var(--bg-2);
 }
 
 .badge {
@@ -909,6 +950,13 @@ body {
 }
 
 .tl-name {
+  /* a button, styled as plain text: tapping the name opens the card in place */
+  background: none;
+  border: none;
+  color: inherit;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
   font-size: 0.64rem;
   line-height: 1.15;
   width: min-content; /* hug the wrapped text — no uniform-width bubbles */
