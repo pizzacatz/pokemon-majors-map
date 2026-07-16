@@ -12,6 +12,10 @@ export interface FlyTarget {
   lng: number
   /** monotonically increasing so repeat flights to the same place re-trigger */
   seq: number
+  /** default 7 (event close-up); home uses a wider view */
+  zoom?: number
+  /** default true: offset the center so the pin clears the event sheet */
+  offset?: boolean
 }
 
 interface Props {
@@ -21,15 +25,18 @@ interface Props {
   settingHome: boolean
   onPickHome: (lat: number, lng: number) => void
   onSelect: (id: string) => void
+  onMoveHome: () => void
   dataDate: string | null
   flyTarget: FlyTarget | null
+  /** Pins to emphasize: the open card's event and any hovered timeline bubble. */
+  highlightIds: string[]
 }
 
-function eventIcon(ev: PokeEvent, checked: boolean) {
+function eventIcon(ev: PokeEvent, checked: boolean, hot: boolean) {
   const off = !checked || isPast(ev)
   return divIcon({
     className: '',
-    html: `<div class="pin pin-${ev.type}${off ? ' pin-off' : ''}"></div>`,
+    html: `<div class="pin pin-${ev.type}${off ? ' pin-off' : ''}${hot ? ' pin-hot' : ''}"></div>`,
     iconSize: [20, 20],
     iconAnchor: [10, 10],
   })
@@ -62,14 +69,30 @@ function FlyTo({ target }: { target: FlyTarget | null }) {
   const map = useMap()
   useEffect(() => {
     if (!target) return
-    const zoom = 7
-    const sheetOffset = window.innerWidth < 700 ? 130 : 0
+    const zoom = target.zoom ?? 7
+    const sheetOffset = target.offset !== false && window.innerWidth < 700 ? 130 : 0
     const point = map.project([target.lat, target.lng], zoom).add([0, sheetOffset])
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     map.flyTo(map.unproject(point, zoom), zoom, { duration: reduced ? 0 : 1.6 })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [target?.seq, map])
   return null
+}
+
+/** Inside the home popup: enter move-home mode and close the popup. */
+function MoveHomeButton({ onMoveHome }: { onMoveHome: () => void }) {
+  const map = useMap()
+  return (
+    <button
+      className="btn btn-small popup-btn"
+      onClick={() => {
+        map.closePopup()
+        onMoveHome()
+      }}
+    >
+      Move home
+    </button>
+  )
 }
 
 function HomePicker({ active, onPick }: { active: boolean; onPick: (lat: number, lng: number) => void }) {
@@ -81,7 +104,7 @@ function HomePicker({ active, onPick }: { active: boolean; onPick: (lat: number,
   return null
 }
 
-export default function MapView({ events, home, isChecked, settingHome, onPickHome, onSelect, dataDate, flyTarget }: Props) {
+export default function MapView({ events, home, isChecked, settingHome, onPickHome, onSelect, onMoveHome, dataDate, flyTarget, highlightIds }: Props) {
   const center: [number, number] = home ? [home.lat, home.lng] : US_CENTER
   const attribution = useMemo(() => {
     const data = dataDate ? ` · data ${dataDate}` : ''
@@ -100,19 +123,26 @@ export default function MapView({ events, home, isChecked, settingHome, onPickHo
       <CenterOnHome home={home} />
       <FlyTo target={flyTarget} />
       <HomePicker active={settingHome} onPick={onPickHome} />
-      {events.map((ev) => (
-        <Marker
-          key={ev.id}
-          position={[ev.lat, ev.lng]}
-          icon={eventIcon(ev, isChecked(ev.id))}
-          // title gives keyboard-focusable pins an accessible name (P2-17)
-          title={`${shortLabel(ev)}${hasDates(ev) ? ` — ${formatDateRange(ev.startDate, ev.endDate)}` : ''}`}
-          eventHandlers={{ click: () => onSelect(ev.id) }}
-        />
-      ))}
+      {events.map((ev) => {
+        const hot = highlightIds.includes(ev.id)
+        return (
+          <Marker
+            key={ev.id}
+            position={[ev.lat, ev.lng]}
+            icon={eventIcon(ev, isChecked(ev.id), hot)}
+            zIndexOffset={hot ? 1500 : 0}
+            // title gives keyboard-focusable pins an accessible name (P2-17)
+            title={`${shortLabel(ev)}${hasDates(ev) ? ` — ${formatDateRange(ev.startDate, ev.endDate)}` : ''}`}
+            eventHandlers={{ click: () => onSelect(ev.id) }}
+          />
+        )
+      })}
       {home && (
         <Marker position={[home.lat, home.lng]} icon={homeIcon} title="Home" zIndexOffset={1000}>
-          <Popup>🏠 Home — distances and book-by dates measure from here.</Popup>
+          <Popup>
+            🏠 Home — distances and book-by dates measure from here.
+            <MoveHomeButton onMoveHome={onMoveHome} />
+          </Popup>
         </Marker>
       )}
     </MapContainer>

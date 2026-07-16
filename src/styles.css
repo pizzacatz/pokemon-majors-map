@@ -258,6 +258,26 @@ body {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
 }
 
+/* Highlighted pin: the open card's event, or a hovered timeline bubble */
+.pin-hot {
+  transform: rotate(-45deg) scale(1.45);
+  border-color: var(--text);
+  animation: pin-pulse 1.2s ease-out infinite;
+}
+
+@keyframes pin-pulse {
+  0% {
+    box-shadow:
+      0 1px 4px rgba(0, 0, 0, 0.4),
+      0 0 0 0 rgba(227, 53, 13, 0.5);
+  }
+  100% {
+    box-shadow:
+      0 1px 4px rgba(0, 0, 0, 0.4),
+      0 0 0 12px rgba(227, 53, 13, 0);
+  }
+}
+
 .pin-regional {
   background: var(--blue);
 }
@@ -543,6 +563,11 @@ body {
   /* One line always — FitLine shrinks long addresses to fit */
   white-space: nowrap;
   overflow: hidden;
+}
+
+.popup-btn {
+  display: block;
+  margin-top: 8px;
 }
 
 /* ---------- "Add to calendar" split menu ---------- */

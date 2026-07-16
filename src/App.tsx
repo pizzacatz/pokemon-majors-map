@@ -59,6 +59,7 @@ export default function App() {
   const [excluded, setExcluded] = useState<Set<string>>(loadExcluded)
   const [dashOpen, setDashOpen] = useState(false)
   const [flyTarget, setFlyTarget] = useState<FlyTarget | null>(null)
+  const [hoverId, setHoverId] = useState<string | null>(null)
   const [introSeen, setIntroSeen] = useState<boolean>(
     () => localStorage.getItem('pmm.seenIntro') === '1',
   )
@@ -213,6 +214,20 @@ export default function App() {
     setFlyTarget((prev) => ({ lat: ev.lat, lng: ev.lng, seq: (prev?.seq ?? 0) + 1 }))
   }
 
+  function flyHome() {
+    if (!home) return
+    if (tab !== 'map') goTab('map')
+    if (selectedId !== null) closeEvent()
+    // Wider view than an event close-up: home is a vantage point, not a venue.
+    setFlyTarget((prev) => ({
+      lat: home.lat,
+      lng: home.lng,
+      seq: (prev?.seq ?? 0) + 1,
+      zoom: 4,
+      offset: false,
+    }))
+  }
+
   function adoptSharedPlan() {
     if (!sharedPlan) return
     const next = new Set(events.filter((ev) => !sharedPlan.includes(ev.id)).map((ev) => ev.id))
@@ -246,8 +261,8 @@ export default function App() {
             Filter{isFiltered(filters) ? ' •' : ''}
           </button>
           {home ? (
-            <button className="btn btn-small" onClick={() => setSettingHome(true)}>
-              🏠 Move home
+            <button className="btn btn-small" onClick={flyHome}>
+              🏠 Home
             </button>
           ) : (
             <button className="btn btn-small btn-primary" onClick={() => setSettingHome(true)}>
@@ -312,8 +327,10 @@ export default function App() {
                 openEvent(id)
                 setSettingHome(false)
               }}
+              onMoveHome={() => setSettingHome(true)}
               dataDate={dataDate}
               flyTarget={flyTarget}
+              highlightIds={[selectedId, hoverId].filter((id): id is string => id !== null)}
             />
             <button className="dash-toggle btn" onClick={() => setDashOpen((v) => !v)}>
               {dashOpen ? '▾ My season' : '▴ My season'}
@@ -383,6 +400,7 @@ export default function App() {
             isChecked={isChecked}
             onFly={flyToEvent}
             onOpen={(ev) => openEvent(ev.id)}
+            onHover={setHoverId}
           />
         )}
         {tab === 'schedule' && (
