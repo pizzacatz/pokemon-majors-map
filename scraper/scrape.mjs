@@ -457,13 +457,19 @@ function decodeEntities(s) {
  * remainder = address.
  */
 function parseVenueBlock(html) {
-  // Pages vary: some separate lines with <br>, others wrap each line in
-  // <div> or <p> (Milwaukee, Utrecht) — split on any of them.
-  const lines = String(html)
+  // Pages vary: <br>-separated lines (Baltimore), a <div>/<p> per line
+  // (Milwaukee), or one comma-separated line in a single <div> (Utrecht).
+  let lines = String(html)
     .split(/<br\s*\/?>|<\/div\s*>|<\/p\s*>/i)
     .map((l) => decodeEntities(stripTags(l)).trim())
     .filter(Boolean)
-  if (lines.length < 3) return null
+  if (lines.length === 1) {
+    const parts = lines[0].split(',').map((s) => s.trim()).filter(Boolean)
+    if (parts.length >= 4 && parts[0].length <= 60) {
+      lines = [parts[0], parts.slice(1).join(', ')]
+    }
+  }
+  if (lines.length < 2) return null
   const venue = lines[0]
   const address = lines.slice(1).join(', ')
   // Real venue blocks are short-named with a numbered street/postal address.
@@ -483,6 +489,8 @@ async function enrichOfficialDetails(events) {
     if (!url || !url.includes('championships.pokemon.com') || ev.venue) continue
     try {
       const path = new URL(url).pathname.replace(/\/$/, '')
+      // Generic hub links (dates-TBD placeholders) have no venue to mine.
+      if (path.endsWith('/events')) continue
       const api = `https://championships.pokemon.com/api/1/site/content_store/item.json?url=/site/website${path}/index.xml&flatten=true`
       const res = await fetch(api, { headers: { 'User-Agent': USER_AGENT, Accept: 'application/json' } })
       if (!res.ok) {
