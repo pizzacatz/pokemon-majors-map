@@ -431,14 +431,24 @@ function deepCollectStrings(node, names, out = [], depth = 0) {
   return out
 }
 
+const NAMED_ENTITIES = {
+  nbsp: ' ', amp: '&', quot: '"', apos: "'", ndash: '–', mdash: '—', hellip: '…',
+  aacute: 'á', agrave: 'à', acirc: 'â', atilde: 'ã', auml: 'ä', aring: 'å',
+  ccedil: 'ç', eacute: 'é', egrave: 'è', ecirc: 'ê', euml: 'ë',
+  iacute: 'í', igrave: 'ì', icirc: 'î', iuml: 'ï', ntilde: 'ñ',
+  oacute: 'ó', ograve: 'ò', ocirc: 'ô', otilde: 'õ', ouml: 'ö', oslash: 'ø',
+  uacute: 'ú', ugrave: 'ù', ucirc: 'û', uuml: 'ü', yacute: 'ý', szlig: 'ß', aelig: 'æ',
+  Aacute: 'Á', Agrave: 'À', Acirc: 'Â', Atilde: 'Ã', Auml: 'Ä', Aring: 'Å',
+  Ccedil: 'Ç', Eacute: 'É', Egrave: 'È', Ecirc: 'Ê', Iacute: 'Í',
+  Ntilde: 'Ñ', Oacute: 'Ó', Ocirc: 'Ô', Otilde: 'Õ', Ouml: 'Ö',
+  Uacute: 'Ú', Uuml: 'Ü', Oslash: 'Ø',
+}
+
 function decodeEntities(s) {
   return s
-    .replace(/&ndash;/g, '–')
-    .replace(/&mdash;/g, '—')
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&amp;/g, '&')
-    .replace(/&#39;|&apos;/g, "'")
-    .replace(/&quot;/g, '"')
+    .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number(n)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCodePoint(parseInt(n, 16)))
+    .replace(/&([a-zA-Z]+);/g, (m, name) => NAMED_ENTITIES[name] ?? m)
 }
 
 /**

@@ -5,6 +5,11 @@
   { "id": "regional-2026-campinas-sp-2026-campinas-pokemon-regional-champions", "remove": true },
   { "id": "worlds-2026-san-francisco-2026-pokemon-world-championships-registr", "remove": true },
   {
+    "id": "worlds-2026-san-francisco-2026-pokemon-world-championships",
+    "venue": "Moscone Center",
+    "address": "747 Howard St., San Francisco, CA 94103, United States"
+  },
+  {
     "id": "regional-2027-los-angeles",
     "name": "Los Angeles Pokémon Regional Championships 2027",
     "type": "regional",
