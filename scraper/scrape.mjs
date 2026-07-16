@@ -465,9 +465,23 @@ async function enrichOfficialDetails(events) {
       if (venue) ev.venue = cleanText(venue)
       if (address) ev.address = cleanText(address)
       if (!venue && !address && !diagnosed) {
-        // Unknown page shape — log one page's JSON so the next fix is informed.
+        // Unknown page shape — log a key inventory plus context around any
+        // venue/address-ish text so the next fix targets real structure.
         diagnosed = true
-        log(`details: no venue/address keys for ${path} :: ${JSON.stringify(body).slice(0, 1400)}`)
+        const keys = new Set()
+        ;(function walk(n, d = 0) {
+          if (d > 12 || n === null || typeof n !== 'object') return
+          if (Array.isArray(n)) return n.forEach((x) => walk(x, d + 1))
+          for (const [k, v] of Object.entries(n)) {
+            if (typeof v === 'string' && v.trim()) keys.add(k)
+            walk(v, d + 1)
+          }
+        })(body)
+        log(`details keys for ${path} :: ${[...keys].join(',').slice(0, 1200)}`)
+        const s = JSON.stringify(body)
+        for (const m of [...s.matchAll(/venue|address|convention|centre|center/gi)].slice(0, 4)) {
+          log(`details ctx :: …${s.slice(Math.max(0, m.index - 120), m.index + 280)}…`)
+        }
       }
       await new Promise((r) => setTimeout(r, 300))
     } catch (err) {
