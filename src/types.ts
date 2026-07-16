@@ -11,6 +11,8 @@ export interface PokeEvent {
   startDate: string | null
   endDate: string | null
   venue: string | null
+  /** Street address from the official event detail page, when announced */
+  address: string | null
   city: string
   country: string
   region: Region

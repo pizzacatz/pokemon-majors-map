@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.2] - 2026-07-16
+
+### Added
+
+- Venue name and street address enrichment from the official event detail
+  pages (content-store API, no browser needed). Event cards show the address;
+  calendar exports carry it; geocoding is now address-first with named-venue
+  and city-level fallbacks, so pins land on the actual building (e.g. Recife's
+  Centro de Convenções de Pernambuco, which is in neighboring Olinda).
+
+### Fixed
+
+- Events whose official location uses full state or country names
+  ("Chicago, Illinois", "Prague, Czechia") no longer drop: the Prague
+  Regional was missing from the site entirely and NAIC's official link
+  pointed at the generic events hub.
+
 ## [0.2.1] - 2026-07-16
 
 ### Added
@@ -123,7 +140,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - App version + data snapshot date displayed in the site footer.
 - PRD (docs/PRD.md), README, this changelog.
 
-[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.2.1...HEAD
+[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.2.2...HEAD
+[0.2.2]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.1.3...v0.2.0
 [0.1.3]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.1.2...v0.1.3

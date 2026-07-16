@@ -417,6 +417,66 @@ function mineBlobs(blobs, found) {
   }
 }
 
+/** First string value in a JSON tree whose canonical key matches. */
+function deepPickString(node, names, depth = 0) {
+  if (depth > 10 || node === null || typeof node !== 'object') return null
+  if (Array.isArray(node)) {
+    for (const item of node) {
+      const hit = deepPickString(item, names, depth + 1)
+      if (hit) return hit
+    }
+    return null
+  }
+  for (const [k, v] of Object.entries(node)) {
+    if (typeof v === 'string' && v.trim() && names.includes(canonKey(k))) return v
+  }
+  for (const v of Object.values(node)) {
+    const hit = deepPickString(v, names, depth + 1)
+    if (hit) return hit
+  }
+  return null
+}
+
+function cleanText(html) {
+  return stripTags(String(html).replace(/<br\s*\/?>/gi, ', ')).replace(/\s*,\s*,+/g, ',').trim()
+}
+
+/**
+ * Event detail pages carry venue name and street address (e.g. Recife →
+ * Centro de Convenções de Pernambuco, Olinda). They are served by the same
+ * content-store API the site's frontend uses — plain JSON, no browser.
+ */
+async function enrichOfficialDetails(events) {
+  let diagnosed = false
+  for (const ev of events) {
+    const url = ev.links?.official
+    if (!url || !url.includes('championships.pokemon.com') || ev.venue) continue
+    try {
+      const path = new URL(url).pathname.replace(/\/$/, '')
+      const api = `https://championships.pokemon.com/api/1/site/content_store/item.json?url=/site/website${path}/index.xml&flatten=true`
+      const res = await fetch(api, { headers: { 'User-Agent': USER_AGENT, Accept: 'application/json' } })
+      if (!res.ok) {
+        log(`details: HTTP ${res.status} for ${path}`)
+        continue
+      }
+      const body = await res.json()
+      const venue = deepPickString(body, ['venue', 'venuename', 'venuetitle', 'locationname'])
+      const address = deepPickString(body, ['address', 'venueaddress', 'addressline1', 'streetaddress', 'eventaddress'])
+      if (venue) ev.venue = cleanText(venue)
+      if (address) ev.address = cleanText(address)
+      if (!venue && !address && !diagnosed) {
+        // Unknown page shape — log one page's JSON so the next fix is informed.
+        diagnosed = true
+        log(`details: no venue/address keys for ${path} :: ${JSON.stringify(body).slice(0, 1400)}`)
+      }
+      await new Promise((r) => setTimeout(r, 300))
+    } catch (err) {
+      log(`details: ${ev.id} failed (${err.message})`)
+    }
+  }
+  log(`details: ${events.filter((e) => e.venue).length} events with venue, ${events.filter((e) => e.address).length} with address`)
+}
+
 /**
  * The official site is the first place events are announced (owner decision
  * 2026-07-16: primary source) but it is JS-rendered, so a plain fetch sees an
@@ -527,48 +587,59 @@ function hasCoords(ev) {
   return ev.lat != null && ev.lng != null && !(ev.lat === 0 && ev.lng === 0)
 }
 
+async function lookupQuery(query, cache, dirty, needsCountry) {
+  const stale =
+    !(query in cache) || cache[query] === null || (needsCountry && cache[query]?.country == null)
+  if (stale) {
+    // Refetch no-result entries and pre-country-format entries: caching a
+    // transient failure (or an answer that can't resolve the country the
+    // event still needs) once blanked events forever.
+    try {
+      const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&addressdetails=1&q=${encodeURIComponent(query)}`
+      const res = await fetch(url, { headers: { 'User-Agent': USER_AGENT } })
+      if (res.ok) {
+        const hits = await res.json()
+        cache[query] = hits[0]
+          ? {
+              lat: Number(hits[0].lat),
+              lng: Number(hits[0].lon),
+              country: (hits[0].address?.country_code ?? '').toUpperCase() || null,
+            }
+          : null // genuine no-result — kept, but retried next run
+        dirty.v = true
+      } else {
+        log(`geocode: HTTP ${res.status} for "${query}" — not caching`)
+      }
+      await new Promise((r) => setTimeout(r, 1100)) // Nominatim usage policy
+    } catch (err) {
+      log(`geocode: "${query}" failed (${err.message}) — not caching`)
+    }
+  }
+  return cache[query] ?? null
+}
+
 async function geocodeList(events, cache, dirty) {
   for (const ev of events) {
-    const query = ev.geoQuery ?? [ev.venue, ev.city, ev.country].filter(Boolean).join(', ')
+    const cityQuery = ev.geoQuery ?? [ev.city, ev.country].filter(Boolean).join(', ')
     delete ev.geoQuery
     if (hasCoords(ev) && ev.country) continue
-    const stale =
-      !(query in cache) ||
-      cache[query] === null ||
-      (!ev.country && cache[query] && cache[query].country == null)
-    if (stale) {
-      // Refetch no-result entries and pre-country-format entries: caching a
-      // transient failure (or an answer that can't resolve the country the
-      // event still needs) once blanked events forever.
-      try {
-        const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&addressdetails=1&q=${encodeURIComponent(query)}`
-        const res = await fetch(url, { headers: { 'User-Agent': USER_AGENT } })
-        if (res.ok) {
-          const hits = await res.json()
-          cache[query] = hits[0]
-            ? {
-                lat: Number(hits[0].lat),
-                lng: Number(hits[0].lon),
-                country: (hits[0].address?.country_code ?? '').toUpperCase() || null,
-              }
-            : null // genuine no-result — kept, but retried next run
-          dirty.v = true
-        } else {
-          log(`geocode: HTTP ${res.status} for "${query}" — not caching`)
-        }
-        await new Promise((r) => setTimeout(r, 1100)) // Nominatim usage policy
-      } catch (err) {
-        log(`geocode: "${query}" failed (${err.message}) — not caching`)
-      }
-    }
-    const hit = cache[query]
-    if (hit) {
+    // Most precise first (street address → named venue → city); a miss falls
+    // through so an unknown venue can never drop an event.
+    const queries = [
+      ev.address ? [ev.venue, ev.address].filter(Boolean).join(', ') : null,
+      ev.venue ? [ev.venue, ev.city, ev.country].filter(Boolean).join(', ') : null,
+      cityQuery,
+    ].filter((q, i, arr) => q && arr.indexOf(q) === i)
+    for (const query of queries) {
+      const hit = await lookupQuery(query, cache, dirty, !ev.country)
+      if (!hit) continue
       if (!hasCoords(ev)) {
         ev.lat = hit.lat
         ev.lng = hit.lng
       }
       if (!ev.country && hit.country) ev.country = hit.country
       if (!ev.region && ev.country) ev.region = REGION_BY_COUNTRY[ev.country] ?? 'NA'
+      break
     }
   }
 }
@@ -679,6 +750,7 @@ function canonicalize(ev) {
     startDate,
     endDate: ev.endDate ?? startDate,
     venue: ev.venue ?? null,
+    address: ev.address ?? null,
     city: ev.city,
     country: ev.country,
     region: ev.region,
@@ -717,6 +789,7 @@ async function main() {
   // Official site first: it is where events are announced earliest and its
   // fields win the merge; rk9 fills registration links, pokedata fills gaps.
   const official = await scrapeOfficial()
+  await enrichOfficialDetails(official)
   const pokedata = await scrapePokedata()
   const rk9 = await scrapeRK9()
   log(`scraped: official=${official.length} pokedata=${pokedata.length} rk9=${rk9.length}`)

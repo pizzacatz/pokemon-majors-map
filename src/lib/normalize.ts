@@ -22,6 +22,7 @@ export function normalizeEvent(raw: unknown): PokeEvent | null {
     startDate,
     endDate,
     venue: typeof ev.venue === 'string' ? ev.venue : null,
+    address: typeof ev.address === 'string' ? ev.address : null,
     city: typeof ev.city === 'string' ? ev.city : '',
     country: typeof ev.country === 'string' ? ev.country : '',
     region: ev.region === 'EU' || ev.region === 'LATAM' || ev.region === 'OCE' || ev.region === 'APAC' ? ev.region : 'NA',

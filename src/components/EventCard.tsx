@@ -73,6 +73,7 @@ export default function EventCard({ ev, home, checked, onToggle, onClose, onFly 
       <p className="event-where">
         📍 {[ev.venue, ev.city, ev.country].filter(Boolean).join(', ')}
       </p>
+      {ev.address && <p className="event-addr">{ev.address}</p>}
       <TravelLine ev={ev} home={home} />
       <div className="event-links">
         {ev.links.registration ? (

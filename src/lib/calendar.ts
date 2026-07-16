@@ -6,7 +6,7 @@ function compact(iso: string): string {
 }
 
 function location(ev: PokeEvent): string {
-  return [ev.venue, ev.city, ev.country].filter(Boolean).join(', ')
+  return [ev.venue, ev.address ?? `${ev.city}, ${ev.country}`].filter(Boolean).join(', ')
 }
 
 function details(ev: PokeEvent): string {
