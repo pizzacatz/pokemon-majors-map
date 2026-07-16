@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.11.1] - 2026-07-16
+
+### Changed
+
+- App icons, apple-touch-icon, the OG share card, and the top-bar logo are
+  regenerated from the high-resolution brand logos (logoSQUARE.png /
+  logo.png from the assets repo). The top-bar logo uses the natural
+  sticker aspect instead of a square crop.
+
 ## [0.11.0] - 2026-07-16
 
 GeorgiaPlayEvents rebrand, using assets from
@@ -554,7 +563,8 @@ UX Phase 1 (see docs/UX-AUDIT.md P0 items).
 - App version + data snapshot date displayed in the site footer.
 - PRD (docs/PRD.md), README, this changelog.
 
-[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.11.0...HEAD
+[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.11.1...HEAD
+[0.11.1]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.11.0...v0.11.1
 [0.11.0]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.9.1...v0.10.0
 [0.9.1]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.9.0...v0.9.1

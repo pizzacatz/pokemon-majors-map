@@ -331,7 +331,7 @@ export default function App() {
     <div className="app">
       <header className="topbar">
         <h1>
-          <img src={`${import.meta.env.BASE_URL}icon-192.png`} alt="" className="logo" />
+          <img src={`${import.meta.env.BASE_URL}logo.png`} alt="" className="logo" />
           <span className="topbar-title">Majors Map</span>
         </h1>
         <div className="topbar-actions">

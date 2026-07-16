@@ -103,8 +103,9 @@ body {
 }
 
 .logo {
-  width: 24px;
-  height: 24px;
+  /* natural peach-sticker aspect (254×318) — height-driven */
+  width: auto;
+  height: 26px;
 }
 
 /* ---------- banners ---------- */
