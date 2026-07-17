@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-07-16T15:53:37.918Z",
+    "generatedAt": "2026-07-17T11:00:33.688Z",
     "source": "scraper",
     "schemaVersion": 1
   },
@@ -231,8 +231,8 @@
       "registrationSeenAt": null
     },
     {
-      "id": "special-2026-buenos-aires-2027-buenos-aires-pokemon-special-event",
-      "name": "2027 Buenos Aires Pokémon Special Event",
+      "id": "special-2026-buenos-aires-2027-buenos-aires-pokemon-special-champi",
+      "name": "2027 Buenos Aires Pokémon Special Championships",
       "type": "special",
       "formats": [
         "tcg",
@@ -406,8 +406,8 @@
       "registrationSeenAt": null
     },
     {
-      "id": "special-2027-auckland-2027-auckland-pokemon-special-event",
-      "name": "2027 Auckland Pokémon Special Event",
+      "id": "special-2027-auckland-2027-auckland-pokemon-special-championsh",
+      "name": "2027 Auckland Pokémon Special Championships",
       "type": "special",
       "formats": [
         "tcg",
@@ -531,8 +531,8 @@
       "registrationSeenAt": null
     },
     {
-      "id": "special-2027-lisbon-2027-lisbon-pokemon-special-event",
-      "name": "2027 Lisbon Pokémon Special Event",
+      "id": "special-2027-lisbon-2027-lisbon-pokemon-special-championship",
+      "name": "2027 Lisbon Pokémon Special Championships",
       "type": "special",
       "formats": [
         "tcg",
@@ -581,8 +581,8 @@
       "registrationSeenAt": null
     },
     {
-      "id": "special-2027-lima-2027-lima-pokemon-special-event",
-      "name": "2027 Lima Pokémon Special Event",
+      "id": "special-2027-lima-2027-lima-pokemon-special-championships",
+      "name": "2027 Lima Pokémon Special Championships",
       "type": "special",
       "formats": [
         "tcg",
@@ -731,8 +731,8 @@
       "registrationSeenAt": null
     },
     {
-      "id": "special-2027-bologna-2027-bologna-pokemon-special-event",
-      "name": "2027 Bologna Pokémon Special Event",
+      "id": "special-2027-bologna-2027-bologna-pokemon-special-championshi",
+      "name": "2027 Bologna Pokémon Special Championships",
       "type": "special",
       "formats": [
         "tcg",
