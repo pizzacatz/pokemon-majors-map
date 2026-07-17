@@ -1,7 +1,7 @@
 {
   "name": "Map of Pokémon Championships",
   "short_name": "Champ Map",
-  "description": "Every Play! Pokémon major on one map. Pin your home, count down, plan your season.",
+  "description": "Find every Pokémon Championship on one map! Pin your home, plan your season, and count down the days!",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

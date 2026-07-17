@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.12.2] - 2026-07-17
+
+### Changed
+
+- New tagline everywhere it unfurls (meta description, OG description,
+  manifest, and a regenerated OG card that also carries the current app
+  name): "Find every Pokémon Championship on one map! Pin your home,
+  plan your season, and count down the days!"
+
 ## [0.12.1] - 2026-07-16
 
 ### Fixed
@@ -589,7 +598,8 @@ UX Phase 1 (see docs/UX-AUDIT.md P0 items).
 - App version + data snapshot date displayed in the site footer.
 - PRD (docs/PRD.md), README, this changelog.
 
-[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.12.1...HEAD
+[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.12.2...HEAD
+[0.12.2]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.12.1...v0.12.2
 [0.12.1]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.12.0...v0.12.1
 [0.12.0]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.11.1...v0.12.0
 [0.11.1]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.11.0...v0.11.1
