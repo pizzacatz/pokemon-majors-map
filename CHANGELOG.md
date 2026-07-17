@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.12.4] - 2026-07-17
+
+### Documentation
+
+- README and PRD rewritten to match the shipped product (new name, domain,
+  GPE branding, opt-in plan, two-tab layout, timeline scaling, theming,
+  flights/reg-open, current scraper pipeline and schema). The PRD is now a
+  living document (v2.0) with a release-history section; the UX audit is
+  marked as a completed historical record.
+
 ## [0.12.3] - 2026-07-17
 
 ### Changed
@@ -606,7 +616,8 @@ UX Phase 1 (see docs/UX-AUDIT.md P0 items).
 - App version + data snapshot date displayed in the site footer.
 - PRD (docs/PRD.md), README, this changelog.
 
-[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.12.3...HEAD
+[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.12.4...HEAD
+[0.12.4]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.12.3...v0.12.4
 [0.12.3]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.12.2...v0.12.3
 [0.12.2]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.12.1...v0.12.2
 [0.12.1]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.12.0...v0.12.1

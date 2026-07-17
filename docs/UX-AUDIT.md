@@ -1,4 +1,10 @@
-# UX/UI Audit — Pokémon Majors Map v0.2.4
+# UX/UI Audit — Map of Pokémon Championships (v0.2.4 audit)
+
+> **Status (2026-07-17): complete — kept as a historical record.** Every P0/P1/P2
+> item below shipped across v0.3.0–v0.5.0. A second audit (2026-07-16) drove the
+> v0.8 plan-surface consolidation (Schedule ⊃ Itinerary + map plan strip) and the
+> v0.10 opt-in plan model, plus search, OG meta, flights links, and the
+> update-ready toast. See CHANGELOG.md for the mapping.
 
 **Date:** 2026-07-16 · **Method:** hands-on walkthrough of every app state on
 mobile viewports (390×844, 360×640, landscape 844×390), light + dark mode,
