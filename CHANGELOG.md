@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.12.3] - 2026-07-17
+
+### Changed
+
+- The first-run intro card leads with the tagline too: "Find every
+  Pokémon Championship on one map! Pin your home, plan your season, and
+  count down the days!"
+
 ## [0.12.2] - 2026-07-17
 
 ### Changed
@@ -598,7 +606,8 @@ UX Phase 1 (see docs/UX-AUDIT.md P0 items).
 - App version + data snapshot date displayed in the site footer.
 - PRD (docs/PRD.md), README, this changelog.
 
-[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.12.2...HEAD
+[Unreleased]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.12.3...HEAD
+[0.12.3]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.12.2...v0.12.3
 [0.12.2]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.12.1...v0.12.2
 [0.12.1]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.12.0...v0.12.1
 [0.12.0]: https://github.com/pizzacatz/pokemon-majors-map/compare/v0.11.1...v0.12.0

@@ -460,8 +460,8 @@ export default function App() {
                   ✕
                 </button>
                 <p className="intro-lead">
-                  <b>Plan your Play! Pokémon season.</b> Pin your home to see how far each event
-                  is and when to book travel, then check events to build your plan.
+                  <b>Find every Pokémon Championship on one map!</b> Pin your home, plan your
+                  season, and count down the days!
                 </p>
                 <div className="intro-legend">
                   {EVENT_TYPES.map((t) => (
