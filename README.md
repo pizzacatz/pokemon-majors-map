@@ -8,6 +8,10 @@ Special Events, International Championships, and Worlds — worldwide.
 
 **Live site:** https://majors.georgiaplayevents.com/
 
+**Status: complete.** The product is finished and in maintenance mode — the daily
+scraper keeps event data fresh automatically, but no further feature development is
+planned.
+
 > This is a fan project. Not affiliated with, endorsed, or sponsored by Nintendo,
 > The Pokémon Company International, or Game Freak.
 
@@ -74,7 +78,7 @@ domain attached across deploys.
 ## Project layout
 
 ```
-docs/PRD.md              product requirements (living document)
+docs/PRD.md              product requirements (final; project complete)
 docs/UX-AUDIT.md         mobile-first UX audit (historical; all items shipped)
 public/data/events.json  event data (scraper-owned; edit overrides instead)
 public/CNAME             custom-domain binding for GitHub Pages

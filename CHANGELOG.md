@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.12.5] - 2026-07-19
+
+### Documentation
+
+- Project marked **complete**: the README and PRD now state the product is
+  finished and in maintenance mode. The daily data scraper continues to run;
+  no further feature development is planned.
+
 ## [0.12.4] - 2026-07-17
 
 ### Documentation

@@ -1,6 +1,6 @@
 # PRD — Map of Pokémon Championships
 
-**Version:** 2.0 · **Updated:** 2026-07-17 · **Status:** Living document (reflects v0.12)
+**Version:** 2.0 · **Updated:** 2026-07-19 · **Status:** Complete (final; reflects the shipped v0.12 product)
 
 Part of the GeorgiaPlayEvents (GPE) network. Formerly "Pokémon Majors Map"; renamed
 in v0.12 with the move to https://majors.georgiaplayevents.com/.
