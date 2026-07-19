@@ -1,0 +1,784 @@
+{
+  "meta": {
+    "generatedAt": "2026-07-17T11:00:33.688Z",
+    "source": "scraper",
+    "schemaVersion": 1
+  },
+  "events": [
+    {
+      "id": "worlds-2026-san-francisco-2026-pokemon-world-championships",
+      "name": "2026 Pokémon World Championships",
+      "type": "worlds",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2026-08-28",
+      "endDate": "2026-08-30",
+      "venue": "Moscone Center",
+      "address": "747 Howard St., San Francisco, CA 94103, United States",
+      "city": "San Francisco",
+      "country": "US",
+      "region": "NA",
+      "lat": 37.7879363,
+      "lng": -122.4075201,
+      "links": {
+        "official": "https://worlds.pokemon.com/en-us",
+        "registration": "https://rk9.gg/event/pokemon-worlds-2026"
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": "2026-07-16"
+    },
+    {
+      "id": "regional-2026-baltimore-2027-baltimore-pokemon-regional-champion",
+      "name": "2027 Baltimore Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2026-09-18",
+      "endDate": "2026-09-20",
+      "venue": "Baltimore Convention Center",
+      "address": "Halls A–G, 1 W. Pratt St., Baltimore, MD 21201, United States",
+      "city": "Baltimore",
+      "country": "US",
+      "region": "NA",
+      "lat": 39.2851892,
+      "lng": -76.6161507,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/baltimore",
+        "registration": null
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": null
+    },
+    {
+      "id": "regional-2026-frankfurt-2027-frankfurt-pokemon-regional-champion",
+      "name": "2027 Frankfurt Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2026-09-26",
+      "endDate": "2026-09-27",
+      "venue": "Messe Frankfurt",
+      "address": "Hall 12, Ludwig-Erhard-Anlage 1, 60327 Frankfurt am Main, Germany",
+      "city": "Frankfurt",
+      "country": "DE",
+      "region": "EU",
+      "lat": 50.1115781,
+      "lng": 8.6444501,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/frankfurt",
+        "registration": null
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": null
+    },
+    {
+      "id": "regional-2026-brisbane-2027-brisbane-pokemon-regional-champions",
+      "name": "2027 Brisbane Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2026-09-26",
+      "endDate": "2026-09-27",
+      "venue": "Brisbane Convention & Exhibition Centre",
+      "address": "Merivale and Glenelg Streets, South Bank, Brisbane QLD 4101, Australia",
+      "city": "Brisbane",
+      "country": "AU",
+      "region": "OCE",
+      "lat": -27.4760065,
+      "lng": 153.0194663,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/brisbane",
+        "registration": null
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": null
+    },
+    {
+      "id": "regional-2026-recife-2027-recife-pokemon-regional-championshi",
+      "name": "2027 Recife Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2026-10-03",
+      "endDate": "2026-10-04",
+      "venue": "Centro de Convenções de Pernambuco",
+      "address": "Av. Prof. Andrade Bezerra - Salgadinho, Olinda - PE, 53110-680, Brazil",
+      "city": "Recife",
+      "country": "BR",
+      "region": "LATAM",
+      "lat": -8.0321844,
+      "lng": -34.8705989,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/recife",
+        "registration": null
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": null
+    },
+    {
+      "id": "regional-2026-louisville-2027-louisville-pokemon-regional-champio",
+      "name": "2027 Louisville Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2026-10-09",
+      "endDate": "2026-10-11",
+      "venue": "Kentucky International Convention Center",
+      "address": "Halls A–E, 221 S. 4th St., Louisville, KY 40202, United States",
+      "city": "Louisville",
+      "country": "US",
+      "region": "NA",
+      "lat": 38.2544334,
+      "lng": -85.7552942,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/louisville",
+        "registration": null
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": null
+    },
+    {
+      "id": "regional-2026-nice-2027-nice-pokemon-regional-championships",
+      "name": "2027 Nice Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2026-10-17",
+      "endDate": "2026-10-18",
+      "venue": "Palais des Expositions - Nice Acropolis",
+      "address": "Parv. de l'Europe, 06000 Nice, France",
+      "city": "Nice",
+      "country": "FR",
+      "region": "EU",
+      "lat": 43.7009358,
+      "lng": 7.2683912,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/nice",
+        "registration": null
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": null
+    },
+    {
+      "id": "regional-2026-puebla-2027-puebla-pokemon-regional-championshi",
+      "name": "2027 Puebla Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2026-10-24",
+      "endDate": "2026-10-25",
+      "venue": "Puebla Centro Expositor",
+      "address": "Av Ejercito de Ote, Cívica 5 de Mayo, 72260 Heroica Puebla de Zaragoza, Pue., Mexico",
+      "city": "Puebla",
+      "country": "MX",
+      "region": "LATAM",
+      "lat": 19.0572829,
+      "lng": -98.1797602,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/puebla",
+        "registration": null
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": null
+    },
+    {
+      "id": "regional-2026-gdansk-2027-gdansk-pokemon-regional-championshi",
+      "name": "2027 Gdańsk Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2026-10-31",
+      "endDate": "2026-11-01",
+      "venue": "AMBEREXPO",
+      "address": "Halls A, B, & C, ul. Żaglowa 11, 80-560 Gdańsk, Poland",
+      "city": "Gdańsk",
+      "country": "PL",
+      "region": "EU",
+      "lat": 54.3862594,
+      "lng": 18.6351163,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/gdansk",
+        "registration": null
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": null
+    },
+    {
+      "id": "special-2026-buenos-aires-2027-buenos-aires-pokemon-special-champi",
+      "name": "2027 Buenos Aires Pokémon Special Championships",
+      "type": "special",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2026-11-14",
+      "endDate": "2026-11-15",
+      "venue": "Centro de Convenciones de Buenos Aires",
+      "address": "Av. Pres. Figueroa Alcorta 2099, C1112, Cdad. Autónoma de Buenos Aires, Argentina",
+      "city": "Buenos Aires",
+      "country": "AR",
+      "region": "LATAM",
+      "lat": -34.5834582,
+      "lng": -58.3894979,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/buenos-aires",
+        "registration": null
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": null
+    },
+    {
+      "id": "international-2026-sao-paulo-2027-pokemon-latin-america-international",
+      "name": "2027 Pokémon Latin America International Championships",
+      "type": "international",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2026-11-20",
+      "endDate": "2026-11-22",
+      "venue": "Centro de Convenções - Distrito Anhembi",
+      "address": "Av. Olavo Fontoura, 1209 - Santana, São Paulo - SP, 02012-021, Brazil",
+      "city": "São Paulo",
+      "country": "BR",
+      "region": "LATAM",
+      "lat": -23.5506507,
+      "lng": -46.6333824,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/internationals/2027/sao-paulo",
+        "registration": null
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": null
+    },
+    {
+      "id": "regional-2026-stuttgart-2027-stuttgart-pokemon-regional-champion",
+      "name": "2027 Stuttgart Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2026-11-28",
+      "endDate": "2026-11-29",
+      "venue": "Messe Stuttgart",
+      "address": "Hall 1, Messepiazza 1, 70629 Stuttgart, Germany",
+      "city": "Stuttgart",
+      "country": "DE",
+      "region": "EU",
+      "lat": 48.6904461,
+      "lng": 9.1926989,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/stuttgart",
+        "registration": null
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": null
+    },
+    {
+      "id": "regional-2026-las-vegas-2027-las-vegas-pokemon-regional-champion",
+      "name": "2027 Las Vegas Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2026-12-04",
+      "endDate": "2026-12-06",
+      "venue": "Las Vegas Convention Center",
+      "address": "North Hall - N3 & N4, 3150 Paradise Rd, Las Vegas, NV 89109, United States",
+      "city": "Las Vegas",
+      "country": "US",
+      "region": "NA",
+      "lat": 36.1310204,
+      "lng": -115.1501804,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/las-vegas",
+        "registration": null
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": null
+    },
+    {
+      "id": "regional-2027-sydney-2027-sydney-pokemon-regional-championshi",
+      "name": "2027 Sydney Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2027-01-16",
+      "endDate": "2027-01-17",
+      "venue": "ICC Sydney",
+      "address": "14 Darling Dr., Sydney NSW 2000, Australia",
+      "city": "Sydney",
+      "country": "AU",
+      "region": "OCE",
+      "lat": -33.8751704,
+      "lng": 151.1997485,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/sydney",
+        "registration": null
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": null
+    },
+    {
+      "id": "regional-2027-merida-2027-merida-pokemon-regional-championshi",
+      "name": "2027 Mérida Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2027-01-23",
+      "endDate": "2027-01-24",
+      "venue": "Centro de Congresos Yucatán Siglo XXI",
+      "address": "Calle 60 Nte 299, Zona Industrial, Revolución, 97118 Mérida, Yuc., Mexico",
+      "city": "Mérida",
+      "country": "MX",
+      "region": "LATAM",
+      "lat": 20.9670759,
+      "lng": -89.6237402,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/merida",
+        "registration": null
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": null
+    },
+    {
+      "id": "regional-2027-birmingham-2027-birmingham-pokemon-regional-champio",
+      "name": "2027 Birmingham Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2027-01-30",
+      "endDate": "2027-01-31",
+      "venue": "The NEC, Birmingham",
+      "address": "Halls 9, 10 & 11, North Avenue, Marston Green Birmingham, B40 1NT, United Kingdom",
+      "city": "Birmingham",
+      "country": "GB",
+      "region": "EU",
+      "lat": 52.4538432,
+      "lng": -1.7175497,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/birmingham",
+        "registration": null
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": null
+    },
+    {
+      "id": "special-2027-auckland-2027-auckland-pokemon-special-championsh",
+      "name": "2027 Auckland Pokémon Special Championships",
+      "type": "special",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2027-01-30",
+      "endDate": "2027-01-31",
+      "venue": "Te Atatū Peninsula Community Centre",
+      "address": "603 Te Atatu Road, Te Atatū Peninsula, Auckland 0610, New Zealand",
+      "city": "Auckland",
+      "country": "NZ",
+      "region": "OCE",
+      "lat": -36.8399979,
+      "lng": 174.6507827,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/auckland",
+        "registration": null
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": null
+    },
+    {
+      "id": "international-2027-london-2027-pokemon-europe-international-champi",
+      "name": "2027 Pokémon Europe International Championships",
+      "type": "international",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2027-02-19",
+      "endDate": "2027-02-21",
+      "venue": "Excel London",
+      "address": "Royal Victoria Dock, 1 Western Gateway, London E16 1XL, United Kingdom",
+      "city": "London",
+      "country": "GB",
+      "region": "EU",
+      "lat": 51.5081127,
+      "lng": 0.0297071,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/internationals/2027/london",
+        "registration": null
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": null
+    },
+    {
+      "id": "regional-2027-santiago-2027-santiago-pokemon-regional-champions",
+      "name": "2027 Santiago Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2027-02-27",
+      "endDate": "2027-02-28",
+      "venue": "Espacio Riesco",
+      "address": "Av. El Salto 5000, Huechuraba, Santiago de Chile",
+      "city": "Santiago",
+      "country": "CL",
+      "region": "LATAM",
+      "lat": -33.3840444,
+      "lng": -70.6215801,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/santiago",
+        "registration": null
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": null
+    },
+    {
+      "id": "regional-2027-rio-de-janeiro-2027-rio-de-janeiro-pokemon-regional-cha",
+      "name": "2027 Rio de Janeiro Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2027-03-06",
+      "endDate": "2027-03-07",
+      "venue": "Riocentro",
+      "address": "Av. Salvador Allende, 6555 - Barra Olímpica, Rio de Janeiro - RJ, 22783-127, Brazil",
+      "city": "Rio de Janeiro",
+      "country": "BR",
+      "region": "LATAM",
+      "lat": -22.9777554,
+      "lng": -43.4116227,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/rio-de-janeiro",
+        "registration": null
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": null
+    },
+    {
+      "id": "regional-2027-monterrey-2027-monterrey-pokemon-regional-champion",
+      "name": "2027 Monterrey Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2027-04-10",
+      "endDate": "2027-04-11",
+      "venue": "CINTERMEX",
+      "address": "Av Fundidora 501, Obrera, 64010, Monterrey, N.L., Mexico",
+      "city": "Monterrey",
+      "country": "MX",
+      "region": "LATAM",
+      "lat": 25.6785945,
+      "lng": -100.2881294,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/monterrey",
+        "registration": null
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": null
+    },
+    {
+      "id": "special-2027-lisbon-2027-lisbon-pokemon-special-championship",
+      "name": "2027 Lisbon Pokémon Special Championships",
+      "type": "special",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2027-04-10",
+      "endDate": "2027-04-11",
+      "venue": "Feira Internacional de Lisboa",
+      "address": "Pavilon 1, R. do Bojador, 1998-010 Lisboa, Portugal",
+      "city": "Lisbon",
+      "country": "PT",
+      "region": "EU",
+      "lat": 38.7709304,
+      "lng": -9.0939393,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/lisbon",
+        "registration": null
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": null
+    },
+    {
+      "id": "regional-2027-milwaukee-2027-milwaukee-pokemon-regional-champion",
+      "name": "2027 Milwaukee Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2027-04-16",
+      "endDate": "2027-04-18",
+      "venue": "Baird Center",
+      "address": "Halls B, C, D, & E, 400 W Wisconsin Ave, Milwaukee, WI 53203, USA",
+      "city": "Milwaukee",
+      "country": "US",
+      "region": "NA",
+      "lat": 43.0401683,
+      "lng": -87.917494,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/milwaukee",
+        "registration": null
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": null
+    },
+    {
+      "id": "special-2027-lima-2027-lima-pokemon-special-championships",
+      "name": "2027 Lima Pokémon Special Championships",
+      "type": "special",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2027-04-24",
+      "endDate": "2027-04-25",
+      "venue": "Centro de Exposiciones Jockey",
+      "address": "Av. Javier Prado Este S/N, Santiago de Surco, CP 15023, Lima, Peru",
+      "city": "Lima",
+      "country": "PE",
+      "region": "LATAM",
+      "lat": -12.0916654,
+      "lng": -76.9797859,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/lima",
+        "registration": null
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": null
+    },
+    {
+      "id": "regional-2027-porto-alegre-2027-porto-alegre-pokemon-regional-champ",
+      "name": "2027 Porto Alegre Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2027-05-08",
+      "endDate": "2027-05-09",
+      "venue": "FIERGS",
+      "address": "Av. Assis Brasil, 8787 - Sarandi, Porto Alegre - RS, 91140-001, Brazil",
+      "city": "Porto Alegre",
+      "country": "BR",
+      "region": "LATAM",
+      "lat": -29.9814239,
+      "lng": -51.1123593,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/porto-alegre",
+        "registration": null
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": null
+    },
+    {
+      "id": "regional-2027-prague-2027-prague-pokemon-regional-championshi",
+      "name": "2027 Prague Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2027-05-08",
+      "endDate": "2027-05-09",
+      "venue": "PVA EXPO PRAGUE",
+      "address": "Halls 3 & 4, Beranových 667, 199 00 Praha 9, Czechia",
+      "city": "Prague",
+      "country": "CZ",
+      "region": "EU",
+      "lat": 50.0874654,
+      "lng": 14.4212535,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/prague",
+        "registration": null
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": null
+    },
+    {
+      "id": "regional-2027-utrecht-2027-utrecht-pokemon-regional-championsh",
+      "name": "2027 Utrecht Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2027-05-22",
+      "endDate": "2027-05-23",
+      "venue": "Jaarbeurs Utrecht",
+      "address": "Halls 7 & 8, Jaarbeursplein 6, 3521 AL Utrecht, Netherlands",
+      "city": "Utrecht",
+      "country": "NL",
+      "region": "EU",
+      "lat": 52.0845399,
+      "lng": 5.1040766,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/utrecht",
+        "registration": null
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": null
+    },
+    {
+      "id": "regional-2027-san-diego-2027-san-diego-pokemon-regional-champion",
+      "name": "2027 San Diego Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2027-05-28",
+      "endDate": "2027-05-30",
+      "venue": "San Diego Convention Center",
+      "address": "Halls A, B & C, 111 Harbor Dr., San Diego, CA 92101, United States",
+      "city": "San Diego",
+      "country": "US",
+      "region": "NA",
+      "lat": 32.7063756,
+      "lng": -117.1619257,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/san-diego",
+        "registration": null
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": null
+    },
+    {
+      "id": "regional-2027-melbourne-2027-melbourne-pokemon-regional-champion",
+      "name": "2027 Melbourne Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2027-05-29",
+      "endDate": "2027-05-30",
+      "venue": "Melbourne Convention and Exhibition Centre",
+      "address": "1 Convention Centre Pl., South Wharf VIC 3006, Australia",
+      "city": "Melbourne",
+      "country": "AU",
+      "region": "OCE",
+      "lat": -37.8142454,
+      "lng": 144.9631732,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/melbourne",
+        "registration": null
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": null
+    },
+    {
+      "id": "special-2027-bologna-2027-bologna-pokemon-special-championshi",
+      "name": "2027 Bologna Pokémon Special Championships",
+      "type": "special",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2027-06-05",
+      "endDate": "2027-06-06",
+      "venue": "BolognaFiere",
+      "address": "Viale della Fiera, 20, 40128 Bologna BO, Italy",
+      "city": "Bologna",
+      "country": "IT",
+      "region": "EU",
+      "lat": 44.4938203,
+      "lng": 11.3426327,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/bologna",
+        "registration": null
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": null
+    },
+    {
+      "id": "international-2027-chicago-2027-pokemon-north-america-international",
+      "name": "2027 Pokémon North America International Championships",
+      "type": "international",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2027-06-18",
+      "endDate": "2027-06-20",
+      "venue": "McCormick Place",
+      "address": "2301 S. Martin Luther King Dr., Chicago, IL 60616, United States",
+      "city": "Chicago",
+      "country": "US",
+      "region": "NA",
+      "lat": 41.8484622,
+      "lng": -87.6205541,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/internationals/2027/chicago",
+        "registration": null
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": null
+    }
+  ]
+}
