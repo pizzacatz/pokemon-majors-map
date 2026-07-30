@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-07-17T11:00:33.688Z",
+    "generatedAt": "2026-07-30T11:24:15.745Z",
     "source": "scraper",
     "schemaVersion": 1
   },
@@ -50,10 +50,10 @@
       "lng": -76.6161507,
       "links": {
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/baltimore",
-        "registration": null
+        "registration": "https://rk9.gg/event/pokemon-baltimore-2027"
       },
       "registrationOpens": null,
-      "registrationSeenAt": null
+      "registrationSeenAt": "2026-07-30"
     },
     {
       "id": "regional-2026-frankfurt-2027-frankfurt-pokemon-regional-champion",
@@ -106,6 +106,56 @@
       "registrationSeenAt": null
     },
     {
+      "id": "regional-2026-frankfurt-am-main-2027-frankfurt-pokemon-regional-champion",
+      "name": "2027 Frankfurt Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2026-09-26",
+      "endDate": "2026-09-27",
+      "venue": null,
+      "address": null,
+      "city": "Frankfurt am Main",
+      "country": "DE",
+      "region": "EU",
+      "lat": 50.1106444,
+      "lng": 8.6820917,
+      "links": {
+        "official": null,
+        "registration": "https://rk9.gg/event/pokemon-frankfurt-2027"
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": "2026-07-30"
+    },
+    {
+      "id": "regional-2026-south-brisbane-2027-brisbane-pokemon-regional-champions",
+      "name": "2027 Brisbane Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2026-09-26",
+      "endDate": "2026-09-27",
+      "venue": null,
+      "address": null,
+      "city": "South Brisbane",
+      "country": "AU",
+      "region": "OCE",
+      "lat": -27.479264,
+      "lng": 153.0200774,
+      "links": {
+        "official": null,
+        "registration": "https://rk9.gg/event/pokemon-brisbane-2027"
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": "2026-07-30"
+    },
+    {
       "id": "regional-2026-recife-2027-recife-pokemon-regional-championshi",
       "name": "2027 Recife Pokémon Regional Championships",
       "type": "regional",
@@ -129,6 +179,31 @@
       },
       "registrationOpens": null,
       "registrationSeenAt": null
+    },
+    {
+      "id": "regional-2026-pernambuco-2027-recife-pokemon-regional-championshi",
+      "name": "2027 Recife Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2026-10-03",
+      "endDate": "2026-10-04",
+      "venue": null,
+      "address": null,
+      "city": "Pernambuco",
+      "country": "BR",
+      "region": "LATAM",
+      "lat": -8.4116316,
+      "lng": -37.5919699,
+      "links": {
+        "official": null,
+        "registration": "https://rk9.gg/event/pokemon-recife-2027"
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": "2026-07-30"
     },
     {
       "id": "regional-2026-louisville-2027-louisville-pokemon-regional-champio",

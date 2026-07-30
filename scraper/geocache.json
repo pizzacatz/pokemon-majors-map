@@ -469,5 +469,15 @@
     "lat": 52.0845399,
     "lng": 5.1040766,
     "country": "NL"
+  },
+  "Baltimore, US": {
+    "lat": 39.2908816,
+    "lng": -76.610759,
+    "country": "US"
+  },
+  "Pernambuco, BR": {
+    "lat": -8.4116316,
+    "lng": -37.5919699,
+    "country": "BR"
   }
 }
