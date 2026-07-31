@@ -1,13 +1,14 @@
 {
   "name": "pokemon-majors-map",
   "private": true,
-  "version": "0.12.5",
+  "version": "0.13.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "scrape": "node scraper/scrape.mjs"
+    "scrape": "node scraper/scrape.mjs",
+    "test": "node scraper/parse-test.mjs"
   },
   "dependencies": {
     "leaflet": "^1.9.4",

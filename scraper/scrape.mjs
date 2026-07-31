@@ -13,7 +13,7 @@
  */
 
 import { readFileSync, writeFileSync, existsSync } from 'node:fs'
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 import { dirname, join } from 'node:path'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
@@ -316,6 +316,60 @@ function parseDateRange(text) {
 }
 
 /**
+ * Fixed offsets for the timezone abbreviations RK9 uses in "Registration
+ * opens …" lines. DST is baked into the abbreviation itself (EDT vs EST),
+ * so constant offsets are correct. Unknown abbreviations parse to null —
+ * a wrong time is worse than none.
+ */
+const TZ_OFFSETS = {
+  EDT: '-04:00', EST: '-05:00', CDT: '-05:00', CST: '-06:00',
+  MDT: '-06:00', MST: '-07:00', PDT: '-07:00', PST: '-08:00',
+  CEST: '+02:00', CET: '+01:00', BST: '+01:00', GMT: '+00:00', UTC: '+00:00',
+  WEST: '+01:00', WET: '+00:00',
+  BRT: '-03:00', ART: '-03:00', CLT: '-04:00', CLST: '-03:00',
+  PET: '-05:00', COT: '-05:00',
+  AEST: '+10:00', AEDT: '+11:00', AWST: '+08:00', ACST: '+09:30', ACDT: '+10:30',
+  NZST: '+12:00', NZDT: '+13:00',
+  JST: '+09:00', KST: '+09:00', SGT: '+08:00', HKT: '+08:00',
+}
+
+// "Registration opens August 5 at 7:00 pm EDT" / "… at 19:00 CEST" /
+// "… August 5, 2026 at …" — year and am/pm are both optional.
+const REG_OPENS_RE =
+  /registration opens\s+([A-Za-z]{3,9})\.?\s+(\d{1,2})(?:,?\s+(\d{4}))?\s+at\s+(\d{1,2})(?::(\d{2}))?\s*([ap]\.?m\.?)?\s*\(?([A-Za-z]{2,5})\)?/i
+
+/**
+ * Parse RK9's announced registration-open moment into an ISO datetime with
+ * offset ("2026-08-05T19:00:00+02:00"), or null when absent/unreadable.
+ * The year is usually missing from the text: registration opens near the
+ * scrape date and before the event, which pins it.
+ */
+export function parseRegOpens(text, startDate, now = new Date()) {
+  const m = REG_OPENS_RE.exec(text)
+  if (!m) return null
+  const [, monRaw, dayRaw, yearRaw, hourRaw, minRaw, ampmRaw, tzRaw] = m
+  const mon = MONTHS[monRaw.toLowerCase()]
+  const tz = TZ_OFFSETS[tzRaw.toUpperCase()]
+  const day = Number(dayRaw)
+  const minute = Number(minRaw ?? 0)
+  let hour = Number(hourRaw)
+  const ampm = ampmRaw?.[0]?.toLowerCase()
+  if (ampm === 'p' && hour !== 12) hour += 12
+  if (ampm === 'a' && hour === 12) hour = 0
+  if (!mon || !tz || day < 1 || day > 31 || hour > 23 || minute > 59) return null
+  const p = (n) => String(n).padStart(2, '0')
+  const dateAt = (y) => `${y}-${p(mon)}-${p(day)}`
+  let year = yearRaw ? Number(yearRaw) : null
+  if (!year) {
+    const floor = new Date(now.getTime() - 7 * 86_400_000).toISOString().slice(0, 10)
+    const y0 = now.getUTCFullYear()
+    year = [y0 - 1, y0, y0 + 1].find((y) => dateAt(y) >= floor && (!startDate || dateAt(y) <= startDate)) ?? null
+  }
+  if (!year) return null
+  return `${dateAt(year)}T${p(hour)}:${p(minute)}:00${tz}`
+}
+
+/**
  * "Merida, Mexico" / "Portland, OR" / "Frankfurt am Main, DE" → {city, country, raw}.
  * Two-letter tails are ambiguous — DE is both Delaware and Germany, CA both
  * California and Canada — so country stays null and the geocoder resolves it
@@ -346,6 +400,7 @@ function cleanName(name) {
  */
 async function scrapeRK9() {
   const found = []
+  let regTimes = 0
   let html = ''
   try {
     html = await fetchText('https://rk9.gg/events/pokemon')
@@ -364,6 +419,13 @@ async function scrapeRK9() {
       if (!type) continue
       const loc = cells.map(parseLocation).find(Boolean) ?? parseLocation(rowText.split('|').pop() ?? '')
       if (!loc) continue
+      const registrationOpens = parseRegOpens(rowText, dates?.startDate ?? null)
+      if (registrationOpens) regTimes++
+      else if (/registration opens/i.test(rowText)) {
+        // RK9 announced a time but we couldn't read it — likely a phrasing
+        // change or an unmapped timezone; surface it in the run log.
+        log(`rk9: unparsed reg-open text: ${rowText.slice(0, 160)}`)
+      }
       found.push({
         id: slugify(`${type}-${dates?.startDate?.slice(0, 4) ?? 'tbd'}-${loc.city}-${name.slice(0, 40)}`),
         name,
@@ -382,11 +444,11 @@ async function scrapeRK9() {
           official: null,
           registration: link ? `https://rk9.gg${link[1]}` : null,
         },
-        registrationOpens: null,
+        registrationOpens,
       })
     }
     if (found.length === 0 && html) logEmptySource('rk9', html)
-    log(`rk9: ${found.length} events`)
+    log(`rk9: ${found.length} events, ${regTimes} reg-open times`)
   } catch (err) {
     log(`rk9 failed (${err.message})`)
   }
@@ -735,33 +797,63 @@ function richness(ev) {
   )
 }
 
+// Fresh data layers over stale regardless of richness — a stale entry
+// with more fields (e.g. a seed's generic hub link) must not overwrite
+// the current specific values. Richness only breaks like-vs-like ties.
+function rank(prev, ev) {
+  return ev.fresh && !prev.fresh
+    ? [prev, ev]
+    : !ev.fresh && prev.fresh
+      ? [ev, prev]
+      : richness(ev) >= richness(prev)
+        ? [prev, ev]
+        : [ev, prev]
+}
+
+/** One city name being a word-prefix of the other ("Frankfurt" / "Frankfurt am Main"). */
+function sameCity(a, b) {
+  const [x, y] = [a.toLowerCase(), b.toLowerCase()].sort((p, q) => p.length - q.length)
+  return x === y || y.startsWith(`${x} `)
+}
+
 /** Sources slug names differently; collapse same-type/date/city entries. */
 function dedupe(events) {
   const byKey = new Map()
   for (const ev of events) {
     const key = `${ev.type}|${ev.startDate ?? 'tbd'}|${ev.city.toLowerCase()}`
     const prev = byKey.get(key)
-    if (!prev) {
-      byKey.set(key, ev)
-    } else {
-      // Fresh data layers over stale regardless of richness — a stale entry
-      // with more fields (e.g. a seed's generic hub link) must not overwrite
-      // the current specific values. Richness only breaks like-vs-like ties.
-      const [lo, hi] =
-        ev.fresh && !prev.fresh
-          ? [prev, ev]
-          : !ev.fresh && prev.fresh
-            ? [ev, prev]
-            : richness(ev) >= richness(prev)
-              ? [prev, ev]
-              : [ev, prev]
-      byKey.set(key, mergeOne(lo, hi))
+    if (!prev) byKey.set(key, ev)
+    else byKey.set(key, mergeOne(...rank(prev, ev)))
+  }
+  // Second pass: sources also name the SAME city differently ("Frankfurt" vs
+  // RK9's "Frankfurt am Main", "Recife" vs "Pernambuco"), which the exact key
+  // misses. Same type + same real start date + (word-prefix city names OR an
+  // identical event name) is the same event. The entry WITH a venue wins the
+  // merge — venue implies official detail-page data, whose city/geocode is
+  // the accurate one (RK9's "Pernambuco" geocodes to the state's center).
+  const normName = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()
+  const merged = []
+  for (const ev of byKey.values()) {
+    const i = merged.findIndex(
+      (o) =>
+        o.type === ev.type &&
+        o.startDate &&
+        o.startDate === ev.startDate &&
+        (sameCity(o.city, ev.city) || normName(o.name) === normName(ev.name)),
+    )
+    if (i === -1) {
+      merged.push(ev)
+      continue
     }
+    const prev = merged[i]
+    const [lo, hi] =
+      prev.venue && !ev.venue ? [ev, prev] : ev.venue && !prev.venue ? [prev, ev] : rank(prev, ev)
+    merged[i] = mergeOne(lo, hi)
   }
   // A dates-TBD placeholder is superseded once the same type+city has real
   // UPCOMING dates — a past event in that city is a previous season's, not
   // this placeholder's, so it must not swallow it.
-  let out = [...byKey.values()]
+  let out = merged
   const today = new Date().toISOString().slice(0, 10)
   const dated = new Set(
     out.filter((e) => e.startDate && e.startDate >= today).map((e) => `${e.type}|${e.city.toLowerCase()}`),
@@ -830,6 +922,13 @@ function canonicalize(ev) {
 function stampRegistrationSeen(events, baseline, today) {
   const before = new Map(baseline.map((ev) => [ev.id, ev]))
   for (const ev of events) {
+    // RK9 publishes /event/ pages before registration opens, so a link is
+    // not proof of open registration while an announced open moment is
+    // still ahead — don't stamp (and undo any premature stamp).
+    if (ev.registrationOpens && ev.registrationOpens.slice(0, 10) > today) {
+      ev.registrationSeenAt = null
+      continue
+    }
     const prev = before.get(ev.id)
     if (ev.links.registration && !ev.registrationSeenAt) {
       // carry an existing stamp, else stamp now (first sighting)
@@ -852,6 +951,12 @@ function validate(events, previousCount) {
     }
     if (!['regional', 'special', 'international', 'worlds'].includes(ev.type)) {
       fail(`event ${ev.id} bad type ${ev.type}`)
+    }
+    if (
+      ev.registrationOpens != null &&
+      !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[+-]\d{2}:\d{2}$/.test(ev.registrationOpens)
+    ) {
+      fail(`event ${ev.id} bad registrationOpens ${ev.registrationOpens}`)
     }
   }
 }
@@ -930,4 +1035,7 @@ async function main() {
   log(`wrote ${events.length} events`)
 }
 
-main().catch((err) => fail(err.stack ?? String(err)))
+// Run only when executed directly — parse-test.mjs imports this module.
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((err) => fail(err.stack ?? String(err)))
+}

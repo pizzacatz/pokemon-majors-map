@@ -719,6 +719,13 @@ body {
   background: #1e8e3e;
 }
 
+/* Reg-open moment announced on RK9 but not yet reached */
+.badge-regsoon {
+  background: var(--bg-2);
+  color: var(--text);
+  border: 1px solid #1e8e3e;
+}
+
 .travel {
   display: flex;
   flex-wrap: wrap;

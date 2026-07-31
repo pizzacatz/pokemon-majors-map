@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.13.0] - 2026-07-30
+
+### Added
+
+- **Registration open times.** The scraper now parses RK9's announced
+  "Registration opens August 5 at 7:00 pm EDT" lines into the (previously
+  reserved) `registrationOpens` field — ISO datetime with UTC offset, with a
+  fixed timezone-abbreviation table and year inference from the scrape date
+  and event start. Unknown phrasing or timezones parse to null and are logged
+  rather than guessed; the validator rejects malformed values before publish.
+- Event cards show the announced moment in the viewer's local time: a
+  "Reg opens …" badge and tooltip before opening, and a "Reg should be open —
+  check RK9" link once the moment passes but before the daily scrape sees the
+  registration link.
+- Parser fixtures (`npm test` → `scraper/parse-test.mjs`) covering the live
+  RK9 formats, year rollover in both directions, and refusal cases.
+
 ## [0.12.5] - 2026-07-19
 
 ### Documentation

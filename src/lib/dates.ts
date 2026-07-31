@@ -27,6 +27,16 @@ export function toISODate(d: Date): string {
   return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`
 }
 
+/**
+ * "Aug 5, 7:00 PM" in the viewer's local time. Input is an ISO datetime
+ * with offset (registrationOpens), so Date handles the conversion.
+ */
+export function formatRegOpens(iso: string): string | null {
+  const d = new Date(iso)
+  if (isNaN(d.getTime())) return null
+  return d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })
+}
+
 // != null (not !== null) — a field absent from scraped JSON is undefined, and
 // letting it through here means .split on undefined and a blank site.
 export function isPast(ev: PokeEvent): boolean {

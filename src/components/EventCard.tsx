@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef, useState } from 'react'
 import type { Home, PokeEvent } from '../types'
 import { EVENT_TYPE_LABEL } from '../types'
-import { daysUntil, formatDate, formatDateRange, hasDates, isPast } from '../lib/dates'
+import { daysUntil, formatDate, formatDateRange, formatRegOpens, hasDates, isPast } from '../lib/dates'
 import { travelInfo } from '../lib/travel'
 import { googleCalendarUrl, downloadICS } from '../lib/calendar'
 import { flightsUrl, hotelsUrl } from '../lib/links'
@@ -132,8 +132,22 @@ function TravelLine({ ev, home }: { ev: PokeEvent; home: Home | null }) {
   )
 }
 
+/**
+ * RK9's announced reg-open moment, relative to now. RK9 publishes /event/
+ * links before registration opens, so 'future' overrides link presence;
+ * 'due' means the moment passed but the daily scrape hasn't seen a link yet.
+ */
+function regOpensState(ev: PokeEvent): 'future' | 'due' | null {
+  if (!ev.registrationOpens) return null
+  const t = new Date(ev.registrationOpens).getTime()
+  if (isNaN(t)) return null
+  if (t > Date.now()) return 'future'
+  return ev.links.registration ? null : 'due'
+}
+
 export default function EventCard({ ev, home, checked, onToggle, onClose, onFly, onTitleTap, conflict }: Props) {
   const past = isPast(ev)
+  const regState = past ? null : regOpensState(ev)
   return (
     <article className={`event-card${past ? ' event-card-past' : ''}`}>
       <div
@@ -168,9 +182,14 @@ export default function EventCard({ ev, home, checked, onToggle, onClose, onFly,
       <p className="event-when">
         {hasDates(ev) ? formatDateRange(ev.startDate, ev.endDate) : 'Dates to be announced'}{' '}
         <Countdown ev={ev} />
-        {!past && ev.links.registration && (
+        {!past && ev.links.registration && regState !== 'future' && (
           <span className="badge badge-reg" title="An RK9 registration link exists for this event">
             Reg open
+          </span>
+        )}
+        {regState === 'future' && (
+          <span className="badge badge-regsoon" title="Announced on RK9 — shown in your local time">
+            Reg opens {formatRegOpens(ev.registrationOpens!)}
           </span>
         )}
         {!past && hasDates(ev) && <CalendarMenu ev={ev} />}
@@ -201,12 +220,22 @@ export default function EventCard({ ev, home, checked, onToggle, onClose, onFly,
           <a href={ev.links.registration} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
             Register on RK9
           </a>
+        ) : regState === 'due' ? (
+          // Announced time has passed but the daily scrape hasn't seen the
+          // link yet — don't leave users stuck behind our cadence.
+          <a href="https://rk9.gg/events/pokemon" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+            Reg should be open — check RK9
+          </a>
         ) : (
           !past && (
             <span
               className="btn btn-disabled"
               aria-disabled="true"
-              title="Registration isn't open yet — the RK9 link typically appears 2–3 months before the event."
+              title={
+                regState === 'future'
+                  ? `Registration opens ${formatRegOpens(ev.registrationOpens!)} (your local time).`
+                  : "Registration isn't open yet — the RK9 link typically appears 2–3 months before the event."
+              }
             >
               Register on RK9
             </span>
