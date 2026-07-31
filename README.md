@@ -35,8 +35,9 @@ planned.
   "book flights by" date (45 days domestic, 90 international).
 - ✈️🏨 **Flights & Hotels** — one tap to a Google Flights search or a Booking.com
   search pre-filled with the destination and event dates.
-- 🎟️ **Registration** — the RK9 button goes live (with a "Reg open" badge) as soon
-  as the daily scrape sees a registration link.
+- 🎟️ **Registration** — cards show RK9's announced opening moment ("Reg opens
+  Aug 5, 7:00 PM", in your local time) ahead of time, and the RK9 button goes live
+  (with a "Reg open" badge) once registration actually opens.
 - 🗓️ **Add to calendar** — Google Calendar or Apple/Outlook `.ics`, per event or for
   the whole plan.
 - 🌗 **Light & dark mode** — follows your system until you toggle; dark matches the
@@ -53,8 +54,11 @@ daily by a GitHub Actions scraper:
    is the primary source (its events API, with a headless-browser capture as a
    self-healing fallback), including per-event detail pages for venue names and
    street addresses.
-2. **[rk9.gg](https://rk9.gg/events/pokemon)** supplies registration links; the
-   scraper stamps the first day it sees one (`registrationSeenAt`).
+2. **[rk9.gg](https://rk9.gg/events/pokemon)** supplies registration links and
+   announced registration open times ("Registration opens August 5 at 7:00 pm EDT" →
+   `registrationOpens`, an ISO datetime with offset). The scraper also stamps the
+   first day registration is actually open (`registrationSeenAt`); a link alone
+   doesn't count, since RK9 publishes event pages before registration opens.
 3. **[pokedata.ovh](https://www.pokedata.ovh/)** fills gaps.
 
 New venues are geocoded once via Nominatim (cached in the repo), manual overrides in
@@ -69,6 +73,7 @@ npm install
 npm run dev        # local dev server
 npm run build      # production build (dist/)
 npm run scrape     # run the scraper locally (writes public/data/events.json)
+npm test           # parser fixtures (scraper/parse-test.mjs)
 ```
 
 Requires Node 22+. The site is served from the domain root

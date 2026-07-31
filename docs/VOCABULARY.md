@@ -44,7 +44,10 @@ site wins conflicts, `rk9.gg` and `pokedata.ovh` fill gaps, manual
 `scraper/overrides.json` wins over all) via `mergeOne`/`merge`, followed by
 **deduplication** on a `(type, startDate, city)` composite key with a
 **freshness-wins** tiebreak (`dedupe`) so a stale cached entry can't
-overwrite a freshly-scraped one. Coordinates come from **geocoding**
+overwrite a freshly-scraped one — plus a second **fuzzy pass** that
+collapses same-type/date entries whose city names are word-prefix related
+("Frankfurt" / "Frankfurt am Main") or whose event names are identical,
+since sources name the same city differently. Coordinates come from **geocoding**
 (OpenStreetMap's **Nominatim**), which is **rate-limited** (1.1s between
 requests per usage policy) and backed by a **cache file**
 (`scraper/geocache.json`) so re-running the scraper doesn't re-geocode
@@ -261,7 +264,7 @@ Apple/Outlook users without needing a server at all.
 | **response interception** | capturing network responses a page makes, from outside it | `page.on('response', …)` in `scrapeOfficial()` |
 | **reverse-engineering an API** | inferring an unpublished endpoint from observed traffic | `OFFICIAL_API` constant, discovered from the rendered page's network calls |
 | **source precedence / merge** | rules for which source wins when data conflicts | `merge()`: official > pokedata/rk9 > `scraper/overrides.json` |
-| **deduplication** | collapsing entries that represent the same real thing | `dedupe()`, keyed on `type\|startDate\|city` |
+| **deduplication** | collapsing entries that represent the same real thing | `dedupe()`, keyed on `type\|startDate\|city`, plus a fuzzy city/name second pass |
 | **geocoding** | turning a place name into map coordinates | Nominatim lookups in `lookupQuery()` |
 | **rate limiting** | deliberately slowing requests to respect a service's limits | 1.1s sleep between geocode calls (Nominatim usage policy) |
 | **cache file** | saved results reused instead of recomputing | `scraper/geocache.json` |

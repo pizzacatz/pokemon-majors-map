@@ -66,12 +66,17 @@ All events / My plan toggle).
   dismiss; no expand state) with:
   - Type badge and the official event name on one auto-scaling line
   - Dates (venue-local), **days-left countdown**, a green **Reg open** badge when an
-    RK9 registration link exists, and an **Add to calendar ▾** menu (Google / .ics)
+    RK9 registration link exists (suppressed while an announced `registrationOpens`
+    moment is still ahead — a green-outlined **Reg opens Aug 5, 7:00 PM** badge in
+    the viewer's local time shows instead), and an **Add to calendar ▾** menu
+    (Google / .ics)
   - Venue name (📍 = show on map) and one-line street address
   - Distance from home and **book-flights-by date** (§4.7)
   - ⚠ line if it clashes with another planned event
-  - Buttons: **Register on RK9** (struck-through and inert until the link exists),
-    Event page, **Flights**, **Hotels** (§4.8)
+  - Buttons: **Register on RK9** (struck-through and inert until the link exists;
+    once an announced open moment passes with no link yet, it becomes a live
+    "Reg should be open — check RK9" link so users aren't stuck behind the daily
+    scrape cadence), Event page, **Flights**, **Hotels** (§4.8)
   - Checkbox: **In my plan** (§4.4)
 - Events with announced location but unconfirmed dates render a "Dates TBD" badge and
   no countdown.
@@ -209,7 +214,7 @@ No travel data is fetched; both are **deep links**:
 | Source                          | Used for                                                     |
 | ------------------------------- | ------------------------------------------------------------ |
 | championships.pokemon.com       | **Primary** — announcements, names, dates, official links; per-event detail pages for venue + street address |
-| rk9.gg                          | Registration page URLs (first-seen date stamped)              |
+| rk9.gg                          | Registration page URLs (first-open date stamped) + announced registration open times |
 | pokedata.ovh                    | Gap-filling (community aggregator)                            |
 
 The official site's own events API is fetched directly, with a headless-browser
@@ -244,8 +249,8 @@ content-store API the site's frontend uses. RK9 is HTML-parsed.
         "official": "https://championships.pokemon.com/...",
         "registration": "https://rk9.gg/..."   // null until posted
       },
-      "registrationOpens": null,               // reserved (ISO datetime)
-      "registrationSeenAt": "2026-07-16"       // first day the scraper saw a reg link
+      "registrationOpens": null,               // RK9's announced open moment (ISO datetime with offset); null until announced
+      "registrationSeenAt": "2026-07-16"       // first day the scraper saw registration OPEN (a link alone doesn't count while registrationOpens is still ahead)
     }
   ]
 }
@@ -264,11 +269,22 @@ second guard.
   address-first, venue and city fallbacks; (0,0) treated as ungeocoded) → merge →
   stamp `registrationSeenAt` → prune past events → validate → diff → commit only
   if changed.
+- **RK9 parsing:** the listing's "Registration opens August 5 at 7:00 pm EDT"
+  lines become `registrationOpens` (ISO datetime with offset) via a fixed
+  timezone-abbreviation table and year inference from the scrape date and event
+  start; unknown phrasing or timezones parse to null and are logged, never
+  guessed. Fixtures live in `scraper/parse-test.mjs` (`npm test`). Because RK9
+  publishes `/event/` pages before registration opens, `registrationSeenAt` is
+  only stamped once no future `registrationOpens` stands against it.
 - **Merge strategy:** official site wins on conflicts; RK9 fills registration
   links; pokedata fills gaps; manual overrides in `scraper/overrides.json` win over
   everything (also the escape hatch for removing unsourced events). Freshly scraped
   values beat stale baseline fields, and stale baseline entries that disagree with
-  fresh data on (type, date) for the same city are dropped.
+  fresh data on (type, date) for the same city are dropped. Deduplication runs two
+  passes: an exact `(type, startDate, city)` key, then a second pass collapsing
+  same-type/date entries whose city names are word-prefix related ("Frankfurt" /
+  "Frankfurt am Main") or whose event names are identical ("Recife" listed under
+  "Pernambuco") — the venue-bearing entry wins so pins keep the official geocode.
 - **Fail-safe rules:** schema-validation failure, an empty event list, or a >50%
   drop in (future) event count aborts the commit — last good data stays live, and
   the workflow opens/updates a GitHub issue labeled `scraper`.
@@ -317,13 +333,17 @@ strip lives in a slide-down panel on the Map tab.
 - `0.10` — opt-in plan model + audit №2 batch (search, OG meta, flights link,
   update toast, reg-open groundwork).
 - `0.11–0.12` — GPE rebrand, TeamSheet dark palette, rename, custom domain.
+- `0.13` — registration open times: parse RK9's announced "Registration opens …"
+  moments into `registrationOpens`, show them on cards in the viewer's local time,
+  and harden dedupe against RK9's city renames.
 
 ## 10. v2 backlog
 
-1. **Registration-open notifications.** The scraper already stamps
-   `registrationSeenAt` when an RK9 link appears and the UI shows "Reg open";
-   remaining work is alerting (web push needs a backend; a public RSS/JSON feed of
-   changes is a zero-backend alternative).
+1. **Registration-open notifications.** The scraper now captures RK9's announced
+   open moment (`registrationOpens`), stamps `registrationSeenAt` when registration
+   actually opens, and the UI shows "Reg opens …" / "Reg open" badges; remaining
+   work is alerting (web push needs a backend; a public RSS/JSON feed of changes
+   is a zero-backend alternative).
 2. **Affiliate monetization** — fill the reserved Booking.com affiliate ID; evaluate
    Stay22/Travelpayouts.
 3. **Live airfare window** (Amadeus/Travelpayouts) replacing the heuristic in
