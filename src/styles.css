@@ -719,11 +719,17 @@ body {
   background: #1e8e3e;
 }
 
-/* Reg-open moment announced on RK9 but not yet reached */
+/* Reg-open moment announced on RK9 but not yet reached; links to the RK9 listing */
 .badge-regsoon {
   background: var(--bg-2);
   color: var(--text);
   border: 1px solid #1e8e3e;
+  text-decoration: none;
+}
+
+.badge-regsoon:hover {
+  background: #1e8e3e;
+  color: #fff;
 }
 
 .travel {

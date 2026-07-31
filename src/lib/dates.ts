@@ -28,13 +28,19 @@ export function toISODate(d: Date): string {
 }
 
 /**
- * "Aug 5, 7:00 PM" in the viewer's local time. Input is an ISO datetime
- * with offset (registrationOpens), so Date handles the conversion.
+ * "Aug 5, 7:00 PM EDT" in the viewer's local time and zone. Input is an ISO
+ * datetime with offset (registrationOpens), so Date handles the conversion.
  */
 export function formatRegOpens(iso: string): string | null {
   const d = new Date(iso)
   if (isNaN(d.getTime())) return null
-  return d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })
+  return d.toLocaleString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    timeZoneName: 'short',
+  })
 }
 
 // != null (not !== null) — a field absent from scraped JSON is undefined, and

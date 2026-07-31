@@ -188,9 +188,15 @@ export default function EventCard({ ev, home, checked, onToggle, onClose, onFly,
           </span>
         )}
         {regState === 'future' && (
-          <span className="badge badge-regsoon" title="Announced on RK9 — shown in your local time">
+          <a
+            className="badge badge-regsoon"
+            href="https://rk9.gg/events/pokemon"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Announced on RK9 — shown in your local time"
+          >
             Reg opens {formatRegOpens(ev.registrationOpens!)}
-          </span>
+          </a>
         )}
         {!past && hasDates(ev) && <CalendarMenu ev={ev} />}
       </p>

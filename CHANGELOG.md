@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.13.1] - 2026-07-31
+
+### Changed
+
+- The "Reg opens …" badge now includes the viewer's timezone abbreviation
+  ("Aug 5, 7:00 PM EDT") and links to the RK9 events listing.
+
 ## [0.13.0] - 2026-07-30
 
 ### Added
