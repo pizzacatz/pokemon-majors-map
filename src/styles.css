@@ -714,22 +714,28 @@ body {
   background: var(--gray);
 }
 
-/* Registration link exists — you can sign up now */
+/* Registration is open — solid brand accent, echoing the primary
+   Register button it appears alongside (the palette is warm-only). */
 .badge-reg {
-  background: #1e8e3e;
+  background: var(--red);
+  color: var(--red-contrast);
 }
 
-/* Reg-open moment announced on RK9 but not yet reached; links to the RK9 listing */
+/* Reg-open moment announced on RK9 but not yet reached; tap for the reminder
+   menu. Brand-accent outline (burnt orange light / peach dark) — the palette
+   is warm-only, so no green until registration is actually open. */
 .badge-regsoon {
-  background: var(--bg-2);
+  background: color-mix(in srgb, var(--red) 12%, var(--card));
   color: var(--text);
-  border: 1px solid #1e8e3e;
+  border: 1px solid var(--red);
   text-decoration: none;
+  font-family: inherit;
+  cursor: pointer;
 }
 
 .badge-regsoon:hover {
-  background: #1e8e3e;
-  color: #fff;
+  background: var(--red);
+  color: var(--red-contrast);
 }
 
 .travel {

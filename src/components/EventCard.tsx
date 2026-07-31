@@ -3,7 +3,7 @@ import type { Home, PokeEvent } from '../types'
 import { EVENT_TYPE_LABEL } from '../types'
 import { daysUntil, formatDate, formatDateRange, formatRegOpens, hasDates, isPast } from '../lib/dates'
 import { travelInfo } from '../lib/travel'
-import { googleCalendarUrl, downloadICS } from '../lib/calendar'
+import { googleCalendarUrl, downloadICS, regOpensGoogleUrl, downloadRegOpensICS } from '../lib/calendar'
 import { flightsUrl, hotelsUrl } from '../lib/links'
 import { widestText, type FitRole } from '../lib/textFit'
 
@@ -99,6 +99,58 @@ function CalendarMenu({ ev }: { ev: PokeEvent }) {
   )
 }
 
+/** The "Reg opens …" pill: tap for a reminder menu (calendar apps + RK9 link). */
+function RegOpensMenu({ ev }: { ev: PokeEvent }) {
+  const [open, setOpen] = useState(false)
+  const gcal = regOpensGoogleUrl(ev)
+  return (
+    <span className="cal-menu">
+      <button
+        className="badge badge-regsoon"
+        onClick={() => setOpen((o) => !o)}
+        aria-haspopup="menu"
+        aria-expanded={open}
+        title="Announced on RK9 — shown in your local time. Tap to set a reminder."
+      >
+        Reg opens {formatRegOpens(ev.registrationOpens!)} ▾
+      </button>
+      {open && (
+        <span className="cal-options" role="menu">
+          {gcal && (
+            <a
+              role="menuitem"
+              href={gcal}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setOpen(false)}
+            >
+              Remind me — Google Calendar
+            </a>
+          )}
+          <button
+            role="menuitem"
+            onClick={() => {
+              downloadRegOpensICS(ev)
+              setOpen(false)
+            }}
+          >
+            Remind me — Apple / Outlook (.ics)
+          </button>
+          <a
+            role="menuitem"
+            href="https://rk9.gg/events/pokemon"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setOpen(false)}
+          >
+            View on RK9
+          </a>
+        </span>
+      )}
+    </span>
+  )
+}
+
 function Countdown({ ev }: { ev: PokeEvent }) {
   if (!hasDates(ev)) return <span className="badge badge-tbd">Dates TBD</span>
   if (isPast(ev)) return <span className="badge badge-past">Past</span>
@@ -187,17 +239,7 @@ export default function EventCard({ ev, home, checked, onToggle, onClose, onFly,
             Reg open
           </span>
         )}
-        {regState === 'future' && (
-          <a
-            className="badge badge-regsoon"
-            href="https://rk9.gg/events/pokemon"
-            target="_blank"
-            rel="noopener noreferrer"
-            title="Announced on RK9 — shown in your local time"
-          >
-            Reg opens {formatRegOpens(ev.registrationOpens!)}
-          </a>
-        )}
+        {regState === 'future' && <RegOpensMenu ev={ev} />}
         {!past && hasDates(ev) && <CalendarMenu ev={ev} />}
       </p>
       {/* With an address present, city/country are redundant on this line. */}

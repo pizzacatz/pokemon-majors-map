@@ -48,6 +48,75 @@ function icsEvent(ev: PokeEvent & { startDate: string; endDate: string }): strin
   ]
 }
 
+/* ---- registration-opens reminders (timed, from registrationOpens) ---- */
+
+const RK9_LISTING = 'https://rk9.gg/events/pokemon'
+const REG_REMINDER_MINUTES = 30
+
+/** "20260805T230000Z" — registrationOpens carries an offset, so UTC is exact. */
+function compactUTC(iso: string): string {
+  return new Date(iso).toISOString().slice(0, 19).replace(/[-:]/g, '') + 'Z'
+}
+
+function regSummary(ev: PokeEvent): string {
+  return `Registration opens — ${ev.name}`
+}
+
+function regDetails(ev: PokeEvent): string {
+  return `Register: ${ev.links.registration ?? RK9_LISTING}\nVia Pokémon Majors Map`
+}
+
+/** Timed Google Calendar entry at the reg-open moment (alerts follow the user's defaults). */
+export function regOpensGoogleUrl(ev: PokeEvent): string | null {
+  if (!ev.registrationOpens) return null
+  const start = compactUTC(ev.registrationOpens)
+  const end = compactUTC(new Date(new Date(ev.registrationOpens).getTime() + REG_REMINDER_MINUTES * 60_000).toISOString())
+  const params = new URLSearchParams({
+    action: 'TEMPLATE',
+    text: regSummary(ev),
+    dates: `${start}/${end}`,
+    details: regDetails(ev),
+  })
+  return `https://calendar.google.com/calendar/render?${params}`
+}
+
+/** Timed .ics with alarms at T-1h and at the moment itself. Covers Apple/Outlook. */
+export function downloadRegOpensICS(ev: PokeEvent): void {
+  if (!ev.registrationOpens) return
+  const startMs = new Date(ev.registrationOpens).getTime()
+  const lines = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//pokemon-majors-map//EN',
+    'CALSCALE:GREGORIAN',
+    'BEGIN:VEVENT',
+    `UID:${ev.id}-reg-opens@pokemon-majors-map`,
+    `DTSTART:${compactUTC(ev.registrationOpens)}`,
+    `DTEND:${compactUTC(new Date(startMs + REG_REMINDER_MINUTES * 60_000).toISOString())}`,
+    `SUMMARY:${icsEscape(regSummary(ev))}`,
+    `DESCRIPTION:${icsEscape(regDetails(ev))}`,
+    'BEGIN:VALARM',
+    'ACTION:DISPLAY',
+    `DESCRIPTION:${icsEscape(regSummary(ev))}`,
+    'TRIGGER:-PT1H',
+    'END:VALARM',
+    'BEGIN:VALARM',
+    'ACTION:DISPLAY',
+    `DESCRIPTION:${icsEscape(regSummary(ev))}`,
+    'TRIGGER:PT0M',
+    'END:VALARM',
+    'END:VEVENT',
+    'END:VCALENDAR',
+  ]
+  const blob = new Blob([lines.join('\r\n') + '\r\n'], { type: 'text/calendar' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `${ev.id}-reg-opens.ics`
+  a.click()
+  URL.revokeObjectURL(url)
+}
+
 /** Client-side .ics for one event or a whole season. Covers Apple/Outlook. */
 export function downloadICS(events: PokeEvent[], filename: string): void {
   const dated = events.filter(hasDates)

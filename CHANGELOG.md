@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.14.0] - 2026-07-31
+
+### Added
+
+- **Registration reminders.** The "Reg opens …" pill now opens a menu:
+  add a timed reminder to Google Calendar or download an Apple/Outlook
+  `.ics` (with alerts one hour before and at the moment registration
+  opens), or jump to the RK9 listing.
+
+### Changed
+
+- Registration badges now use the brand accent (burnt orange light / peach
+  dark) per the GeorgiaPlayEvents palette of record — warm-only, no green:
+  the "Reg opens …" pill is accent-outlined, "Reg open" is accent-filled,
+  echoing the Register button.
+
 ## [0.13.1] - 2026-07-31
 
 ### Changed

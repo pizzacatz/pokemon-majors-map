@@ -65,11 +65,12 @@ All events / My plan toggle).
 - Tapping a pin opens the event card in a content-height bottom sheet (drag down to
   dismiss; no expand state) with:
   - Type badge and the official event name on one auto-scaling line
-  - Dates (venue-local), **days-left countdown**, a green **Reg open** badge when an
-    RK9 registration link exists (suppressed while an announced `registrationOpens`
-    moment is still ahead — a green-outlined **Reg opens Aug 5, 7:00 PM** badge in
-    the viewer's local time shows instead), and an **Add to calendar ▾** menu
-    (Google / .ics)
+  - Dates (venue-local), **days-left countdown**, an accent-filled **Reg open**
+    badge when an RK9 registration link exists (suppressed while an announced
+    `registrationOpens` moment is still ahead — an accent-outlined
+    **Reg opens Aug 5, 7:00 PM ▾** pill in the viewer's local time shows instead,
+    opening a reminder menu: Google Calendar / Apple-Outlook `.ics` with alarms /
+    RK9 listing link), and an **Add to calendar ▾** menu (Google / .ics)
   - Venue name (📍 = show on map) and one-line street address
   - Distance from home and **book-flights-by date** (§4.7)
   - ⚠ line if it clashes with another planned event
