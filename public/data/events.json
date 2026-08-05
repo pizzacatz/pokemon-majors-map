@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-07-31T01:36:55.090Z",
+    "generatedAt": "2026-08-05T11:33:19.347Z",
     "source": "scraper",
     "schemaVersion": 1
   },
@@ -53,7 +53,7 @@
         "registration": "https://rk9.gg/event/pokemon-baltimore-2027"
       },
       "registrationOpens": "2026-08-05T19:00:00-04:00",
-      "registrationSeenAt": null
+      "registrationSeenAt": "2026-08-05"
     },
     {
       "id": "regional-2026-frankfurt-am-main-2027-frankfurt-pokemon-regional-champion",
@@ -78,7 +78,7 @@
         "registration": "https://rk9.gg/event/pokemon-frankfurt-2027"
       },
       "registrationOpens": "2026-08-05T19:00:00+02:00",
-      "registrationSeenAt": null
+      "registrationSeenAt": "2026-08-05"
     },
     {
       "id": "regional-2026-brisbane-2027-brisbane-pokemon-regional-champions",
@@ -103,7 +103,7 @@
         "registration": "https://rk9.gg/event/pokemon-brisbane-2027"
       },
       "registrationOpens": "2026-08-05T19:00:00+10:00",
-      "registrationSeenAt": null
+      "registrationSeenAt": "2026-08-05"
     },
     {
       "id": "regional-2026-recife-2027-recife-pokemon-regional-championshi",
@@ -128,7 +128,7 @@
         "registration": "https://rk9.gg/event/pokemon-recife-2027"
       },
       "registrationOpens": "2026-08-05T19:00:00-03:00",
-      "registrationSeenAt": null
+      "registrationSeenAt": "2026-08-05"
     },
     {
       "id": "regional-2026-louisville-2027-louisville-pokemon-regional-champio",
