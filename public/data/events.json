@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-08-05T11:33:19.347Z",
+    "generatedAt": "2026-08-06T11:36:26.885Z",
     "source": "scraper",
     "schemaVersion": 1
   },
@@ -150,9 +150,9 @@
       "lng": -85.7552942,
       "links": {
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/louisville",
-        "registration": null
+        "registration": "https://rk9.gg/event/pokemon-louisville-2027"
       },
-      "registrationOpens": null,
+      "registrationOpens": "2026-08-12T19:00:00-04:00",
       "registrationSeenAt": null
     },
     {
