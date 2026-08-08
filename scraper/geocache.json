@@ -484,5 +484,17 @@
     "lat": 38.2542376,
     "lng": -85.759407,
     "country": "US"
+  },
+  "Georgia World Congress Center, Halls A1 & A2, 285 Andrew Young International Blvd NW, Atlanta, GA 30303, United States": null,
+  "Georgia World Congress Center, Atlanta": {
+    "lat": 33.7607678,
+    "lng": -84.4012549,
+    "country": "US"
+  },
+  "Metro Toronto Convention Centre, Halls D & E, 255 Front St. W, Toronto, ON M5V 2W6, Canada": null,
+  "Metro Toronto Convention Centre, Toronto": {
+    "lat": 43.6438376,
+    "lng": -79.3866925,
+    "country": "CA"
   }
 }

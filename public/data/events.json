@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-08-06T11:36:26.885Z",
+    "generatedAt": "2026-08-08T09:58:04.101Z",
     "source": "scraper",
     "schemaVersion": 1
   },
@@ -331,6 +331,31 @@
       "registrationSeenAt": null
     },
     {
+      "id": "regional-2027-atlanta-2027-atlanta-pokemon-regional-championsh",
+      "name": "2027 Atlanta Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2027-01-15",
+      "endDate": "2027-01-17",
+      "venue": "Georgia World Congress Center",
+      "address": "Halls A1 & A2, 285 Andrew Young International Blvd NW, Atlanta, GA 30303, United States",
+      "city": "Atlanta",
+      "country": "US",
+      "region": "NA",
+      "lat": 33.7607678,
+      "lng": -84.4012549,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/atlanta",
+        "registration": null
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": null
+    },
+    {
       "id": "regional-2027-sydney-2027-sydney-pokemon-regional-championshi",
       "name": "2027 Sydney Pokémon Regional Championships",
       "type": "regional",
@@ -500,6 +525,31 @@
       "lng": -43.4116227,
       "links": {
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/rio-de-janeiro",
+        "registration": null
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": null
+    },
+    {
+      "id": "regional-2027-toronto-2027-toronto-pokemon-regional-championsh",
+      "name": "2027 Toronto Pokémon Regional Championships",
+      "type": "regional",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2027-04-02",
+      "endDate": "2027-04-04",
+      "venue": "Metro Toronto Convention Centre",
+      "address": "Halls D & E, 255 Front St. W, Toronto, ON M5V 2W6, Canada",
+      "city": "Toronto",
+      "country": "CA",
+      "region": "NA",
+      "lat": 43.6438376,
+      "lng": -79.3866925,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/toronto",
         "registration": null
       },
       "registrationOpens": null,
