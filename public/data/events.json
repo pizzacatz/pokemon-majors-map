@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-08-12T10:30:53.696Z",
+    "generatedAt": "2026-08-13T10:32:00.268Z",
     "source": "scraper",
     "schemaVersion": 1
   },
@@ -175,9 +175,9 @@
       "lng": 7.2683912,
       "links": {
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/nice",
-        "registration": null
+        "registration": "https://rk9.gg/event/pokemon-nice-2027"
       },
-      "registrationOpens": null,
+      "registrationOpens": "2026-08-19T19:00:00+02:00",
       "registrationSeenAt": null
     },
     {
@@ -200,9 +200,9 @@
       "lng": -98.1797602,
       "links": {
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/puebla",
-        "registration": null
+        "registration": "https://rk9.gg/event/pokemon-puebla-2027"
       },
-      "registrationOpens": null,
+      "registrationOpens": "2026-08-19T19:00:00-06:00",
       "registrationSeenAt": null
     },
     {

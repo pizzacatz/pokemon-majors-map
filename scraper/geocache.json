@@ -496,5 +496,15 @@
     "lat": 43.6438376,
     "lng": -79.3866925,
     "country": "CA"
+  },
+  "Nice, FR": {
+    "lat": 43.7009358,
+    "lng": 7.2683912,
+    "country": "FR"
+  },
+  "Puebla, MX": {
+    "lat": 18.833333,
+    "lng": -98,
+    "country": "MX"
   }
 }
