@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-08-31T17:07:40.028Z",
+    "generatedAt": "2026-09-01T14:13:15.818Z",
     "source": "scraper",
     "schemaVersion": 1
   },
@@ -200,9 +200,9 @@
       "lng": 18.6351163,
       "links": {
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/gdansk",
-        "registration": null
+        "registration": "https://rk9.gg/event/pokemon-gdansk-2027"
       },
-      "registrationOpens": null,
+      "registrationOpens": "2026-09-02T19:00:00+02:00",
       "registrationSeenAt": null
     },
     {
