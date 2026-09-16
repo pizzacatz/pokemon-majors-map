@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-09-05T12:47:37.717Z",
+    "generatedAt": "2026-09-16T14:15:21.120Z",
     "source": "scraper",
     "schemaVersion": 1
   },
@@ -231,8 +231,8 @@
       "registrationSeenAt": null
     },
     {
-      "id": "international-2026-sao-paulo-2027-pokemon-latin-america-international",
-      "name": "2027 Pokémon Latin America International Championships",
+      "id": "international-2026-sao-paulo-2027-latin-america-pokemon-international",
+      "name": "2027 Latin America Pokémon International Championships Priority",
       "type": "international",
       "formats": [
         "tcg",
@@ -250,10 +250,10 @@
       "lng": -46.6333824,
       "links": {
         "official": "https://championships.pokemon.com/en-us/events/internationals/2027/sao-paulo",
-        "registration": null
+        "registration": "https://rk9.gg/event/pokemon-laic-2027"
       },
       "registrationOpens": null,
-      "registrationSeenAt": null
+      "registrationSeenAt": "2026-09-16"
     },
     {
       "id": "regional-2026-stuttgart-2027-stuttgart-pokemon-regional-champion",
