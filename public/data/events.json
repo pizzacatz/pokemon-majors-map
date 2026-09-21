@@ -1,35 +1,10 @@
 {
   "meta": {
-    "generatedAt": "2026-09-16T14:15:21.120Z",
+    "generatedAt": "2026-09-21T15:56:48.208Z",
     "source": "scraper",
     "schemaVersion": 1
   },
   "events": [
-    {
-      "id": "regional-2026-baltimore-2027-baltimore-pokemon-regional-champion",
-      "name": "2027 Baltimore Pokémon Regional Championships",
-      "type": "regional",
-      "formats": [
-        "tcg",
-        "vgc",
-        "go"
-      ],
-      "startDate": "2026-09-18",
-      "endDate": "2026-09-20",
-      "venue": "Baltimore Convention Center",
-      "address": "Halls A–G, 1 W. Pratt St., Baltimore, MD 21201, United States",
-      "city": "Baltimore",
-      "country": "US",
-      "region": "NA",
-      "lat": 39.2851892,
-      "lng": -76.6161507,
-      "links": {
-        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/baltimore",
-        "registration": "https://rk9.gg/event/pokemon-baltimore-2027"
-      },
-      "registrationOpens": "2026-08-05T19:00:00-04:00",
-      "registrationSeenAt": "2026-08-05"
-    },
     {
       "id": "regional-2026-frankfurt-am-main-2027-frankfurt-pokemon-regional-champion",
       "name": "2027 Frankfurt Pokémon Regional Championships",
