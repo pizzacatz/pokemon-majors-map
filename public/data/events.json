@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-09-21T15:56:48.208Z",
+    "generatedAt": "2026-09-23T14:18:09.466Z",
     "source": "scraper",
     "schemaVersion": 1
   },
@@ -207,7 +207,7 @@
     },
     {
       "id": "international-2026-sao-paulo-2027-latin-america-pokemon-international",
-      "name": "2027 Latin America Pokémon International Championships Priority",
+      "name": "2027 Latin America Pokémon International Championships",
       "type": "international",
       "formats": [
         "tcg",
