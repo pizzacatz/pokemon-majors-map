@@ -1,60 +1,10 @@
 {
   "meta": {
-    "generatedAt": "2026-09-25T14:39:26.051Z",
+    "generatedAt": "2026-09-28T17:43:17.695Z",
     "source": "scraper",
     "schemaVersion": 1
   },
   "events": [
-    {
-      "id": "regional-2026-frankfurt-am-main-2027-frankfurt-pokemon-regional-champion",
-      "name": "2027 Frankfurt Pokémon Regional Championships",
-      "type": "regional",
-      "formats": [
-        "tcg",
-        "vgc",
-        "go"
-      ],
-      "startDate": "2026-09-26",
-      "endDate": "2026-09-27",
-      "venue": "Messe Frankfurt",
-      "address": "Hall 12, Ludwig-Erhard-Anlage 1, 60327 Frankfurt am Main, Germany",
-      "city": "Frankfurt am Main",
-      "country": "DE",
-      "region": "EU",
-      "lat": 50.1106444,
-      "lng": 8.6820917,
-      "links": {
-        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/frankfurt",
-        "registration": "https://rk9.gg/event/pokemon-frankfurt-2027"
-      },
-      "registrationOpens": "2026-08-05T19:00:00+02:00",
-      "registrationSeenAt": "2026-08-05"
-    },
-    {
-      "id": "regional-2026-brisbane-2027-brisbane-pokemon-regional-champions",
-      "name": "2027 Brisbane Pokémon Regional Championships",
-      "type": "regional",
-      "formats": [
-        "tcg",
-        "vgc",
-        "go"
-      ],
-      "startDate": "2026-09-26",
-      "endDate": "2026-09-27",
-      "venue": "Brisbane Convention & Exhibition Centre",
-      "address": "Merivale and Glenelg Streets, South Bank, Brisbane QLD 4101, Australia",
-      "city": "Brisbane",
-      "country": "AU",
-      "region": "OCE",
-      "lat": -27.4760065,
-      "lng": 153.0194663,
-      "links": {
-        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/brisbane",
-        "registration": "https://rk9.gg/event/pokemon-brisbane-2027"
-      },
-      "registrationOpens": "2026-08-05T19:00:00+10:00",
-      "registrationSeenAt": "2026-08-05"
-    },
     {
       "id": "regional-2026-recife-2027-recife-pokemon-regional-championshi",
       "name": "2027 Recife Pokémon Regional Championships",
