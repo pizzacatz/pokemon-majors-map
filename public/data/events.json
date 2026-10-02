@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-09-30T15:58:52.272Z",
+    "generatedAt": "2026-10-02T15:53:41.215Z",
     "source": "scraper",
     "schemaVersion": 1
   },
@@ -225,10 +225,10 @@
       "lng": -115.1501804,
       "links": {
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/las-vegas",
-        "registration": null
+        "registration": "https://rk9.gg/event/pokemon-las-vegas-2027"
       },
       "registrationOpens": null,
-      "registrationSeenAt": null
+      "registrationSeenAt": "2026-10-02"
     },
     {
       "id": "regional-2027-atlanta-2027-atlanta-pokemon-regional-championsh",
