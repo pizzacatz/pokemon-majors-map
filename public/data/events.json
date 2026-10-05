@@ -1,35 +1,10 @@
 {
   "meta": {
-    "generatedAt": "2026-10-02T15:53:41.215Z",
+    "generatedAt": "2026-10-05T18:34:11.124Z",
     "source": "scraper",
     "schemaVersion": 1
   },
   "events": [
-    {
-      "id": "regional-2026-recife-2027-recife-pokemon-regional-championshi",
-      "name": "2027 Recife Pokémon Regional Championships",
-      "type": "regional",
-      "formats": [
-        "tcg",
-        "vgc",
-        "go"
-      ],
-      "startDate": "2026-10-03",
-      "endDate": "2026-10-04",
-      "venue": "Centro de Convenções de Pernambuco",
-      "address": "Av. Prof. Andrade Bezerra - Salgadinho, Olinda - PE, 53110-680, Brazil",
-      "city": "Recife",
-      "country": "BR",
-      "region": "LATAM",
-      "lat": -8.0321844,
-      "lng": -34.8705989,
-      "links": {
-        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/recife",
-        "registration": "https://rk9.gg/event/pokemon-recife-2027"
-      },
-      "registrationOpens": "2026-08-05T19:00:00-03:00",
-      "registrationSeenAt": "2026-08-05"
-    },
     {
       "id": "regional-2026-louisville-2027-louisville-pokemon-regional-champio",
       "name": "2027 Louisville Pokémon Regional Championships",
