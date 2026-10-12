@@ -1,35 +1,10 @@
 {
   "meta": {
-    "generatedAt": "2026-10-07T16:37:46.521Z",
+    "generatedAt": "2026-10-12T19:08:19.097Z",
     "source": "scraper",
     "schemaVersion": 1
   },
   "events": [
-    {
-      "id": "regional-2026-louisville-2027-louisville-pokemon-regional-champio",
-      "name": "2027 Louisville Pokémon Regional Championships",
-      "type": "regional",
-      "formats": [
-        "tcg",
-        "vgc",
-        "go"
-      ],
-      "startDate": "2026-10-09",
-      "endDate": "2026-10-11",
-      "venue": "Kentucky International Convention Center",
-      "address": "Halls A–E, 221 S. 4th St., Louisville, KY 40202, United States",
-      "city": "Louisville",
-      "country": "US",
-      "region": "NA",
-      "lat": 38.2544334,
-      "lng": -85.7552942,
-      "links": {
-        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/louisville",
-        "registration": "https://rk9.gg/event/pokemon-louisville-2027"
-      },
-      "registrationOpens": "2026-08-12T19:00:00-04:00",
-      "registrationSeenAt": "2026-08-12"
-    },
     {
       "id": "regional-2026-nice-2027-nice-pokemon-regional-championships",
       "name": "2027 Nice Pokémon Regional Championships",
