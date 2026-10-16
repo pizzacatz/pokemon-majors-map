@@ -513,5 +513,11 @@
     "country": "PL"
   },
   "Centro de Convenções - Distrito Anhembi​, Av. Olavo Fontoura, 1209 - Santana​, São Paulo - SP, 02012-021, Brazil​": null,
-  "Centro de Convenções - Distrito Anhembi​, São Paulo, BR": null
+  "Centro de Convenções - Distrito Anhembi​, São Paulo, BR": null,
+  "Henry B. González Convention Center, Halls 1 & 2, 900 E Market St., San Antonio, TX 78205, United States": null,
+  "Henry B. González Convention Center, San Antonio": {
+    "lat": 29.4205326,
+    "lng": -98.4836466,
+    "country": "US"
+  }
 }
