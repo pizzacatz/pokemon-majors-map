@@ -1,35 +1,10 @@
 {
   "meta": {
-    "generatedAt": "2026-10-16T14:01:52.336Z",
+    "generatedAt": "2026-10-19T16:32:01.340Z",
     "source": "scraper",
     "schemaVersion": 1
   },
   "events": [
-    {
-      "id": "regional-2026-nice-2027-nice-pokemon-regional-championships",
-      "name": "2027 Nice Pokémon Regional Championships",
-      "type": "regional",
-      "formats": [
-        "tcg",
-        "vgc",
-        "go"
-      ],
-      "startDate": "2026-10-17",
-      "endDate": "2026-10-18",
-      "venue": "Palais des Expositions - Nice Acropolis",
-      "address": "Parv. de l'Europe, 06000 Nice, France",
-      "city": "Nice",
-      "country": "FR",
-      "region": "EU",
-      "lat": 43.7009358,
-      "lng": 7.2683912,
-      "links": {
-        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/nice",
-        "registration": "https://rk9.gg/event/pokemon-nice-2027"
-      },
-      "registrationOpens": "2026-08-19T19:00:00+02:00",
-      "registrationSeenAt": "2026-08-19"
-    },
     {
       "id": "regional-2026-puebla-2027-puebla-pokemon-regional-championshi",
       "name": "2027 Puebla Pokémon Regional Championships",
