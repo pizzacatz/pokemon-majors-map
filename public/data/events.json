@@ -1,35 +1,10 @@
 {
   "meta": {
-    "generatedAt": "2026-10-19T16:32:01.340Z",
+    "generatedAt": "2026-10-26T16:11:55.934Z",
     "source": "scraper",
     "schemaVersion": 1
   },
   "events": [
-    {
-      "id": "regional-2026-puebla-2027-puebla-pokemon-regional-championshi",
-      "name": "2027 Puebla Pokémon Regional Championships",
-      "type": "regional",
-      "formats": [
-        "tcg",
-        "vgc",
-        "go"
-      ],
-      "startDate": "2026-10-24",
-      "endDate": "2026-10-25",
-      "venue": "Puebla Centro Expositor",
-      "address": "Av Ejercito de Ote, Cívica 5 de Mayo, 72260 Heroica Puebla de Zaragoza, Pue., Mexico",
-      "city": "Puebla",
-      "country": "MX",
-      "region": "LATAM",
-      "lat": 19.0572829,
-      "lng": -98.1797602,
-      "links": {
-        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/puebla",
-        "registration": "https://rk9.gg/event/pokemon-puebla-2027"
-      },
-      "registrationOpens": "2026-08-19T19:00:00-06:00",
-      "registrationSeenAt": "2026-08-19"
-    },
     {
       "id": "regional-2026-gdansk-2027-gdansk-pokemon-regional-championshi",
       "name": "2027 Gdańsk Pokémon Regional Championships",
