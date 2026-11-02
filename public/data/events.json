@@ -1,35 +1,10 @@
 {
   "meta": {
-    "generatedAt": "2026-10-26T16:11:55.934Z",
+    "generatedAt": "2026-11-02T19:34:38.363Z",
     "source": "scraper",
     "schemaVersion": 1
   },
   "events": [
-    {
-      "id": "regional-2026-gdansk-2027-gdansk-pokemon-regional-championshi",
-      "name": "2027 Gdańsk Pokémon Regional Championships",
-      "type": "regional",
-      "formats": [
-        "tcg",
-        "vgc",
-        "go"
-      ],
-      "startDate": "2026-10-31",
-      "endDate": "2026-11-01",
-      "venue": "AMBEREXPO",
-      "address": "Halls A, B, & C, ul. Żaglowa 11, 80-560 Gdańsk, Poland",
-      "city": "Gdańsk",
-      "country": "PL",
-      "region": "EU",
-      "lat": 54.3862594,
-      "lng": 18.6351163,
-      "links": {
-        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/gdansk",
-        "registration": "https://rk9.gg/event/pokemon-gdansk-2027"
-      },
-      "registrationOpens": "2026-09-02T19:00:00+02:00",
-      "registrationSeenAt": "2026-09-02"
-    },
     {
       "id": "special-2026-buenos-aires-2027-buenos-aires-pokemon-special-champi",
       "name": "2027 Buenos Aires Pokémon Special Championships",
