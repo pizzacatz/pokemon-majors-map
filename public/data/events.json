@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-11-02T19:34:38.363Z",
+    "generatedAt": "2026-11-05T17:28:53.556Z",
     "source": "scraper",
     "schemaVersion": 1
   },
@@ -125,9 +125,9 @@
       "lng": -84.4012549,
       "links": {
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/atlanta",
-        "registration": null
+        "registration": "https://rk9.gg/event/pokemon-atlanta-2027"
       },
-      "registrationOpens": null,
+      "registrationOpens": "2026-11-11T19:00:00-05:00",
       "registrationSeenAt": null
     },
     {
@@ -150,9 +150,9 @@
       "lng": 151.1997485,
       "links": {
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/sydney",
-        "registration": null
+        "registration": "https://rk9.gg/event/pokemon-sydney-2027"
       },
-      "registrationOpens": null,
+      "registrationOpens": "2026-11-11T19:00:00+11:00",
       "registrationSeenAt": null
     },
     {
