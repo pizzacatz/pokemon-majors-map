@@ -416,7 +416,11 @@
     "country": "PE"
   },
   "PVA EXPO PRAGUE, Halls 3 & 4, Beranov&yacute;ch 667, 199 00 Praha 9, Czechia": null,
-  "PVA EXPO PRAGUE, Prague, CZ": null,
+  "PVA EXPO PRAGUE, Prague, CZ": {
+    "lat": 50.1303699,
+    "lng": 14.516266,
+    "country": "CZ"
+  },
   "FIERGS, Av. Assis Brasil, 8787 - Sarandi, Porto Alegre - RS, 91140-001, Brazil": null,
   "FIERGS, Porto Alegre, BR": {
     "lat": -29.9814239,

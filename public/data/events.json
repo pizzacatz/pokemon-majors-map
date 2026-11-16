@@ -1,35 +1,10 @@
 {
   "meta": {
-    "generatedAt": "2026-11-11T17:16:22.126Z",
+    "generatedAt": "2026-11-16T19:42:11.274Z",
     "source": "scraper",
     "schemaVersion": 1
   },
   "events": [
-    {
-      "id": "special-2026-buenos-aires-2027-buenos-aires-pokemon-special-champi",
-      "name": "2027 Buenos Aires Pokémon Special Championships",
-      "type": "special",
-      "formats": [
-        "tcg",
-        "vgc",
-        "go"
-      ],
-      "startDate": "2026-11-14",
-      "endDate": "2026-11-15",
-      "venue": "Centro de Convenciones de Buenos Aires",
-      "address": "Av. Pres. Figueroa Alcorta 2099, C1112, Cdad. Autónoma de Buenos Aires, Argentina",
-      "city": "Buenos Aires",
-      "country": "AR",
-      "region": "LATAM",
-      "lat": -34.5834582,
-      "lng": -58.3894979,
-      "links": {
-        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/buenos-aires",
-        "registration": null
-      },
-      "registrationOpens": null,
-      "registrationSeenAt": null
-    },
     {
       "id": "international-2026-sao-paulo-2027-latin-america-pokemon-international",
       "name": "2027 Latin America Pokémon International Championships",
@@ -496,8 +471,8 @@
       "city": "Prague",
       "country": "CZ",
       "region": "EU",
-      "lat": 50.0874654,
-      "lng": 14.4212535,
+      "lat": 50.1303699,
+      "lng": 14.516266,
       "links": {
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/prague",
         "registration": null
