@@ -528,5 +528,11 @@
     "lat": 33.7544657,
     "lng": -84.3898151,
     "country": "US"
+  },
+  "Rosebank Mall, The Urban Playground, 15A Cradock Ave, Rosebank, Johannesburg, 2196, South Africa": null,
+  "Rosebank Mall, Johannesburg": {
+    "lat": -26.1466037,
+    "lng": 28.041075,
+    "country": "ZA"
   }
 }

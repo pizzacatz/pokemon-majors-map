@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-11-16T19:42:11.274Z",
+    "generatedAt": "2026-11-19T18:23:09.500Z",
     "source": "scraper",
     "schemaVersion": 1
   },
@@ -275,6 +275,31 @@
       "lng": -70.6215801,
       "links": {
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/santiago",
+        "registration": null
+      },
+      "registrationOpens": null,
+      "registrationSeenAt": null
+    },
+    {
+      "id": "special-2027-johannesburg-2027-johannesburg-pokemon-special-champi",
+      "name": "2027 Johannesburg Pokémon Special Championships",
+      "type": "special",
+      "formats": [
+        "tcg",
+        "vgc",
+        "go"
+      ],
+      "startDate": "2027-02-27",
+      "endDate": "2027-02-28",
+      "venue": "Rosebank Mall",
+      "address": "The Urban Playground, 15A Cradock Ave, Rosebank, Johannesburg, 2196, South Africa",
+      "city": "Johannesburg",
+      "country": "ZA",
+      "region": "APAC",
+      "lat": -26.1466037,
+      "lng": 28.041075,
+      "links": {
+        "official": "https://championships.pokemon.com/en-us/events/regionals/2027/johannesburg",
         "registration": null
       },
       "registrationOpens": null,
