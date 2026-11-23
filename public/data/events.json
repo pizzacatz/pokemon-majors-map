@@ -1,35 +1,10 @@
 {
   "meta": {
-    "generatedAt": "2026-11-19T18:23:09.500Z",
+    "generatedAt": "2026-11-23T21:31:14.413Z",
     "source": "scraper",
     "schemaVersion": 1
   },
   "events": [
-    {
-      "id": "international-2026-sao-paulo-2027-latin-america-pokemon-international",
-      "name": "2027 Latin America Pokémon International Championships",
-      "type": "international",
-      "formats": [
-        "tcg",
-        "vgc",
-        "go"
-      ],
-      "startDate": "2026-11-20",
-      "endDate": "2026-11-22",
-      "venue": "Centro de Convenções - Distrito Anhembi​",
-      "address": "Av. Olavo Fontoura, 1209 - Santana​, São Paulo - SP, 02012-021, Brazil​",
-      "city": "São Paulo",
-      "country": "BR",
-      "region": "LATAM",
-      "lat": -23.5506507,
-      "lng": -46.6333824,
-      "links": {
-        "official": "https://championships.pokemon.com/en-us/events/internationals/2027/sao-paulo",
-        "registration": "https://rk9.gg/event/pokemon-laic-2027"
-      },
-      "registrationOpens": null,
-      "registrationSeenAt": "2026-09-16"
-    },
     {
       "id": "regional-2026-stuttgart-2027-stuttgart-pokemon-regional-champion",
       "name": "2027 Stuttgart Pokémon Regional Championships",
@@ -150,9 +125,9 @@
       "lng": -89.6237402,
       "links": {
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/merida",
-        "registration": null
+        "registration": "https://rk9.gg/event/pokemon-merida-2027"
       },
-      "registrationOpens": null,
+      "registrationOpens": "2026-11-25T19:00:00-06:00",
       "registrationSeenAt": null
     },
     {
