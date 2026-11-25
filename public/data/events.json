@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-11-23T21:31:14.413Z",
+    "generatedAt": "2026-11-25T19:24:38.732Z",
     "source": "scraper",
     "schemaVersion": 1
   },
@@ -128,7 +128,7 @@
         "registration": "https://rk9.gg/event/pokemon-merida-2027"
       },
       "registrationOpens": "2026-11-25T19:00:00-06:00",
-      "registrationSeenAt": null
+      "registrationSeenAt": "2026-11-25"
     },
     {
       "id": "regional-2027-birmingham-2027-birmingham-pokemon-regional-champio",
