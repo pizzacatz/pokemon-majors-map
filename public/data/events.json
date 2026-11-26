@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-11-25T19:24:38.732Z",
+    "generatedAt": "2026-11-26T19:07:43.297Z",
     "source": "scraper",
     "schemaVersion": 1
   },
@@ -150,9 +150,9 @@
       "lng": -1.7175497,
       "links": {
         "official": "https://championships.pokemon.com/en-us/events/regionals/2027/birmingham",
-        "registration": null
+        "registration": "https://rk9.gg/event/pokemon-birmingham-2027"
       },
-      "registrationOpens": null,
+      "registrationOpens": "2026-12-02T19:00:00+00:00",
       "registrationSeenAt": null
     },
     {
